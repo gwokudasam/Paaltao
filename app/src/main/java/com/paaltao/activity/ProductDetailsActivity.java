@@ -57,24 +57,17 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
         file_maps.put("House of Cards",R.drawable.apple_small);
         file_maps.put("Game of Thrones", R.drawable.apple_small);
 
-        for(String name : file_maps.keySet()){
+        for(String name : url_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
+                    .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                     .setOnSliderClickListener((BaseSliderView.OnSliderClickListener) this);
-
-            //add your extra information
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
             mDemoSlider.addSlider(textSliderView);
         }
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
 
         initialize();
@@ -87,7 +80,7 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        Toast.makeText(this, slider.getBundle().get("extra") + "", Toast.LENGTH_SHORT).show();
+
     }
 
 
