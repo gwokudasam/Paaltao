@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,29 +45,29 @@ public class SignUpActivity extends ActionBarActivity {
         confirm_password = (EditText)findViewById(R.id.confirm_password_field);
 
     }
-    public void validationCheck(){
+    public boolean validationCheck(){
         Boolean passwordCheck = password.getText().toString().equals(confirm_password.getText().toString());
         if(name.getText().toString().length()== 0)
-            name.setError("Please provide your name");
+            name.setError("Please provide your name. Your Name must start with a capital letter");
         else if (email.getText().toString().length() == 0)
-            email.setError("Please provide your email");
+            email.setError("Please provide your email. Your email must be in the format abc@xyz.com");
         else if (contact.getText().toString().length() == 0)
-            contact.setError("Please provide your contact number");
+            contact.setError("Please provide your contact number. Your contact number must contain 10 digits");
         else if (password.getText().toString().length()==0)
             password.setError("Please provide a password");
         else if (!passwordCheck)
             confirm_password.setError("Passwords don't match");
-
+        else return true;
+            return false;
         }
 
         public void onItemClick(){
         SignUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validationCheck();
-
-
-
+                if(validationCheck()){
+                    Log.e("msg","success");
+                }
             }
         });
 
