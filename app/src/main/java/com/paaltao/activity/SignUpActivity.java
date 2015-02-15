@@ -66,7 +66,7 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if(validationCheck()){
-                    Log.e("msg","success");
+                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
                 }
             }
         });
