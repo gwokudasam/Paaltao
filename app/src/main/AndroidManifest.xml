@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.paaltao">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--
+     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
+     option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:name=".classes.APIManager"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.IntroPageActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id">
+        </meta-data>
+        <activity android:name="com.facebook.LoginActivity"></activity>
+        <activity
+            android:name=".activity.HomeActivity"
+            android:label="@string/title_activity_home"/>
+        <activity
+            android:name=".activity.ProductDetailsActivity"
+            android:label="@string/title_activity_product_details"/>
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:label="@string/title_activity_category"/>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="6172f518d381c2c4f918863c0705ba22301bbc7a" />
+
+        <activity
+            android:name=".activity.CartActivity"
+            android:label="@string/title_activity_cart"/>
+        <activity
+            android:name=".activity.OpenShopActivity"
+            android:label="@string/title_activity_open_shop"/>
+        <activity
+            android:name=".activity.MyShopActivity"
+            android:label="@string/title_activity_my_shop"/>
+        <activity
+            android:name=".activity.AddProductActivity"
+            android:label="@string/title_activity_add_product"/>
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="@string/title_activity_profile"/>
+        <activity
+            android:name=".activity.AddressActivity"
+            android:label="@string/title_activity_address"
+            android:parentActivityName=".activity.ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.paaltao.activity.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".activity.OrderActivity"
+            android:label="@string/title_activity_order"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:label="@string/title_activity_sign_up"/>
+        <activity
+            android:name=".activity.SignInActivity"
+            android:label="@string/title_activity_sign_in"/>
+    </application>
+
+</manifest>

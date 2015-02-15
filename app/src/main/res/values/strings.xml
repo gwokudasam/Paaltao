@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Paaltao</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="intro_text1">Take a snap and upload your awesome products in seconds!</string>
+    <string name="intro_text2">Start instant selling and earn when your product gets sold</string>
+    <string name="intro_text3">Buy awesome customized products from at affordable prices!</string>
+    <string name="intro_text4">Get instant Notifications when your awesome product gets sold!</string>
+    <string name="facebook_app_id">832300266783283</string>
+    <string name="terms_footer">by signing up you accept our terms of use</string>
+    <string name="signup_login">SIGN UP OR LOGIN USING</string>
+    <string name="page_1">Page1</string>
+    <string name="product_like">product like</string>
+    <string name="Rs">\u20B9</string>
+    <string name="price"></string>
+    <string name="like_product">product like</string>
+    <string name="title_activity_product_details">ProductDetails</string>
+    <string name="add_cart">Add to Cart</string>
+    <string name="no_shop_found">No Shop Found!</string>
+    <string name="shop_message">With Paaltao now you can create that beautiful shop to showcase your awesome products. Promote your shop and get traction. Paaltao makes selling as easy as a dream!!</string>
+    <string name="open_a_shop">open a shop</string>
+    <string name="featured_product_text">Featured Products</string>
+    <string name="product_detail_title">Specialized handmade electronic Speakers compatible with Apple</string>
+    <string name="ask_question">Ask a Question</string>
+    <string name="listing_number">Listing Number:</string>
+    <string name="listed_on">Listed On:</string>
+    <string name="total_views">Total Views:</string>
+    <string name="total_likes">total Likes:</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="item_details">This contains the description of the product.All the information of the product wil be stored here. This data would be loaded from the web service.</string>
+    <string name="item_details_title">Item Details</string>
+    <string name="product_reviews_title">Reviews</string>
+    <string name="shipping_title">Shipping</string>
+    <string name="category_image_text">category image</string>
+    <string name="cart_icon">cart icon</string>
+    <string name="title_activity_swipe_refresh">SwipeRefreshActivity</string>
+    <string name="title_activity_cart">CartActivity</string>
+    <string name="checkout_text">Checkout</string>
+    <string name="app_logo">logo</string>
+    <string name="shop_name">The Indian Shop</string>
+    <string name="edit_item">EDIT</string>
+    <string name="remove_item">REMOVE</string>
+    <string name="item_quantity">qty :</string>
+    <string-array name="quantity">
+            <item>Handmade</item>
+            <item>Sports</item>
+            <item>Vintage</item>
+            <item>Photography</item>
+            <item>Paintings</item>
+            <item>Electronics</item>
+            <item>Others</item>
+    </string-array>
+    <string name="title_activity_open_shop">OpenShopActivity</string>
+    <string name="shop_cover_image">Shop cover image</string>
+    <string name="product_first_launch_text">Voila! Your brand new shop is ready!.Its time to beautify with your awesome creations. Click on \'Add a product\' to launch your first awesome product to the world!</string>
+    <string name="add_shop_product">Add a Product</string>
+    <string name="title_activity_my_shop">MyShopActivity</string>
+    <string name="shop_product_image">Shop Product Image</string>
+    <string name="title_activity_add_product">AddProductActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_address">AddressActivity</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+
+
+</resources>
