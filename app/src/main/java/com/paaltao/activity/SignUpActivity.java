@@ -21,7 +21,7 @@ public class SignUpActivity extends ActionBarActivity {
     Button SignInBtn;
     Button SignUpBtn;
     Context mContext;
-    EditText name,email,contact,password,confirm_password;
+    EditText firstName,lastName,email,contact,password,confirm_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,8 @@ public class SignUpActivity extends ActionBarActivity {
     public void initiate(){
         SignInBtn = (Button)findViewById(R.id.signInBtn);
         SignUpBtn = (Button)findViewById(R.id.signUpBtn);
-        name = (EditText)findViewById(R.id.name_field);
+        firstName = (EditText)findViewById(R.id.firstName_field);
+        lastName = (EditText)findViewById(R.id.lastName_field);
         email = (EditText)findViewById(R.id.email_field);
         contact = (EditText)findViewById(R.id.contact_field);
         password = (EditText)findViewById(R.id.password_field);
@@ -47,8 +48,10 @@ public class SignUpActivity extends ActionBarActivity {
     }
     public boolean validationCheck(){
         Boolean passwordCheck = password.getText().toString().equals(confirm_password.getText().toString());
-        if(name.getText().toString().length()== 0)
-            name.setError("Please provide your name. Your Name must start with a capital letter");
+        if(firstName.getText().toString().length()== 0)
+            firstName.setError("Please provide your first name. Your Name must start with a capital letter");
+        else if(lastName.getText().toString().length()== 0)
+            lastName.setError("Please provide your last name. Your Name must start with a capital letter");
         else if (email.getText().toString().length() == 0)
             email.setError("Please provide your email. Your email must be in the format abc@xyz.com");
         else if (contact.getText().toString().length() == 0)

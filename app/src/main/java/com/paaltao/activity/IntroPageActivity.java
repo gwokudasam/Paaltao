@@ -16,14 +16,11 @@ import com.paaltao.Controller.IntroPageAdapter;
 import com.paaltao.R;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
 
-
 import java.util.Vector;
-
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -37,6 +34,7 @@ public class IntroPageActivity extends ActionBarActivity {
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
     Button fbBtn;
+    Button gplusBtn;
     Button signUp;
     Button signIn;
     SimpleFacebook mSimpleFacebook;
@@ -80,6 +78,7 @@ public class IntroPageActivity extends ActionBarActivity {
         fbBtn = (Button) findViewById(R.id.fb_login);
         signUp = (Button) findViewById(R.id.signUpBtn);
         signIn = (Button) findViewById(R.id.signInBtn);
+        gplusBtn = (Button)findViewById(R.id.google_login);
         mSimpleFacebook = SimpleFacebook.getInstance(this);
 
 
@@ -93,6 +92,14 @@ public class IntroPageActivity extends ActionBarActivity {
 
                 mSimpleFacebook.login(onLoginListener);
 
+            }
+        });
+
+        gplusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -129,6 +136,8 @@ public class IntroPageActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
+        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     OnLoginListener onLoginListener = new OnLoginListener() {

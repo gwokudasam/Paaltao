@@ -21,8 +21,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.paaltao.R;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignInActivity extends ActionBarActivity {
@@ -41,19 +43,7 @@ public class SignInActivity extends ActionBarActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
 
-        //TODO initiate service call
-//        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-//        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,"www.google.com",null,new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//
-//            }
-//        },new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//
-//            }
-//        });
+
 
     }
 
@@ -77,7 +67,8 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if(validationCheck()){
-                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+                      sendJsonRequest();
                 }
 
             }
@@ -91,4 +82,36 @@ public class SignInActivity extends ActionBarActivity {
             }
         });
     }
+
+
+    public void sendJsonRequest(){
+        final JSONObject jsonObject = new JSONObject();
+        JSONObject signIn = new JSONObject();
+        try {
+            jsonObject.put("email",email.getText().toString());
+            jsonObject.put("password",password.getText().toString());
+            signIn.put("signIn",jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,"http://www.zimmber.com/front/RejWebService/Login",signIn,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                L.T(getApplicationContext(),jsonObject.toString());
+                Log.e("error",jsonObject.toString());
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                L.t(getApplicationContext(), volleyError.getMessage() + "");
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
 }
