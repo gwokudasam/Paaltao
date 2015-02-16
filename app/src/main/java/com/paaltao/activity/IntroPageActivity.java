@@ -9,10 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-
-import com.facebook.*;
 import android.widget.Toast;
 
+import com.facebook.AppEventsLogger;
 import com.paaltao.Controller.IntroPageAdapter;
 import com.paaltao.R;
 import com.sromku.simple.fb.Permission;
@@ -34,7 +33,7 @@ public class IntroPageActivity extends ActionBarActivity {
 
 
     ViewPager pagercontainer;
-    String email = "", name = "", gender = "", profileid;
+    String email = "", firstName = "",lastName = "", gender = "", profileid;
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
     Button fbBtn;
@@ -73,17 +72,6 @@ public class IntroPageActivity extends ActionBarActivity {
 
 
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSimpleFacebook = SimpleFacebook.getInstance(this);
-    }
 
 
     public void initialize() {
@@ -103,14 +91,7 @@ public class IntroPageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
-
-
-
-
-
+                mSimpleFacebook.login(onLoginListener);
 
             }
         });
@@ -131,6 +112,85 @@ public class IntroPageActivity extends ActionBarActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        AppEventsLogger.activateApp(this);
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+    }
+
+    OnLoginListener onLoginListener = new OnLoginListener() {
+        @Override
+        public void onLogin() {
+            mSimpleFacebook.getProfile(new OnProfileListener() {
+                @Override
+                public void onComplete(Profile response) {
+                    try {
+                        email = response.getEmail();
+                        firstName = response.getFirstName();
+                        lastName = response.getLastName();
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
+                        Log.e("email",email);
+                        Log.e("firstname",firstName);
+
+                    }
+                    catch (Exception e) {
+                        // TODO: handle exception
+
+                    }
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    super.onException(throwable);
+                }
+
+                @Override
+                public void onFail(String reason) {
+                    super.onFail(reason);
+                }
+
+                @Override
+                public void onThinking() {
+                    super.onThinking();
+                }
+            });
+        }
+
+        @Override
+        public void onNotAcceptingPermissions(Permission.Type type) {
+
+        }
+
+        @Override
+        public void onThinking() {
+
+        }
+
+        @Override
+        public void onException(Throwable throwable) {
+
+        }
+
+        @Override
+        public void onFail(String s) {
+
+        }
+    };
 
 
 }

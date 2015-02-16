@@ -13,7 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.paaltao.R;
+import com.paaltao.network.VolleySingleton;
+
+import org.json.JSONObject;
 
 public class SignInActivity extends ActionBarActivity {
     Button SignUpBtn;
@@ -30,6 +40,21 @@ public class SignInActivity extends ActionBarActivity {
         toolbar.setTitle("Sign In");
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+
+        //TODO initiate service call
+//        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+//        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,"www.google.com",null,new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject jsonObject) {
+//
+//            }
+//        },new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//
+//            }
+//        });
+
     }
 
     public void initiate(){
