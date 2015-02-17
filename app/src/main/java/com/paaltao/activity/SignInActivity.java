@@ -105,7 +105,7 @@ public class SignInActivity extends ActionBarActivity {
         try {
             jsonObject.put("email",email.getText().toString());
             jsonObject.put("password",password.getText().toString());
-            signIn.put("signIn",jsonObject);
+            signIn.put("emailSignIn",jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
