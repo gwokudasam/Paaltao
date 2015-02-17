@@ -1,4 +1,4 @@
-package com.paaltao.Controller;
+package com.paaltao.Adapters;
 
 import android.app.Activity;
 import android.content.Context;

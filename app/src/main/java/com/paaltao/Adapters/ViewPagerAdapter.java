@@ -1,4 +1,4 @@
-package com.paaltao.Controller;
+package com.paaltao.Adapters;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -10,14 +10,16 @@ import java.util.Vector;
 /**
  * Created by Arindam on 28-Jan-15.
  */
-public class IntroPageAdapter  extends PagerAdapter {
+public class ViewPagerAdapter extends PagerAdapter {
     // private Context mContext;
     private Vector<View> pages;
 
-    public IntroPageAdapter(Context context, Vector<View> pages) {
+    public ViewPagerAdapter(Context context, Vector<View> pages) {
         // this.mContext=context;
         this.pages = pages;
     }
+
+
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
@@ -40,5 +42,6 @@ public class IntroPageAdapter  extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
+
 
 }

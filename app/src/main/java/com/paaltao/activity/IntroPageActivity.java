@@ -12,17 +12,20 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
-import com.paaltao.Controller.IntroPageAdapter;
+import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Profile;
 import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
+import com.sromku.simple.fb.utils.Utils;
 
 import java.util.Vector;
 
 import me.relex.circleindicator.CircleIndicator;
+
+import static com.sromku.simple.fb.Permission.*;
 
 public class IntroPageActivity extends ActionBarActivity {
 
@@ -141,64 +144,78 @@ public class IntroPageActivity extends ActionBarActivity {
     }
 
     OnLoginListener onLoginListener = new OnLoginListener() {
-        @Override
-        public void onLogin() {
-            mSimpleFacebook.getProfile(new OnProfileListener() {
-                @Override
-                public void onComplete(Profile response) {
-                    try {
-                        email = response.getEmail();
-                        firstName = response.getFirstName();
-                        lastName = response.getLastName();
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
-                        Log.e("email",email);
-                        Log.e("firstname",firstName);
-
-                    }
-                    catch (Exception e) {
-                        // TODO: handle exception
-
-                    }
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-                    super.onException(throwable);
-                }
-
-                @Override
-                public void onFail(String reason) {
-                    super.onFail(reason);
-                }
-
-                @Override
-                public void onThinking() {
-                    super.onThinking();
-                }
-            });
-        }
 
         @Override
-        public void onNotAcceptingPermissions(Permission.Type type) {
+        public void onFail(String reason) {
+            // TODO Auto-generated method stub
 
-        }
-
-        @Override
-        public void onThinking() {
+            Toast.makeText(IntroPageActivity.this, "Facebook Error",
+                    Toast.LENGTH_LONG).show();
 
         }
 
         @Override
         public void onException(Throwable throwable) {
+            // TODO Auto-generated method stub
+
+            Toast.makeText(IntroPageActivity.this, "Facebook Error",
+                    Toast.LENGTH_LONG).show();
 
         }
 
         @Override
-        public void onFail(String s) {
+        public void onThinking() {
+            // TODO Auto-generated method stub
 
         }
+
+        @Override
+        public void onNotAcceptingPermissions(Type type) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onLogin() {
+            // TODO Auto-generated method stub
+            mSimpleFacebook.getProfile(new OnProfileListener() {
+
+                public void onFail(String reason) {
+
+                    Toast.makeText(IntroPageActivity.this, "Facebook Error",
+                            Toast.LENGTH_LONG).show();
+
+                }
+
+                public void onException(Throwable throwable) {
+
+                }
+
+                public void onThinking() {
+
+                }
+
+                public void onComplete(
+                        com.sromku.simple.fb.entities.Profile response) {
+
+                    try {
+
+                        email = response.getEmail();
+                        firstName = response.getFirstName();
+                        lastName = response.getLastName();
+
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
     };
 
 

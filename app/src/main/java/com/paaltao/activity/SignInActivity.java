@@ -13,12 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.paaltao.R;
 import com.paaltao.logging.L;
@@ -26,6 +31,8 @@ import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import static com.paaltao.extras.urlEndPoints.BASE_URL;
+import static com.paaltao.extras.urlEndPoints.LOGIN;
 
 public class SignInActivity extends ActionBarActivity {
     Button SignUpBtn;
@@ -83,10 +90,18 @@ public class SignInActivity extends ActionBarActivity {
         });
     }
 
+    public static String getRequestUrl() {
+
+        return BASE_URL
+                + LOGIN;
+
+    }
+
+
 
     public void sendJsonRequest(){
         final JSONObject jsonObject = new JSONObject();
-        JSONObject signIn = new JSONObject();
+        final JSONObject signIn = new JSONObject();
         try {
             jsonObject.put("email",email.getText().toString());
             jsonObject.put("password",password.getText().toString());
@@ -97,17 +112,33 @@ public class SignInActivity extends ActionBarActivity {
 
 
         RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,"http://www.zimmber.com/front/RejWebService/Login",signIn,new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),signIn,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
                 L.T(getApplicationContext(),jsonObject.toString());
                 Log.e("error",jsonObject.toString());
+                Log.e("json",signIn.toString());
             }
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                L.t(getApplicationContext(), volleyError.getMessage() + "");
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    L.T(getApplicationContext(),"No Internet Connection");
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
 
             }
         });

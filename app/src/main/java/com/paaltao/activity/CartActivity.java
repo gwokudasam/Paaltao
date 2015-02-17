@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.paaltao.Controller.CartAdapter;
+import com.paaltao.Adapters.CartAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Product;
 

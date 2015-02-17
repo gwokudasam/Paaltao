@@ -1,4 +1,4 @@
-package com.paaltao.Controller;
+package com.paaltao.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

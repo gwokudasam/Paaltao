@@ -12,7 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.paaltao.Controller.ShopProductAdapter;
+import com.paaltao.Adapters.ShopProductAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.AddFloatingActionButton;
 import com.paaltao.classes.Product;

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.paaltao.Controller.FeaturedProductAdapter;
+import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Product;
 
