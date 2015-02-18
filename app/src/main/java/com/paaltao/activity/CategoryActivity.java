@@ -34,7 +34,7 @@ public class CategoryActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
-        toolbar.setTitle("select a category");
+        this.setTitle("select a category");
 
 
 

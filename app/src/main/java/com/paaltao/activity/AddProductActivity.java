@@ -42,6 +42,7 @@ public class AddProductActivity extends ActionBarActivity implements ImageChoose
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+        this.setTitle("Add a product");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initialize();
         onItemClick();
