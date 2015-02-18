@@ -22,6 +22,7 @@ import com.paaltao.R;
 import com.paaltao.classes.AddFloatingActionButton;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
+import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
 import com.paaltao.fragment.ShopFragment;
 
@@ -34,9 +35,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     private ViewPager pager;
     private ViewPagerAdapter pagerAdapter;
     MaterialTabHost tabHost;
-    RelativeLayout whiteOverlay;
     private Resources res;
-    private AddFloatingActionButton mAddButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +134,8 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
                     return new FragmentFeaturedProduct();
                 case 1:
                     return new ShopFragment();
+                case 2:
+                    return new AccountFragment();
 
 
             }
@@ -143,7 +144,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -160,6 +161,8 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             case 0:
                 return res.getDrawable(R.drawable.ic_notification);
             case 1:
+                return res.getDrawable(R.drawable.ic_cart);
+            case 2:
                 return res.getDrawable(R.drawable.ic_cart);
 
 

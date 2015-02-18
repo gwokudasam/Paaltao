@@ -23,6 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.paaltao.R;
+import com.paaltao.activity.HomeActivity;
+
+import java.util.zip.Inflater;
 
 
 public class FloatingActionsMenu extends ViewGroup {
@@ -174,7 +177,7 @@ public class FloatingActionsMenu extends ViewGroup {
             @Override
             public void onClick(View v) {
                 toggle();
-//                updateBackground();
+              updateBackground();
 
             }
         });
@@ -182,11 +185,12 @@ public class FloatingActionsMenu extends ViewGroup {
         addView(mAddButton, super.generateDefaultLayoutParams());
     }
 
-//    public void updateBackground(){
-//        whiteOverlay = (RelativeLayout)findViewById(R.id.white_opacity);
-//        whiteOverlay.getVisibility();
-//        whiteOverlay.setVisibility(View.VISIBLE);
-//    }
+       public void updateBackground(){
+           whiteOverlay = (RelativeLayout) ((HomeActivity)getContext()).findViewById(R.id.white_opacity);
+           if (whiteOverlay.getVisibility()==View.GONE)
+            whiteOverlay.setVisibility(View.VISIBLE);
+           else {whiteOverlay.setVisibility(View.GONE);}
+        }
 
     public void addButton(FloatingActionButton button) {
         addView(button, mButtonsCount - 1);
