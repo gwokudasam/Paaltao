@@ -36,6 +36,7 @@ public class MyShopActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+        toolbar.setTitle("Shop");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AddFloatingActionButton addProductButton = (AddFloatingActionButton)findViewById(R.id.multiple_actions1);
