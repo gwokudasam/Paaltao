@@ -1,5 +1,6 @@
 package com.paaltao.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.paaltao.R;
+import com.paaltao.activity.CategoryActivity;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.classes.Category;
 
@@ -21,13 +23,14 @@ import java.util.List;
  */
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
     private Context context;
+    CategoryActivity activity;
     private LayoutInflater inflater;
     private View view;
     List<Category> data = Collections.emptyList();
 
-    public CategoryAdapter(Context context ,List<Category> data){
+    public CategoryAdapter(CategoryActivity activity,List<Category> data){
         this.data = data;
-        this.context= context;
+        this.activity = activity;
     }
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,13 +38,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         view = inflater.inflate(R.layout.category_card, parent, false);
 
-
         CategoryHolder holder = new CategoryHolder(view);
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,ProductDetailsActivity.class);
-                context.startActivity(intent);
+                Intent intent = new Intent(activity,ProductDetailsActivity.class);
+                activity.startActivity(intent);
 
                 }
         });

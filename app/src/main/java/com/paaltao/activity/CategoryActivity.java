@@ -1,5 +1,6 @@
 package com.paaltao.activity;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -28,7 +29,7 @@ public class CategoryActivity extends ActionBarActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.category_grid_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        mRecyclerView.setAdapter(new CategoryAdapter(getApplicationContext(),getData()));
+        mRecyclerView.setAdapter(new CategoryAdapter(this,getData()));
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
