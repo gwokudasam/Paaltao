@@ -14,7 +14,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.paaltao.R;
+import com.paaltao.logging.L;
+import com.paaltao.network.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.paaltao.extras.urlEndPoints.BASE_URL;
+import static com.paaltao.extras.urlEndPoints.SIGN_UP;
 
 public class SignUpActivity extends ActionBarActivity {
 
@@ -69,7 +88,8 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if(validationCheck()){
-                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+               //     Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+                    sendJsonRequest();
                 }
             }
         });
@@ -81,5 +101,60 @@ public class SignUpActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+    public static String getRequestUrl() {
+
+        return BASE_URL
+                + SIGN_UP;
+
+    }
+
+    public void sendJsonRequest(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject signUp = new JSONObject();
+        try {
+            jsonObject.put("firstName",firstName.getText().toString());
+            jsonObject.put("lastName",lastName.getText().toString());
+            jsonObject.put("contactNo",contact.getText().toString());
+            jsonObject.put("email",email.getText().toString());
+            jsonObject.put("password",password.getText().toString());
+            signUp.put("emailSignUp",jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),signUp,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                L.T(getApplicationContext(), jsonObject.toString());
+                Log.e("error",jsonObject.toString());
+                Log.e("json",signUp.toString());
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    L.T(getApplicationContext(),"No Internet Connection");
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 }
