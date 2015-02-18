@@ -25,6 +25,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
@@ -129,7 +130,13 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
-                L.T(getApplicationContext(), jsonObject.toString());
+//                L.T(getApplicationContext(), jsonObject.toString());
+                //Implementing Snackbar
+                new SnackBar.Builder(SignUpActivity.this)
+                        .withMessage(jsonObject.toString())
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
                 Log.e("error",jsonObject.toString());
                 Log.e("json",signUp.toString());
             }
@@ -137,7 +144,11 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    L.T(getApplicationContext(),"No Internet Connection");
+                    new SnackBar.Builder(SignUpActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
 
                 } else if (volleyError instanceof AuthFailureError) {
 

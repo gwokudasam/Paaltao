@@ -2,6 +2,7 @@ package com.paaltao.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
@@ -116,7 +118,13 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
-                L.T(getApplicationContext(),jsonObject.toString());
+//                L.T(getApplicationContext(),jsonObject.toString());
+                //Calling the Snackbar
+                new SnackBar.Builder(SignInActivity.this)
+                        .withMessage(jsonObject.toString())
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
                 Log.e("error",jsonObject.toString());
                 Log.e("json",signIn.toString());
             }
@@ -124,7 +132,11 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    L.T(getApplicationContext(),"No Internet Connection");
+                    new SnackBar.Builder(SignInActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
 
                 } else if (volleyError instanceof AuthFailureError) {
 
