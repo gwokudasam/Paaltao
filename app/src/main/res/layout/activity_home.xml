@@ -31,9 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/materialTabHost"
-        android:background="@color/white90"
+        android:background="@color/black80"
         android:visibility="gone" />
-
 
 
     <com.paaltao.classes.FloatingActionsMenu

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class FloatingActionsMenu extends ViewGroup {
     private int mMaxButtonHeight;
     private int mLabelsStyle;
     private int mButtonsCount;
+
 
     private OnFloatingActionsMenuUpdateListener mListener;
     private RelativeLayout whiteOverlay;
@@ -172,12 +174,19 @@ public class FloatingActionsMenu extends ViewGroup {
             @Override
             public void onClick(View v) {
                 toggle();
+//                updateBackground();
+
             }
         });
 
         addView(mAddButton, super.generateDefaultLayoutParams());
     }
 
+//    public void updateBackground(){
+//        whiteOverlay = (RelativeLayout)findViewById(R.id.white_opacity);
+//        whiteOverlay.getVisibility();
+//        whiteOverlay.setVisibility(View.VISIBLE);
+//    }
 
     public void addButton(FloatingActionButton button) {
         addView(button, mButtonsCount - 1);
