@@ -38,6 +38,7 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+        this.setTitle("open a shop!");
         initialize();
         onItemClick();
     }

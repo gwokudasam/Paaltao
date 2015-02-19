@@ -39,6 +39,7 @@ public class CartActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+        this.setTitle("Your Cart");
 
 
 

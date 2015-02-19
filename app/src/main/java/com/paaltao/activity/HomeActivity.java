@@ -102,7 +102,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             tabHost.addTab(
                     tabHost.newTab()
-                            .setIcon(getIcon(i))
+                            .setText(getPageTitle(i))
                             .setTabListener(this)
             );
         }
@@ -156,14 +156,14 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     /*
     * It doesn't matter the color of the icons, but they must have solid colors
     */
-    private Drawable getIcon(int position) {
+    private String getPageTitle(int position) {
         switch (position) {
             case 0:
-                return res.getDrawable(R.drawable.ic_notification);
+                return "Featured";
             case 1:
-                return res.getDrawable(R.drawable.ic_cart);
+                return "Open Shop";
             case 2:
-                return res.getDrawable(R.drawable.ic_cart);
+                return "Account";
 
 
         }
