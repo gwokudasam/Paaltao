@@ -161,7 +161,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             case 0:
                 return "Featured";
             case 1:
-                return "Open Shop";
+                return "Shop Stats";
             case 2:
                 return "Account";
 
