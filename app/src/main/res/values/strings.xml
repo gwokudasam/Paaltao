@@ -70,6 +70,12 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="search_title">Search</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="signUpText">sign up</string>
+    <string name="newUserText">Are you a new user?</string>
+    <string name="signInText">sign in</string>
+    <string name="password_reset_email">send password reset email</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.paaltao.activity;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -16,10 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.paaltao.R;
-import com.paaltao.classes.AddFloatingActionButton;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
 import com.paaltao.fragment.AccountFragment;

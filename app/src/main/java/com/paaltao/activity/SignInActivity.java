@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,6 +41,7 @@ public class SignInActivity extends ActionBarActivity {
     Button SignUpBtn;
     Button SignInBtn;
     EditText email,password;
+    TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class SignInActivity extends ActionBarActivity {
         email = (EditText)findViewById(R.id.email_field);
         password = (EditText)findViewById(R.id.password_field);
         SignInBtn = (Button)findViewById(R.id.signInBtn);
+        forgotPassword = (TextView)findViewById(R.id.forgot_password);
 
     }
     public boolean validationCheck(){
@@ -87,6 +90,14 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignInActivity.this,SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this,ForgotPasswordActivity.class);
                 startActivity(intent);
             }
         });

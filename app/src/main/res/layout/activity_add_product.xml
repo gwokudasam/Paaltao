@@ -45,9 +45,9 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_launcher"
+                        android:src="@drawable/ic_camera"
                         android:id="@+id/product_pic1"/>
 
                 </android.support.v7.widget.CardView>
@@ -65,9 +65,9 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_launcher"
+                        android:src="@drawable/ic_camera"
                         android:id="@+id/product_pic2"/>
 
 
@@ -86,9 +86,9 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_launcher"
+                        android:src="@drawable/ic_camera"
                         android:id="@+id/product_pic3"/>
 
 
@@ -107,9 +107,9 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_launcher"
+                        android:src="@drawable/ic_camera"
                         android:id="@+id/product_pic4"/>
 
 

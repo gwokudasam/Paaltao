@@ -1,5 +1,6 @@
 package com.paaltao.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,10 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Product;
+import com.paaltao.logging.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +27,17 @@ import java.util.List;
 public class FragmentFeaturedProduct extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private Handler handler = new Handler();
+    private ImageView favorite;
+    View layout;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
+        layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
         mAdapter = new FeaturedProductAdapter(getActivity(),getData());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        
-
         return layout;
     }
 
@@ -62,6 +61,7 @@ public class FragmentFeaturedProduct extends Fragment {
 
         return data;
     }
+
 
 
 

@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/right_arrow"
+                android:layout_margin="10dp" />
 
         </RelativeLayout>
 
@@ -63,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/right_arrow"
+                android:layout_margin="10dp"/>
 
         </RelativeLayout>
 
@@ -88,7 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/right_arrow"
+                android:layout_margin="10dp" />
 
         </RelativeLayout>
 
@@ -113,7 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/right_arrow"
+                android:layout_margin="10dp" />
 
         </RelativeLayout>
 

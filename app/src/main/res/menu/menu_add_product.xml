@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_done"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_cart"
+        android:icon="@drawable/ic_check_white"
         android:title="@string/abc_action_mode_done"
         app:showAsAction="always"
         />

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.paaltao.R;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.classes.Product;
+import com.paaltao.logging.L;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,8 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
 
     private Context context;
     private LayoutInflater inflater;
+    private View view;
+    private ImageView favorite;
     List<Product> data = Collections.emptyList();
 
     public FeaturedProductAdapter(Context context, List<Product> data){
@@ -33,7 +36,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     }
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.featured_product_row,parent,false);
+        view = inflater.inflate(R.layout.featured_product_row,parent,false);
 
 
         ProductHolder holder = new ProductHolder(view);
@@ -43,9 +46,22 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
                 context.startActivity(new Intent(context, ProductDetailsActivity.class));
             }
         });
+        initialize();
+        onItemClick();
         return holder;
     }
 
+    public void initialize(){
+        favorite = (ImageView)view.findViewById(R.id.favorite);
+    }
+    public void onItemClick(){
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                L.T(context, "You have liked the item!");
+            }
+        });
+    }
 
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
