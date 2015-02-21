@@ -1,5 +1,6 @@
 package com.paaltao.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.paaltao.Adapters.CartAdapter;
 import com.paaltao.R;
@@ -22,6 +25,7 @@ public class CartActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     SweetAlertDialog dialog;
+    private Button checkoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +38,13 @@ public class CartActivity extends ActionBarActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
-
-
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("Your Cart");
 
-
-
-
+        initialize();
+        onItemClick();
     }
     @Override
     protected void onStop() {
@@ -73,29 +74,20 @@ public class CartActivity extends ActionBarActivity {
         return data;
     }
 
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cart, menu);
-        return true;
+    public void initialize(){
+        checkoutBtn = (Button)findViewById(R.id.checkout_btn);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onItemClick(){
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this,CheckoutActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
+
+
 }
