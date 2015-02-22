@@ -3,4 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.paaltao.activity.OpenShopActivity">
 
+    <item
+        android:id="@+id/action_launch"
+        android:orderInCategory="100"
+        android:title="@string/launch_shop"
+        android:icon="@drawable/ic_check_white"
+        app:showAsAction="always" />
+
 </menu>
