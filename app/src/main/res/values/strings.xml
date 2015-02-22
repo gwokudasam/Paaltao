@@ -80,6 +80,7 @@
     <string name="add_address">add_address</string>
     <string name="title_activity_add_address">AddAddressActivity</string>
     <string name="launch_shop">launch shop</string>
+    <string name="shop_thumbnail">shop thumbnail</string>
 
 
 </resources>
