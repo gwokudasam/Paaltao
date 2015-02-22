@@ -21,9 +21,11 @@ import android.view.View;
 import com.paaltao.R;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
 import com.paaltao.fragment.ShopFragment;
+import com.paaltao.logging.L;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;

@@ -62,6 +62,17 @@
             android:background="@color/blue500"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"/>
+
+        <ProgressBar
+            android:id="@+id/action_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:indeterminate="true"
+            android:visibility="gone"/>
+
+
         <TextView
             android:id="@+id/forgot_password"
             android:layout_width="match_parent"
@@ -70,7 +81,7 @@
             android:textColor="@color/white90"
             android:gravity="center"
             android:textSize="15sp"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="30dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
