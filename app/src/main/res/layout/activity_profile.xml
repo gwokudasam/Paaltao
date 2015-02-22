@@ -123,37 +123,29 @@
             android:background="@android:color/darker_gray" />
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/my_address"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:padding="16dp"
                 android:text="My Address"
                 android:textColor="@color/teal" />
-        </RelativeLayout>
+
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/change_password"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:padding="16dp"
                 android:text="Change Password"
                 android:textColor="@color/teal" />
-        </RelativeLayout>
 
 
     </LinearLayout>

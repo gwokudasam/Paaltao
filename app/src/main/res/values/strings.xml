@@ -77,6 +77,7 @@
     <string name="signInText">sign in</string>
     <string name="password_reset_email">send password reset email</string>
     <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="add_address">add_address</string>
 
 
 </resources>

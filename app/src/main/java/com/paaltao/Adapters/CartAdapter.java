@@ -27,11 +27,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     private View view;
     private LayoutInflater inflater;
     List<Product> data = Collections.emptyList();
-    private RecyclerView recyclerView;
     private Activity contextActivity;
-
-
-
 
     public CartAdapter(Context context ,List<Product> data, Activity contextActivity){
         this.data = data;
@@ -44,11 +40,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         inflater = LayoutInflater.from(parent.getContext());
         view = inflater.inflate(R.layout.cart_row,parent,false);
 
-
         CartHolder holder = new CartHolder(view);
-
-
-
         return holder;
     }
 
