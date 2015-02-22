@@ -2,6 +2,7 @@ package com.paaltao.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.paaltao.R;
+import com.paaltao.activity.AddAddressActivity;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.classes.Address;
 
@@ -23,13 +25,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
     private View view;
     private Context context;
     private LayoutInflater inflater;
-    private Activity contextActivity;
+    private AddressActivity contextActivity;
     List<Address> data = Collections.emptyList();
 
-    public AddressAdapter(Context context, List<Address> data, Activity contextActivity){
+    public AddressAdapter(Context context, List<Address> data, AddressActivity contextActivity){
         this.context = context;
         this.data = data;
-        this.contextActivity = contextActivity;
+        this.contextActivity =  contextActivity;
     }
     @Override
     public AddressHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,6 +58,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
             @Override
             public void onClick(View v) {
                 remove(current);
+
+                if(getItemCount() == 0)
+                {
+                    Intent intent = new Intent(contextActivity, AddAddressActivity.class);
+                    contextActivity.startActivity(intent);
+                }
             }
         });
 

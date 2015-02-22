@@ -110,6 +110,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.paaltao.activity.CartActivity" />
         </activity>
+        <activity
+            android:name=".activity.AddAddressActivity"
+            android:label="@string/title_activity_add_address" >
+        </activity>
     </application>
 
 </manifest>

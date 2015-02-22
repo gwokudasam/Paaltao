@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.paaltao.R;
+import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.ProfileActivity;
 
 //This is a user account fragment.
 public class AccountFragment extends Fragment {
-    RelativeLayout accountLink;
+    RelativeLayout accountLink,my_address;
     View view;
 
 
@@ -28,6 +29,7 @@ public class AccountFragment extends Fragment {
     }
     public void initialize(){
         accountLink = (RelativeLayout)view.findViewById(R.id.account_link);
+        my_address = (RelativeLayout)view.findViewById(R.id.my_address);
     }
 
     public void onItemClick(){
@@ -35,6 +37,12 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ProfileActivity.class));
+            }
+        });
+        my_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddressActivity.class));
             }
         });
     }
