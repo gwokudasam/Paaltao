@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -37,6 +38,7 @@ public class SignUpActivity extends ActionBarActivity {
     Button SignInBtn;
     Button SignUpBtn;
     Context mContext;
+    ProgressBar progressBar;
     EditText firstName,lastName,email,contact,password,confirm_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class SignUpActivity extends ActionBarActivity {
         contact = (EditText)findViewById(R.id.contact_field);
         password = (EditText)findViewById(R.id.password_field);
         confirm_password = (EditText)findViewById(R.id.confirm_password_field);
+        progressBar = (ProgressBar)findViewById(R.id.action_progress);
 
     }
     public boolean validationCheck(){
@@ -70,10 +73,12 @@ public class SignUpActivity extends ActionBarActivity {
             lastName.setError("Please provide your last name. Your Name must start with a capital letter");
         else if (email.getText().toString().length() == 0)
             email.setError("Please provide your email. Your email must be in the format abc@xyz.com");
-        else if (contact.getText().toString().length() == 0)
+        else if (contact.getText().toString().length() == 0 && contact.getText().toString().length() > 10)
             contact.setError("Please provide your contact number. Your contact number must contain 10 digits");
         else if (password.getText().toString().length()==0)
             password.setError("Please provide a password");
+        else if (password.getText().toString().length()<6)
+            password.setError("Password should contain a minimum of 6 characters");
         else if (!passwordCheck)
             confirm_password.setError("Passwords don't match");
         else return true;
@@ -85,7 +90,6 @@ public class SignUpActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if(validationCheck()){
-               //     Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
                     sendJsonRequest();
                 }
             }
@@ -107,6 +111,7 @@ public class SignUpActivity extends ActionBarActivity {
     }
 
     public void sendJsonRequest(){
+        progressBar.setVisibility(View.VISIBLE);
         final JSONObject jsonObject = new JSONObject();
         final JSONObject signUp = new JSONObject();
         try {
@@ -125,8 +130,10 @@ public class SignUpActivity extends ActionBarActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),signUp,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
+                if(progressBar.getVisibility() == View.VISIBLE){
+                    progressBar.setVisibility(View.GONE);
+                }
 
-//                L.T(getApplicationContext(), jsonObject.toString());
                 //Implementing Snackbar
                 new SnackBar.Builder(SignUpActivity.this)
                         .withMessage(jsonObject.toString())
