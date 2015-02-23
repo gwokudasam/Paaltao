@@ -1,6 +1,7 @@
 package com.paaltao.activity;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.paaltao.R;
 import com.paaltao.classes.FloatingActionButton;
@@ -176,6 +178,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_product_details, menu);
+
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {

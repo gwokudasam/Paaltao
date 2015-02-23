@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.paaltao.R;
 import com.paaltao.activity.CategoryActivity;
 import com.paaltao.activity.ProductDetailsActivity;
+import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Category;
 
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,ProductDetailsActivity.class);
+                Intent intent = new Intent(activity,ProductListActivity.class);
                 activity.startActivity(intent);
 
                 }

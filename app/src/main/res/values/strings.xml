@@ -82,6 +82,7 @@
     <string name="launch_shop">launch shop</string>
     <string name="shop_thumbnail">shop thumbnail</string>
     <string name="progress">progress</string>
+    <string name="title_activity_product_list">ProductListActivity</string>
 
 
 </resources>

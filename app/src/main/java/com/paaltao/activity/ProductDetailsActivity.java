@@ -106,8 +106,7 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
                 badge_cart = new BadgeView(ProductDetailsActivity.this,
                         target_cart);
                 badge_cart.setText("1");
-                badge_cart
-                        .setTextColor(Color.parseColor("#ffffff"));
+                badge_cart.setTextColor(Color.parseColor("#ffffff"));
 
 
             }

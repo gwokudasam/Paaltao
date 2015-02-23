@@ -114,6 +114,10 @@
             android:name=".activity.AddAddressActivity"
             android:label="@string/title_activity_add_address" >
         </activity>
+        <activity
+            android:name=".activity.ProductListActivity"
+            android:label="@string/title_activity_product_list" >
+        </activity>
     </application>
 
 </manifest>
