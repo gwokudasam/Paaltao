@@ -7,11 +7,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.paaltao.Adapters.FeaturedProductAdapter;
-import com.paaltao.Adapters.ProductAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Product;
 
@@ -21,6 +18,7 @@ import java.util.List;
 public class ProductListActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    ProductListActivity activity;
 
 
     @Override
@@ -30,7 +28,7 @@ public class ProductListActivity extends ActionBarActivity {
         mRecyclerView = (RecyclerView)findViewById(R.id.product_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mAdapter = new ProductAdapter(this,getData());
+        mAdapter = new FeaturedProductAdapter(this,getData(),activity);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.paaltao.R;
 import com.paaltao.activity.ProductDetailsActivity;
+import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.logging.L;
 
@@ -23,14 +24,16 @@ import java.util.List;
 public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProductAdapter.ProductHolder> {
 
     private Context context;
+    private ProductListActivity activity;
     private LayoutInflater inflater;
     private View view;
     private ImageView favorite;
     List<Product> data = Collections.emptyList();
 
-    public FeaturedProductAdapter(Context context, List<Product> data){
+    public FeaturedProductAdapter(Context context, List<Product> data,ProductListActivity activity){
 
         inflater = LayoutInflater.from(context);
+        this.activity = activity;
         this.data = data;
         this.context= context;
     }
@@ -43,7 +46,13 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
         holder.productImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, ProductDetailsActivity.class));
+                if(context!=null) {
+                    context.startActivity(new Intent(context, ProductDetailsActivity.class));
+                }
+                else{
+                    Intent intent = new Intent(activity,ProductDetailsActivity.class);
+                    activity.startActivity(intent);
+                }
             }
         });
         initialize();

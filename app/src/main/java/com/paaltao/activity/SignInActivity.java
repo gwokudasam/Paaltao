@@ -141,6 +141,9 @@ public class SignInActivity extends ActionBarActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if(progressBar.getVisibility()== View.VISIBLE){
+                    progressBar.setVisibility(View.GONE);
+                }
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
                     new SnackBar.Builder(SignInActivity.this)
                             .withMessage("No Internet Connection!")

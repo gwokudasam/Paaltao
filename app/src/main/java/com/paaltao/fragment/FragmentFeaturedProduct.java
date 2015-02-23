@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
+import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.logging.L;
 
@@ -27,6 +28,7 @@ import java.util.List;
 public class FragmentFeaturedProduct extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    ProductListActivity activity;
     private ImageView favorite;
     View layout;
 
@@ -35,7 +37,7 @@ public class FragmentFeaturedProduct extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
-        mAdapter = new FeaturedProductAdapter(getActivity(),getData());
+        mAdapter = new FeaturedProductAdapter(getActivity(),getData(),activity);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
