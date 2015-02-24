@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
@@ -41,6 +42,7 @@ public class SignInActivity extends ActionBarActivity {
     EditText email, password;
     TextView forgotPassword;
     String emailId,accessToken;
+    SharedPreferenceClass preferenceClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

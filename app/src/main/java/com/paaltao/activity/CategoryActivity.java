@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.paaltao.Adapters.CategoryAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Category;
+import com.paaltao.classes.SharedPreferenceClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class CategoryActivity extends ActionBarActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("select a category");
+
 
 
 
