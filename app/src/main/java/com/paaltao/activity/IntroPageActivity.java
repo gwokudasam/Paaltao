@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.facebook.AppEventsLogger;
 import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Profile;
@@ -41,6 +42,7 @@ public class IntroPageActivity extends ActionBarActivity {
     Button signUp;
     Button signIn;
     SimpleFacebook mSimpleFacebook;
+    SharedPreferenceClass preferenceClass;
     Context mContext;
 
 
@@ -171,7 +173,8 @@ public class IntroPageActivity extends ActionBarActivity {
 
         @Override
         public void onNotAcceptingPermissions(Type type) {
-            // TODO Auto-generated method stub
+            Toast.makeText(IntroPageActivity.this, "You need to accept the permissions",
+                    Toast.LENGTH_LONG).show();
 
         }
 
@@ -182,7 +185,7 @@ public class IntroPageActivity extends ActionBarActivity {
 
                 public void onFail(String reason) {
 
-                    Toast.makeText(IntroPageActivity.this, "Facebook Error",
+                    Toast.makeText(IntroPageActivity.this, "Some error occurred in connection with Facebook",
                             Toast.LENGTH_LONG).show();
 
                 }
@@ -203,14 +206,21 @@ public class IntroPageActivity extends ActionBarActivity {
                         email = response.getEmail();
                         firstName = response.getFirstName();
                         lastName = response.getLastName();
+                        gender = response.getGender();
+                        profileid = response.getId();
 
                     } catch (Exception e) {
                         // TODO: handle exception
                         e.printStackTrace();
                     }
-
+                    preferenceClass = new SharedPreferenceClass(getApplicationContext());
+                    preferenceClass.saveUserEmail(email);
+                    preferenceClass.saveFirstName(firstName);
+                    preferenceClass.saveLastName(lastName);
+                    preferenceClass.saveLastUserEmail(email);
                     Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             });
         }

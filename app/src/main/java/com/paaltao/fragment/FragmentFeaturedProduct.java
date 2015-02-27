@@ -17,6 +17,7 @@ import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
 
 import java.util.ArrayList;
@@ -63,7 +64,6 @@ public class FragmentFeaturedProduct extends Fragment {
 
         return data;
     }
-
 
 
 

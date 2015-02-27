@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
+import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
@@ -38,7 +39,7 @@ import static com.paaltao.extras.urlEndPoints.LOGIN;
 public class SignInActivity extends ActionBarActivity {
     Button SignUpBtn;
     Button SignInBtn;
-    ProgressBar progressBar;
+    ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
     String emailId,accessToken;
@@ -64,7 +65,8 @@ public class SignInActivity extends ActionBarActivity {
         password = (EditText) findViewById(R.id.password_field);
         SignInBtn = (Button) findViewById(R.id.signInBtn);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
-        progressBar = (ProgressBar)findViewById(R.id.action_progress);
+        progressBar = (ProgressWheel)findViewById(R.id.action_progress);
+        preferenceClass = new SharedPreferenceClass(getApplicationContext());
 
     }
 
@@ -186,6 +188,8 @@ public class SignInActivity extends ActionBarActivity {
             String message = errorNodeObject.getString(KEY_MESSAGE);
 
             if (accessToken!= null && accessToken.length()!=0){
+                preferenceClass.saveAccessToken(accessToken);
+                preferenceClass.saveUserEmail(emailId);
                 Intent intent = new Intent(SignInActivity.this,HomeActivity.class);
                 startActivity(intent);
             }

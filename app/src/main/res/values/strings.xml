@@ -17,6 +17,7 @@
     <string name="product_like">product like</string>
     <string name="Rs">\u20B9</string>
     <string name="price"></string>
+    <string name="default_progressbar">Default Progressbar:</string>
     <string name="like_product">product like</string>
     <string name="title_activity_product_details">ProductDetails</string>
     <string name="add_cart">Add to Cart</string>
@@ -83,6 +84,7 @@
     <string name="shop_thumbnail">shop thumbnail</string>
     <string name="progress">progress</string>
     <string name="title_activity_product_list">ProductListActivity</string>
+    <string name="product_image_shop">shop_product_image</string>
 
 
 </resources>

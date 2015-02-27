@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
 
 import com.paaltao.Adapters.CartAdapter;
 import com.paaltao.R;
@@ -25,7 +25,6 @@ public class CartActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     SweetAlertDialog dialog;
-    private Button checkoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,10 @@ public class CartActivity extends ActionBarActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        Toolbar toolbar1 = (Toolbar)this.findViewById(R.id.toolbar_bottom);
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar1.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar1.setTitle("Checkout");
         this.setSupportActionBar(toolbar);
         this.setTitle("Your Cart");
 
@@ -75,17 +77,10 @@ public class CartActivity extends ActionBarActivity {
     }
 
     public void initialize(){
-        checkoutBtn = (Button)findViewById(R.id.checkout_btn);
+
     }
 
     public void onItemClick(){
-        checkoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CartActivity.this,CheckoutActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
 
