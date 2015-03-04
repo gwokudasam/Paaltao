@@ -24,6 +24,7 @@ import com.sromku.simple.fb.utils.Utils;
 
 import java.util.Vector;
 
+import de.cketti.library.changelog.ChangeLog;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.sromku.simple.fb.Permission.*;
@@ -52,6 +53,10 @@ public class IntroPageActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
+        }
         initialize();
         onClick();
         Vector<View> pages = new Vector<View>();
