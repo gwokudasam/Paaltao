@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,7 +30,7 @@ public class CategoryActivity extends ActionBarActivity {
         setContentView(R.layout.activity_category);
         mRecyclerView = (RecyclerView) findViewById(R.id.category_grid_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerView.setAdapter(new CategoryAdapter(this,getData()));
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);

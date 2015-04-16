@@ -61,7 +61,7 @@
             android:name=".activity.OpenShopActivity"
             android:label="@string/title_activity_open_shop" />
         <activity
-            android:name=".activity.MyShopActivity"
+            android:name=".activity.ShopActivity"
             android:label="@string/title_activity_my_shop" />
         <activity
             android:name=".activity.AddProductActivity"

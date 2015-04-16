@@ -1,8 +1,6 @@
 package com.paaltao.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.paaltao.Adapters.FeaturedProductAdapter;
+import com.paaltao.Adapters.TrendingShopAdapter;
 import com.paaltao.R;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
-import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
 
 import java.util.ArrayList;
@@ -26,23 +23,23 @@ import java.util.List;
 /**
  * Created by Arindam Dawn on 28-Jan-15.
  */
-public class FragmentFeaturedProduct extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class TrendingShopFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     ProductListActivity activity;
-    SwipeRefreshLayout swipeRefreshLayout;
+    //SwipeRefreshLayout swipeRefreshLayout;
     private ImageView favorite;
     View layout;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
+        layout = inflater.inflate(R.layout.fragment_trending_shop, container, false);
         initialize();
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeColors(R.color.primaryColor,R.color.greenMaterial,R.color.teal);
-        mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
-        mAdapter = new FeaturedProductAdapter(getActivity(),getData(),activity);
+//        swipeRefreshLayout.setOnRefreshListener(this);
+//        swipeRefreshLayout.setColorSchemeColors(R.color.primaryColor,R.color.greenMaterial,R.color.teal);
+        mRecyclerView = (RecyclerView) layout.findViewById(R.id.trendingShop_recycler_view);
+        mAdapter = new TrendingShopAdapter(getActivity(),getData(),activity);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
@@ -51,7 +48,7 @@ public class FragmentFeaturedProduct extends Fragment implements SwipeRefreshLay
 
     public static List<Product> getData(){
         ArrayList data = new ArrayList();
-                int[] icons = {R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,
+        int[] icons = {R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,
                 R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small};
         String[] product_names = {"Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone",
                 "Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone"};
@@ -70,7 +67,7 @@ public class FragmentFeaturedProduct extends Fragment implements SwipeRefreshLay
     }
 
     public void initialize(){
-        swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.swipe_to_refresh);
+//        swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.swipe_to_refresh);
     }
 
 

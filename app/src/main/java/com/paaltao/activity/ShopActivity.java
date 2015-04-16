@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,14 +20,14 @@ import com.paaltao.classes.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyShopActivity extends ActionBarActivity {
+public class ShopActivity extends ActionBarActivity {
 
     private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_shop);
+        setContentView(R.layout.activity_shop);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.shop_products_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -47,7 +45,7 @@ public class MyShopActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Tag","Clicked");
-                Intent intent = new Intent(MyShopActivity.this, AddProductActivity.class);
+                Intent intent = new Intent(ShopActivity.this, AddProductActivity.class);
                 startActivity(intent);
             }
         });

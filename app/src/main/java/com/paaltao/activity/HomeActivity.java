@@ -1,11 +1,8 @@
 package com.paaltao.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
@@ -18,16 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 
 import com.paaltao.R;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
-import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
-import com.paaltao.fragment.ShopFragment;
-import com.paaltao.logging.L;
+import com.paaltao.fragment.TrendingShopFragment;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -82,7 +76,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, MyShopActivity.class);
+                Intent intent = new Intent(HomeActivity.this, ShopActivity.class);
                 startActivity(intent);
             }
         });
@@ -136,7 +130,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
                 case 0:
                     return new FragmentFeaturedProduct();
                 case 1:
-                    return new ShopFragment();
+                    return new TrendingShopFragment();
                 case 2:
                     return new AccountFragment();
 
@@ -164,7 +158,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             case 0:
                 return "Featured";
             case 1:
-                return "Shop Stats";
+                return "Trending Shops";
             case 2:
                 return "Account";
 
