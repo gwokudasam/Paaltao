@@ -34,7 +34,29 @@
                     android:contentDescription="@string/shop_cover_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/apple_small" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/half_black"
+                    />
+                <TextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Arindam's Shop"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"
+                    android:gravity="center_horizontal"
+                    android:layout_centerVertical="true"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bankura,West Bengal"
+                    android:textColor="@color/white"
+                    android:layout_below="@+id/shop_name"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"/>
 
             </RelativeLayout>
 

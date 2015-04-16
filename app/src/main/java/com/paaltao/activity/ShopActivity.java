@@ -3,6 +3,10 @@ package com.paaltao.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,61 +20,121 @@ import com.paaltao.Adapters.ShopProductAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.AddFloatingActionButton;
 import com.paaltao.classes.Product;
+import com.paaltao.fragment.AccountFragment;
+import com.paaltao.fragment.FragmentFeaturedProduct;
+import com.paaltao.fragment.ShopInfoFragment;
+import com.paaltao.fragment.ShopProductFragment;
+import com.paaltao.fragment.ShopStoryFragment;
+import com.paaltao.fragment.TrendingShopFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopActivity extends ActionBarActivity {
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
 
-    private RecyclerView mRecyclerView;
+public class ShopActivity extends ActionBarActivity implements MaterialTabListener {
+    private ViewPager pager;
+    private ViewPagerAdapter pagerAdapter;
+    MaterialTabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.shop_products_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-                mRecyclerView.setAdapter(new ShopProductAdapter(getApplicationContext(), getData()));
-
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("Shop");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        AddFloatingActionButton addProductButton = (AddFloatingActionButton)findViewById(R.id.multiple_actions1);
-        addProductButton.setOnClickListener(new View.OnClickListener() {
+        tabHost = (MaterialTabHost) this.findViewById(R.id.shopTabHost);
+        pager = (ViewPager) this.findViewById(R.id.shop_pager);
+        // init view pager
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
+        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("Tag","Clicked");
-                Intent intent = new Intent(ShopActivity.this, AddProductActivity.class);
-                startActivity(intent);
+            public void onPageSelected(int position) {
+                // when user do a swipe the selected tab change
+                tabHost.setSelectedNavigationItem(position);
+                pager.setCurrentItem(position);
             }
         });
-
-    }
-
-    public static List<Product> getData(){
-        ArrayList data = new ArrayList();
-        int[] icons = {R.drawable.apple_small,R.drawable.ic_launcher,R.drawable.bag_icon,R.drawable.notify_icon,R.drawable.apple_small,
-                R.drawable.bag_icon,R.drawable.apple_small,R.drawable.notify_icon,R.drawable.apple_small,R.drawable.ic_launcher};
-
-        String[] product_name = {"Handmade","Photography","Electronics","Electronics","Electronics","Electronics","Electronics",
-                "Electronics","Electronics","Electronics"};
-
-        for(int i=0;  i<icons.length && i< product_name.length;i++){
-            Product current = new Product();
-            current.setProduct_name(product_name[i]);
-            current.setProduct_id(icons[i]);
-            data.add(current);
+        // insert all tabs from pagerAdapter data
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setText(getPageTitle(i))
+                            .setTabListener(this)
+            );
         }
 
-        return data;
     }
 
 
+    @Override
+    public void onTabSelected(MaterialTab tab) {
+// when the tab is clicked the pager swipe content to the tab position
+        pager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(MaterialTab tab) {
+    }
+
+    @Override
+    public void onTabUnselected(MaterialTab tab) {
+    }
+
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public Fragment getItem(int index) {
+            switch (index) {
+                case 0:
+                    return new ShopProductFragment();
+                case 1:
+                    return new ShopStoryFragment();
+                case 2:
+                    return new ShopInfoFragment();
+
+
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "tab";
+        }
+    }
+
+    /*
+    * It doesn't matter the color of the icons, but they must have solid colors
+    */
+    private String getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return "Products";
+            case 1:
+                return "Story";
+            case 2:
+                return "Shipping";
+
+
+        }
+        return null;
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
