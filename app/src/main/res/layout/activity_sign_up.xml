@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
         android:background="@color/black80">
 
         <com.paaltao.classes.FloatLabeledEditText
@@ -120,8 +121,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:text="sign up"
+            android:fontFamily="sans-serif-light"
             android:textAllCaps="false"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/signUpBtn"
             android:background="@color/black99"
             android:textColor="@color/white"
@@ -151,9 +153,10 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:text="sign in"
+            android:fontFamily="sans-serif-light"
             android:textAllCaps="false"
             android:id="@+id/signInBtn"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:background="@color/black99"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"/>

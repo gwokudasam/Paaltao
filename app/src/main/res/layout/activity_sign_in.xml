@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
@@ -55,7 +56,8 @@
             android:layout_marginTop="10dp"
             android:text="@string/signInText"
             android:textAllCaps="false"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
             android:id="@+id/signInBtn"
             android:background="@color/black99"
             android:textColor="@color/white"
@@ -97,9 +99,10 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:text="@string/signUpText"
+            android:fontFamily="sans-serif-light"
             android:textAllCaps="false"
             android:id="@+id/signUpBtn"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:background="@color/black99"
             android:textColor="@color/white"
             android:layout_gravity="center_horizontal"/>
