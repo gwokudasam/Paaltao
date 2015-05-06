@@ -1,7 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,17 +12,16 @@
 
 
         <LinearLayout
+            android:layout_below="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/app_bar">
+            android:orientation="vertical">
 
 
             <RelativeLayout
-
                 android:id="@+id/shop_cover_area"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:visibility="visible">
 
                 <ImageView
@@ -34,29 +31,30 @@
                     android:contentDescription="@string/shop_cover_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/apple_small" />
+
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/half_black"
-                    />
+                    android:layout_height="100dp"
+                    android:background="@color/black80" />
+
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_horizontal"
                     android:text="Arindam's Shop"
                     android:textColor="@color/white"
-                    android:textSize="28sp"
-                    android:gravity="center_horizontal"
-                    android:layout_centerVertical="true"/>
+                    android:textSize="28sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bankura,West Bengal"
-                    android:textColor="@color/white"
                     android:layout_below="@+id/shop_name"
+                    android:layout_marginTop="0dp"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="10dp"/>
+                    android:text="Bankura,West Bengal"
+                    android:textColor="@color/white" />
 
             </RelativeLayout>
 
@@ -65,7 +63,6 @@
                 android:id="@+id/shopTabHost"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@+id/app_bar"
                 app:accentColor="@color/primaryColor"
                 app:primaryColor="@color/white"
                 app:textColor="@color/primaryColor" />
@@ -73,14 +70,10 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/shop_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/materialTabHost" />
+                android:layout_height="match_parent" />
 
 
         </LinearLayout>
-
-
-
 
 
 </RelativeLayout>

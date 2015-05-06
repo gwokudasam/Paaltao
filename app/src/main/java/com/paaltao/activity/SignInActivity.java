@@ -42,7 +42,7 @@ public class SignInActivity extends ActionBarActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken;
+    String emailId,accessToken,api_ver;
     SharedPreferenceClass preferenceClass;
 
     @Override
@@ -51,10 +51,7 @@ public class SignInActivity extends ActionBarActivity {
         setContentView(R.layout.activity_sign_in);
         initiate();
         onItemClick();
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
-        toolbar.setTitle("Sign In");
-        toolbar.setTitleTextColor(Color.WHITE);
-        this.setSupportActionBar(toolbar);
+
 
 
     }
@@ -183,6 +180,7 @@ public class SignInActivity extends ActionBarActivity {
             JSONObject signInObject = dataObject.getJSONObject(KEY_SIGN_IN);
             JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
             emailId = signInObject.getString(KEY_EMAIL);
+            api_ver = signInObject.getString(KEY_API_VER);
             accessToken = signInObject.getString(KEY_ACCESS_TOKEN);
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);

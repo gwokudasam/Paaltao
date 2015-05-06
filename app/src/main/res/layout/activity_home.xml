@@ -8,16 +8,17 @@
 
     <include
         android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
+        layout="@layout/app_bar"
+        />
 
     <it.neokree.materialtabs.MaterialTabHost
         android:id="@+id/materialTabHost"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/app_bar"
-        app:accentColor="@color/greenMaterial"
-        app:primaryColor="@color/primaryColor"
-        app:textColor="@color/white" />
+        app:accentColor="@color/primaryColor"
+        app:primaryColor="@color/white"
+        app:textColor="@color/primaryColor" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
@@ -55,6 +56,14 @@
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_title="Action B" />
+
+        <com.paaltao.classes.FloatingActionButton
+            android:id="@+id/open_shop_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_title="open a shop" />
 
     </com.paaltao.classes.FloatingActionsMenu>
 

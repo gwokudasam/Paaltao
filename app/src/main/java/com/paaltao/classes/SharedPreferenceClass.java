@@ -23,6 +23,13 @@ public class SharedPreferenceClass {
         prefsEditor.putString("login_flag", login_flag);
         prefsEditor.commit();
     }
+    public void checkApiVer(String api_ver) {
+        prefsEditor.putString("api_ver", api_ver);
+        prefsEditor.commit();
+    }
+    public String getCheckApiVer() {
+        return sharedprefs.getString("api_ver","");
+    }
 
     public String getLoginFlag() {
         return sharedprefs.getString("login_flag", "");

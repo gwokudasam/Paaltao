@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.paaltao.activity.ManageShopActivity">
+
+    <item
+        android:id="@+id/cart_icon"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/cart_icon" />
+
+
+</menu>

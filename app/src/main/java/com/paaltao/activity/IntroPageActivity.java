@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
@@ -38,10 +39,7 @@ public class IntroPageActivity extends ActionBarActivity {
     String email = "", firstName = "",lastName = "", gender = "", profileid;
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
-    Button fbBtn;
-    Button gplusBtn;
-    Button signUp;
-    Button signIn;
+    TextView fbBtn,gplusBtn,signUp,signIn;
     SimpleFacebook mSimpleFacebook;
     SharedPreferenceClass preferenceClass;
     Context mContext;
@@ -85,10 +83,10 @@ public class IntroPageActivity extends ActionBarActivity {
     public void initialize() {
         pagercontainer = (ViewPager) findViewById(R.id.pagercontainer);
         indicator = (CircleIndicator) findViewById(R.id.indicator);
-        fbBtn = (Button) findViewById(R.id.fb_login);
-        signUp = (Button) findViewById(R.id.signUpBtn);
-        signIn = (Button) findViewById(R.id.signInBtn);
-        gplusBtn = (Button)findViewById(R.id.google_login);
+        fbBtn = (TextView) findViewById(R.id.fb_login);
+        signUp = (TextView) findViewById(R.id.signUpBtn);
+        signIn = (TextView) findViewById(R.id.signInBtn);
+        gplusBtn = (TextView)findViewById(R.id.google_login);
         mSimpleFacebook = SimpleFacebook.getInstance(this);
 
 

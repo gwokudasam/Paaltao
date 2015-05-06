@@ -55,8 +55,6 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
 
 
         actionC.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, CategoryActivity.class);
@@ -72,15 +70,24 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
 
 
         final FloatingActionButton actionB = (FloatingActionButton) findViewById(R.id.action_b);
-        actionB.setTitle("Shop");
+        actionB.setTitle("Manage shop");
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, ShopActivity.class);
+                Intent intent = new Intent(HomeActivity.this, ManageShopActivity.class);
                 startActivity(intent);
             }
         });
 
+        final FloatingActionButton openShop = (FloatingActionButton)findViewById(R.id.open_shop_fab);
+        openShop.setTitle("open a shop");
+        openShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,OpenShopActivity.class);
+                startActivity(intent);
+            }
+        });
 
         tabHost = (MaterialTabHost) this.findViewById(R.id.materialTabHost);
         pager = (ViewPager) this.findViewById(R.id.pager);
@@ -158,7 +165,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             case 0:
                 return "Featured";
             case 1:
-                return "Trending Shops";
+                return "Trending";
             case 2:
                 return "Account";
 

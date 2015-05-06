@@ -3,4 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.paaltao.activity.ShopActivity">
 
+    <item
+        android:id="@+id/cart_icon"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/cart_icon" />
+
+
+
 </menu>
