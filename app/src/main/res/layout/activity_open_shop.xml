@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
+    android:background="@color/white"
     tools:context="com.paaltao.activity.OpenShopActivity">
 
     <include
@@ -13,159 +13,151 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar">
+        android:layout_below="@+id/app_bar"
+        >
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
 
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <com.paaltao.classes.FloatLabeledEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
-                android:layout_margin="8dp"
-                card_view:cardUseCompatPadding="true">
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="name your beautiful shop"
-
-                        android:textColor="@color/teal"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:padding="12dp"
-                        android:text="Provide a unique name for your shop. Your shop URL will be 'www.paaltao.com/yourshopname'. After you name your shop, we will show you the availability of it's name"
-                        android:textColor="@color/black80"
-                        android:textSize="12sp" />
-
-
-                    <EditText
-                        android:id="@+id/editShopName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:padding="16dp" />
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-
-            <ImageView
-                android:id="@+id/shop_cover_image"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:contentDescription="@string/shop_cover_image"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
-
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/cover_image_select"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:layout_margin="8dp"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/select_cover_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:background="@color/teal"
-                        android:text="select a cover image"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:gravity="center"
-                        android:padding="12dp"
-                        android:text="Choose a cover image for your shop. Select an image from gallery or take a snap from your camera"
-                        android:textColor="@color/black80"
-                        android:textSize="13sp" />
-
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="8dp"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:hint="Name your shop"
+                    android:id="@+id/shop_name"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="shop info and story"
-                        android:textColor="@color/teal"
-                        android:textSize="20sp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contact No"
+                    android:id="@+id/shop_contact"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your shop address"
+                    android:id="@+id/shop_street_name"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your city"
+                    android:id="@+id/shop_city_name"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your state"
+                    android:id="@+id/shop_state"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your postal code"
+                    android:id="@+id/shop_pincode"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:padding="12dp"
-                        android:text="Provide a brief info about your shop. If you have any special story behind the making of your shop, then feel free to write it here and we will showcase it to the world!"
-                        android:textColor="@color/black80"
-                        android:textSize="13sp" />
 
-                    <EditText
-                        android:id="@+id/editText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="textMultiLine" />
-                </LinearLayout>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
-            </android.support.v7.widget.CardView>
-
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Shop url(www.paaltao.com/shop url)"
+                    android:id="@+id/shop_link"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                android:id="@+id/shop_cover_image"
+                tools:src="@drawable/apple_small"
+                android:contentDescription="@string/shop_cover_image" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@color/lightGreen"
-                android:text="launch your shop!"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:id="@+id/select_cover_button"
+                android:text="Apply a cover image"
+                android:background="@color/teal"
+                android:textColor="@color/white"/>
+
+
 
         </LinearLayout>
     </ScrollView>

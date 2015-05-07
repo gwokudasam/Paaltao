@@ -63,9 +63,9 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
                     .setOnSliderClickListener(this);
             mDemoSlider.addSlider(textSliderView);
         }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setDuration(4000);
+        mDemoSlider.setDuration(5000);
 
         initialize();
         onItemClick();
@@ -142,20 +142,6 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
 
     public void onItemClick()
     {
-        itemDetailsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(itemDetailsContent.getVisibility()== View.GONE) {
-                    itemDetailsContent.setVisibility(View.VISIBLE);
-                }
-                else{
-                    itemDetailsContent.setVisibility(View.GONE);
-                }
-
-            }
-
-        });
-
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

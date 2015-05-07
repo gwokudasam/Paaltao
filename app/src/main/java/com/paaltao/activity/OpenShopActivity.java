@@ -65,7 +65,7 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
     }
 
     public void initialize(){
-        selectCoverButton = (Button)findViewById(R.id.select_cover_btn);
+        selectCoverButton = (Button)findViewById(R.id.select_cover_button);
         coverImageArea = (ImageView)findViewById(R.id.shop_cover_image);
     }
 
@@ -75,6 +75,7 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
             public void onClick(View v) {
                 chooseImageDialog();
                 Log.d("TAG","image chooser selected!");
+                selectCoverButton.setText("Change cover image");
             }
         });
 

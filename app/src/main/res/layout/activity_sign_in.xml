@@ -6,6 +6,12 @@
     android:background="@drawable/paaltao_background"
     tools:context="com.paaltao.activity.SignInActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black80">
+
+
 
     <LinearLayout
         android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
@@ -13,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
         android:orientation="vertical"
-        android:background="@color/black80"
+
         >
 
         <com.paaltao.classes.FloatLabeledEditText
@@ -26,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="your email"
+                android:textColor="@color/white"
                 android:id="@+id/email_field"
                 android:inputType="textEmailAddress"
                 android:padding="14dp"
@@ -42,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="password"
+                android:textColor="@color/white"
                 android:id="@+id/password_field"
                 android:inputType="textPassword"
                 android:padding="14dp"
@@ -141,6 +149,7 @@
 
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

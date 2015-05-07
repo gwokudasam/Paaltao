@@ -27,7 +27,6 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     private ProductListActivity activity;
     private LayoutInflater inflater;
     private View view;
-    private ImageView favorite;
     List<Product> data = Collections.emptyList();
 
     public FeaturedProductAdapter(Context context, List<Product> data,ProductListActivity activity){
@@ -61,15 +60,10 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     }
 
     public void initialize(){
-        favorite = (ImageView)view.findViewById(R.id.favorite);
+
     }
     public void onItemClick(){
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                L.T(context, "You have liked the item!");
-            }
-        });
+
     }
 
     @Override

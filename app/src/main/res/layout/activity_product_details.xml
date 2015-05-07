@@ -24,7 +24,7 @@
                 <com.daimajia.slider.library.SliderLayout
                     android:id="@+id/slider"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="300dp"
                     tools:src = "@drawable/apple_small"
                     android:scaleType="centerCrop" />
 
@@ -43,42 +43,30 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="14dp"
-                        android:text="@string/product_detail_title"
+                        android:padding="16dp"
+                        android:textSize="20sp"
+                        tools:text="@string/product_detail_title"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:fontFamily="sans-serif-light" />
 
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="@android:color/darker_gray" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+
 
                         <TextView
                             android:id="@+id/product_price"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.9"
-                            android:gravity="center_vertical"
-                            android:padding="16dp"
-                            android:text="@string/Rs" />
-
-                        <Button
-                            android:id="@+id/ask_question"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_weight="0.1"
-                            android:background="#BBDEFB"
-                            android:gravity="center"
-                            android:padding="10dp"
-                            android:text="@string/ask_question"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
+                            android:gravity="center_horizontal"
+                            android:padding="16dp"
+                            android:textSize="18sp"
+                            tools:text="Rs 2500"  />
+
+
+
 
 
                 </LinearLayout>
@@ -112,10 +100,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="10dp"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
+                card_view:cardUseCompatPadding="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -139,10 +124,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:padding="12dp"
-                        android:text="@string/item_details"
+                        android:padding="16dp"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-light"
+                        tools:text="@string/item_details"
                         android:textColor="@color/material_blue_grey_950"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <View
                         android:layout_width="fill_parent"
@@ -209,19 +196,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_launcher"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="12dp"
-                        android:contentDescription="@string/shop_thumbnail" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/shop_name"
+                        android:text="Sold by"
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:gravity="center_horizontal"
@@ -230,12 +208,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:textAlignment="gravity"
-                        android:text="This shop contains vintage collections and personalized crafted products. This shop portrays the true dedication and the splendid tribal art persisting in rural Bengal."
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="16sp"
+                        android:text="@string/shop_name"
+                        android:textSize="20sp"
+                        android:gravity="center_horizontal"
                         android:layout_marginBottom="12dp"/>
+
+
 
                     <View
                         android:layout_width="fill_parent"
@@ -248,47 +226,14 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Visit Shop"
                         android:textColor="@color/teal"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:textSize="16sp"
                         android:padding="10dp"/>
 
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:padding="10dp"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/listed_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:padding="12dp"
-                        android:text="@string/listed_on" />
-
-                    <TextView
-                        android:id="@+id/listing_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:padding="12dp"
-                        android:text="@string/listing_number" />
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </ScrollView>
