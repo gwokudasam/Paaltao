@@ -24,6 +24,7 @@ public class ForgotPasswordActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitle("Forgot Password");
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
         this.setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         initialize();

@@ -21,6 +21,11 @@ repositories {
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
+    signingConfigs {
+        release {
+
+        }
+    }
 
     defaultConfig {
         applicationId "com.paaltao"
@@ -33,6 +38,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 }

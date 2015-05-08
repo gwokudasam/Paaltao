@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release version="1.1" versioncode="11" >
-        <change>Totally new and shiny version</change>
-    </release>
-    <release version="1.0" versioncode="10" >
-        <change>Fixed: A bug fix</change>
-        <change>Some other changes I can't quite remember</change>
-    </release>
-    <release version="0.1" versioncode="1">
-        <change>First release</change>
+        <change>This is the first production release version of Paaltao</change>
+        <change>Featured Products from various shops</change>
+        <change>Trending shops</change>
+        <change>Start your own shop</change>
+        <change>Manage your own shop</change>
     </release>
 </changelog>
