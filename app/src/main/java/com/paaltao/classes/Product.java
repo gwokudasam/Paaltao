@@ -4,17 +4,25 @@ package com.paaltao.classes;
  * Created by Arindam on 30-Jan-15.
  */
 public class Product {
-    int product_id;
+    long product_id;
     String product_name;
-    String product_category;
-    int price;
-    boolean is_liked;
+    String imageURL;
 
-    public int getProduct_id() {
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    String product_category,price,is_liked;
+
+    public long getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(int product_id) {
+    public void setProduct_id(long product_id) {
         this.product_id = product_id;
     }
 
@@ -34,19 +42,19 @@ public class Product {
         this.product_category = product_category;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public boolean isIs_liked() {
+    public String isIs_liked() {
         return is_liked;
     }
 
-    public void setIs_liked(boolean is_liked) {
+    public void setIs_liked(String is_liked) {
         this.is_liked = is_liked;
     }
 }

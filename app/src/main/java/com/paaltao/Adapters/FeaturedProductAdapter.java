@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.paaltao.R;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.logging.L;
+import com.paaltao.network.VolleySingleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,18 +31,23 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     private ProductListActivity activity;
     private LayoutInflater inflater;
     private View view;
+    private VolleySingleton singleton;
+    private ImageLoader imageLoader;
+    private ArrayList<Product> productArrayList = new ArrayList<>();
     List<Product> data = Collections.emptyList();
 
-    public FeaturedProductAdapter(Context context, List<Product> data,ProductListActivity activity){
+    public FeaturedProductAdapter(Context context,ProductListActivity activity){
 
         inflater = LayoutInflater.from(context);
         this.activity = activity;
-        this.data = data;
+        singleton = VolleySingleton.getsInstance();
+        imageLoader = singleton.getImageLoader();
         this.context= context;
+
     }
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = inflater.inflate(R.layout.featured_product_row,parent,false);
+        view = inflater.inflate(R.layout.featured_product_row, parent, false);
 
 
         ProductHolder holder = new ProductHolder(view);
@@ -62,30 +71,56 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     public void initialize(){
 
     }
+    public void setProductArrayList(ArrayList<Product> productArrayList){
+        this.productArrayList = productArrayList;
+        notifyItemRangeChanged(0, productArrayList.size());
+    }
     public void onItemClick(){
 
     }
 
     @Override
-    public void onBindViewHolder(ProductHolder holder, int position) {
-        Product current = data.get(position);
+    public void onBindViewHolder(final ProductHolder holder, int position) {
+        Product current = productArrayList.get(position);
         holder.productName.setText(current.getProduct_name());
-        holder.productImage.setImageResource(current.getProduct_id());
+        holder.productPrice.setText(current.getPrice());
+
+        String imageURL = current.getImageURL();
+
+        if(imageURL != null){
+            imageLoader.get(imageURL, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    holder.productImage.setImageBitmap(imageContainer.getBitmap());
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            });
+        }
+
+        //holder.productImage.setImageResource(current.getProduct_id());
 
     }
 
+    public void loadImages(){
+
+    }
     @Override
     public int getItemCount() {
-        return data.size();
+        return productArrayList.size();
     }
 
     class ProductHolder extends RecyclerView.ViewHolder {
-        TextView productName;
+        TextView productName,productPrice;
         ImageView productImage;
 
         public ProductHolder(View itemView) {
             super(itemView);
 
+            productPrice = (TextView)itemView.findViewById(R.id.product_price);
             productImage = (ImageView) itemView.findViewById(R.id.product_image);
             productName = (TextView) itemView.findViewById(R.id.product_name);
         }

@@ -39,7 +39,7 @@ public class ShopProductFragment extends Fragment {
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         initialize();
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
-        mAdapter = new FeaturedProductAdapter(getActivity(),getData(),activity);
+        mAdapter = new FeaturedProductAdapter(getActivity(),activity);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;

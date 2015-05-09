@@ -41,6 +41,7 @@ public class IntroPageActivity extends ActionBarActivity {
     CircleIndicator indicator;
     TextView fbBtn,gplusBtn,signUp,signIn;
     SimpleFacebook mSimpleFacebook;
+
     SharedPreferenceClass preferenceClass;
     Context mContext;
 

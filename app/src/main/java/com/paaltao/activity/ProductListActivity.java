@@ -28,7 +28,7 @@ public class ProductListActivity extends ActionBarActivity {
         mRecyclerView = (RecyclerView)findViewById(R.id.product_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mAdapter = new FeaturedProductAdapter(this,getData(),activity);
+        mAdapter = new FeaturedProductAdapter(this,activity);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 

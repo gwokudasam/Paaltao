@@ -50,7 +50,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
         final Product current = data.get(position);
         holder.productName.setText(current.getProduct_name());
-        holder.productImage.setImageResource(current.getProduct_id());
+
 
         holder.removeItem.setOnClickListener(new View.OnClickListener() {
             @Override

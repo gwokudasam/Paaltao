@@ -69,7 +69,6 @@ public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapte
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
         Product current = data.get(position);
-        holder.productImage.setImageResource(current.getProduct_id());
 
     }
 

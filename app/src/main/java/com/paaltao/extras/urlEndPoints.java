@@ -5,7 +5,9 @@ package com.paaltao.extras;
  */
 public class urlEndPoints {
     public static final String BASE_URL = "http://www.paaltao.com/index.php/mobileApp/index/";
+    public static final String UAT_BASE_URL = "http://dev.paaltao.com/index.php/mobileApp/index/";
     public static final String LOGIN = "login";
     public static final String SIGN_UP = "signup";
+    public static final String FEATURED_LIST = "getFeaturedList";
 
 }

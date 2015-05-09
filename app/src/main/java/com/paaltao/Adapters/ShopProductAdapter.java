@@ -46,7 +46,7 @@ public void onBindViewHolder(ShopProductHolder holder, int position) {
 
         Product current = data.get(position);
         holder.shopProductName.setText(current.getProduct_name());
-        holder.shopProductImage.setImageResource(current.getProduct_id());
+
 
         }
 
