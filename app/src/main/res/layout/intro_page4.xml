@@ -20,7 +20,7 @@
         android:fontFamily="sans-serif-light"
         android:layout_marginTop="50dp"
         android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
        />

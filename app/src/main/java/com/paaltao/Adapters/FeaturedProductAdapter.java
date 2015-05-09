@@ -34,7 +34,6 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     private VolleySingleton singleton;
     private ImageLoader imageLoader;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    List<Product> data = Collections.emptyList();
 
     public FeaturedProductAdapter(Context context,ProductListActivity activity){
 
@@ -101,13 +100,9 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
             });
         }
 
-        //holder.productImage.setImageResource(current.getProduct_id());
 
     }
 
-    public void loadImages(){
-
-    }
     @Override
     public int getItemCount() {
         return productArrayList.size();

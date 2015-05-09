@@ -57,7 +57,6 @@ public class FragmentFeaturedProduct extends Fragment {
     private JSONArray featuredListArray;
     ProductListActivity activity;
     FeaturedProductAdapter featuredProductAdapter;
-    //    SwipeRefreshLayout swipeRefreshLayout;
     private ImageView favorite;
     private ArrayList<Product> productArrayList = new ArrayList<>();
     String accessToken = "67drd56g",productName,description,imageURL,price,isLiked;
@@ -69,10 +68,7 @@ public class FragmentFeaturedProduct extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         sendJsonRequest();
-        initialize();
 
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//        swipeRefreshLayout.setColorSchemeColors(R.color.primaryColor,R.color.greenMaterial,R.color.teal);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
         mRecyclerView.setAdapter(featuredProductAdapter);
@@ -80,30 +76,6 @@ public class FragmentFeaturedProduct extends Fragment {
         return layout;
     }
 
-
-//    public static List<Product> getData() {
-//        ArrayList data = new ArrayList();
-//        int[] icons = {R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small,
-//                R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small, R.drawable.apple_small};
-//        String[] product_names = {"Automatic Drone", "Automatic Drone", "Automatic Drone", "Automatic Drone", "Automatic Drone",
-//                "Automatic Drone", "Automatic Drone", "Automatic Drone", "Automatic Drone", "Automatic Drone"};
-//        String[] categories = {"Handmade", "Photography", "Electronics", "Electronics", "Electronics", "Electronics", "Electronics",
-//                "Electronics", "Electronics", "Electronics"};
-//
-//        for (int i = 0; i < product_names.length && i < icons.length && i < categories.length; i++) {
-//            Product current = new Product();
-//            current.setProduct_name(product_names[i]);
-//            current.setProduct_category(categories[i]);
-//            current.setProduct_id(icons[i]);
-//            data.add(current);
-//        }
-//
-//        return data;
-//    }
-
-    public void initialize() {
-//        swipeRefreshLayout = (SwipeRefreshLayout)layout.findViewById(R.id.swipe_to_refresh);
-    }
     public static String getRequestUrl() {
 
         return UAT_BASE_URL
