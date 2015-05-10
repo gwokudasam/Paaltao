@@ -72,6 +72,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     }
     public void setProductArrayList(ArrayList<Product> productArrayList){
         this.productArrayList = productArrayList;
+        notifyDataSetChanged();
         notifyItemRangeChanged(0, productArrayList.size());
     }
     public void onItemClick(){

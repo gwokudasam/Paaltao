@@ -10,5 +10,6 @@ public class urlEndPoints {
     public static final String SIGN_UP = "signup";
     public static final String FEATURED_LIST = "getFeaturedList";
     public static final String CATEGORY_LIST ="categoryList";
+    public static final String PRODUCT_LIST = "productList";
 
 }

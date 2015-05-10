@@ -46,10 +46,10 @@ public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapte
             @Override
             public void onClick(View v) {
                 if(context!=null) {
-                    context.startActivity(new Intent(context, ProductDetailsActivity.class));
+                    context.startActivity(new Intent(context, ProductListActivity.class));
                 }
                 else{
-                    Intent intent = new Intent(activity,ProductDetailsActivity.class);
+                    Intent intent = new Intent(activity,ProductListActivity.class);
                     activity.startActivity(intent);
                 }
             }

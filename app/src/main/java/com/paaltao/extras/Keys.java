@@ -31,6 +31,7 @@ public interface Keys {
         public static final String KEY_CATEGORY_NAME = "name";
         public static final String KEY_CATEGORY_IMAGE = "image";
         public static final String KEY_CATEGORY_ID = "id";
+        public static final String KEY_PRODUCT_LIST = "productList";
 
 
 

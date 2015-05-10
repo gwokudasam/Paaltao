@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar"/>
+
+    <com.paaltao.classes.ProgressWheel
+        android:id="@+id/action_progress_productList"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        wheel:matProg_barColor="@color/primaryColor"
+        wheel:matProg_progressIndeterminate="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/product_recycler_view"
