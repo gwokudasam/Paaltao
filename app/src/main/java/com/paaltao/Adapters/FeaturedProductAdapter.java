@@ -91,6 +91,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
                 @Override
                 public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
                     holder.productImage.setImageBitmap(imageContainer.getBitmap());
+
                 }
 
                 @Override

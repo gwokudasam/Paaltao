@@ -30,6 +30,7 @@ import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
+import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
@@ -61,14 +62,15 @@ public class FragmentFeaturedProduct extends Fragment {
     private ArrayList<Product> productArrayList = new ArrayList<>();
     String accessToken = "67drd56g",productName,description,imageURL,price,isLiked;
     Long id;
+    ProgressWheel progressWheel;
     View layout;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
+        progressWheel = (ProgressWheel)layout.findViewById(R.id.action_progress_featured);
         sendJsonRequest();
-
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
         mRecyclerView.setAdapter(featuredProductAdapter);
@@ -83,6 +85,7 @@ public class FragmentFeaturedProduct extends Fragment {
 
     }
     public void sendJsonRequest(){
+        progressWheel.setVisibility(View.VISIBLE);
         final JSONObject jsonObject = new JSONObject();
         final JSONObject getFeaturedList = new JSONObject();
         try{
@@ -98,6 +101,7 @@ public class FragmentFeaturedProduct extends Fragment {
             public void onResponse(JSONObject jsonObject) {
                 productArrayList = parseJsonResponse(jsonObject);
                 featuredProductAdapter.setProductArrayList(productArrayList);
+                Log.e("productArray",productArrayList.toString());
 
                 Log.e("url",UAT_BASE_URL+FEATURED_LIST);
                 Log.e("error", jsonObject.toString());
@@ -133,6 +137,9 @@ public class FragmentFeaturedProduct extends Fragment {
     }
 
     public ArrayList<Product> parseJsonResponse(JSONObject response) {
+        if(progressWheel.getVisibility()== View.VISIBLE){
+            progressWheel.setVisibility(View.GONE);
+        }
         ArrayList<Product> productArrayList = new ArrayList<>();
         if (response != null && response.length() > 0) {
 
@@ -173,5 +180,6 @@ public class FragmentFeaturedProduct extends Fragment {
         }
         return productArrayList;
     }
+
 
 }

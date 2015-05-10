@@ -4,14 +4,25 @@ package com.paaltao.classes;
  * Created by Arindam on 02-Feb-15.
  */
 public class Category {
-    int category_id;
+    long category_id;
     String category_name;
+    String imageURL;
 
-    public int getCategory_id() {
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+
+
+    public long getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(int category_id) {
+    public void setCategory_id(long category_id) {
         this.category_id = category_id;
     }
 

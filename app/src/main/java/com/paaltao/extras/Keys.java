@@ -27,6 +27,11 @@ public interface Keys {
         public static final String KEY_ERROR_NODE = "errorNode";
         public static final String KEY_ERROR_CODE = "errorCode";
         public static final String KEY_MESSAGE = "message";
+        public static final String KEY_CATEGORY_LIST = "categoryList";
+        public static final String KEY_CATEGORY_NAME = "name";
+        public static final String KEY_CATEGORY_IMAGE = "image";
+        public static final String KEY_CATEGORY_ID = "id";
+
 
 
     }

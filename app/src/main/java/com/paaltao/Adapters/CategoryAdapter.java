@@ -4,18 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.paaltao.R;
 import com.paaltao.activity.CategoryActivity;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Category;
+import com.paaltao.classes.Product;
+import com.paaltao.network.VolleySingleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,16 +33,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     CategoryActivity activity;
     private LayoutInflater inflater;
     private View view;
-    List<Category> data = Collections.emptyList();
+    private VolleySingleton singleton;
+    private ImageLoader imageLoader;
+    private ArrayList<Category> categoryArrayList = new ArrayList<>();
 
-    public CategoryAdapter(CategoryActivity activity,List<Category> data){
-        this.data = data;
+    public CategoryAdapter(CategoryActivity activity, Context context){
+        this.context = context;
         this.activity = activity;
+        singleton = VolleySingleton.getsInstance();
+        imageLoader = singleton.getImageLoader();
     }
+
     @Override
     public CategoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         inflater = LayoutInflater.from(parent.getContext());
-
         view = inflater.inflate(R.layout.category_card, parent, false);
 
         CategoryHolder holder = new CategoryHolder(view);
@@ -50,19 +60,42 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         });
         return holder;
     }
+    public void setCategoryArrayList(ArrayList<Category> categoryArrayList){
+        this.categoryArrayList = categoryArrayList;
+        notifyDataSetChanged();
+        notifyItemRangeChanged(0, categoryArrayList.size());
+    }
 
     @Override
-    public void onBindViewHolder(CategoryHolder holder, int position) {
+    public void onBindViewHolder(final CategoryHolder holder, int position) {
 
-        Category current = data.get(position);
+        Category current = categoryArrayList.get(position);
         holder.categoryName.setText(current.getCategory_name());
-        holder.categoryImage.setImageResource(current.getCategory_id());
+
+        final String imageURL = current.getImageURL();
+
+        if(imageURL != null){
+            imageLoader.get(imageURL, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    holder.categoryImage.setImageBitmap(imageContainer.getBitmap());
+                    Log.e("imageURLAdapter",imageURL);
+
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("imageURL","no image found");
+
+                }
+            });
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return categoryArrayList.size();
     }
 
     class CategoryHolder extends RecyclerView.ViewHolder {

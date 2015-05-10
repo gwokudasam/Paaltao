@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    card_view:cardCornerRadius="0dp"
+    card_view:cardElevation="0dp"
+    card_view:cardMaxElevation="0dp"
     card_view:cardUseCompatPadding="false">
 
     <RelativeLayout
@@ -34,7 +35,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:fontFamily="sans-serif-light"
-            tools:text="Handicrafts"
+            android:text="Handicrafts"
             android:textColor="@color/white"
             android:textSize="40sp" />
 
