@@ -1,6 +1,7 @@
 package com.paaltao.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -49,7 +50,7 @@ import static com.paaltao.extras.urlEndPoints.CATEGORY_LIST;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class CategoryActivity extends ActionBarActivity {
+public class CategoryActivity extends ActionBarActivity implements CategoryAdapter.ClickListener{
 
     private RecyclerView mRecyclerView;
     Long id;
@@ -72,6 +73,7 @@ public class CategoryActivity extends ActionBarActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         categoryAdapter = new CategoryAdapter(activity,getApplicationContext());
         mRecyclerView.setAdapter(categoryAdapter);
+        categoryAdapter.setClickListener(this);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -189,4 +191,8 @@ public class CategoryActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public void itemClicked(View view, int position) {
+        startActivity(new Intent(getApplicationContext(),ProductListActivity.class));
+    }
 }

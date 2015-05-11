@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/materialTabHost"
-        android:background="@color/black99"
+        android:background="@color/white99"
         android:visibility="gone" />
 
 
@@ -46,7 +46,7 @@
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
-        app:fab_addButtonColorNormal="@color/primaryColor">
+        app:fab_addButtonColorNormal="@color/lightGreen">
 
 
         <com.paaltao.classes.FloatingActionButton
@@ -62,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
+            app:fab_addButtonColorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_title="open a shop" />
 

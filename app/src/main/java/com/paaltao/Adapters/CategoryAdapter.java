@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private VolleySingleton singleton;
     private ImageLoader imageLoader;
     private ArrayList<Category> categoryArrayList = new ArrayList<>();
+    private ClickListener clickListener;
 
     public CategoryAdapter(CategoryActivity activity, Context context){
         this.context = context;
@@ -50,16 +52,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         view = inflater.inflate(R.layout.category_card, parent, false);
 
         CategoryHolder holder = new CategoryHolder(view);
-        holder.categoryImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity,ProductListActivity.class);
-                activity.startActivity(intent);
-
-                }
-        });
+//        holder.categoryImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(activity,ProductListActivity.class);
+//                activity.startActivity(intent);
+//
+//                }
+//        });
         return holder;
     }
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+
+    }
+
     public void setCategoryArrayList(ArrayList<Category> categoryArrayList){
         this.categoryArrayList = categoryArrayList;
         notifyDataSetChanged();
@@ -98,7 +105,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categoryArrayList.size();
     }
 
-    class CategoryHolder extends RecyclerView.ViewHolder {
+    class CategoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView categoryName;
         ImageView categoryImage;
 
@@ -107,7 +114,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             categoryImage = (ImageView) itemView.findViewById(R.id.category_image);
             categoryName = (TextView) itemView.findViewById(R.id.category_name);
+            itemView.setOnClickListener(this);
 
         }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener != null){
+                clickListener.itemClicked(v, getLayoutPosition());
+            }
+        }
+
+    }
+
+    public interface ClickListener{
+        void itemClicked(View view, int position);
+
     }
 }
