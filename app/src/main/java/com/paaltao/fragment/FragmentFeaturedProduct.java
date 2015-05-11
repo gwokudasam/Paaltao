@@ -28,6 +28,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
+import com.paaltao.activity.HomeActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
@@ -75,6 +76,7 @@ public class FragmentFeaturedProduct extends Fragment {
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
         mRecyclerView.setAdapter(featuredProductAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Our featured products");
         return layout;
     }
 

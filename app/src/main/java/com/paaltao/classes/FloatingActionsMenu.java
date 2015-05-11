@@ -90,8 +90,8 @@ public class FloatingActionsMenu extends ViewGroup {
 
         TypedArray attr = context.obtainStyledAttributes(attributeSet, R.styleable.FloatingActionsMenu, 0, 0);
         mAddButtonPlusColor = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonPlusIconColor, getColor(android.R.color.white));
-        mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.holo_blue_dark));
-        mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(android.R.color.holo_blue_light));
+        mAddButtonColorNormal = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorNormal, getColor(android.R.color.white));
+        mAddButtonColorPressed = attr.getColor(R.styleable.FloatingActionsMenu_fab_addButtonColorPressed, getColor(R.color.white_pressed));
         mAddButtonSize = attr.getInt(R.styleable.FloatingActionsMenu_fab_addButtonSize, FloatingActionButton.SIZE_NORMAL);
         mAddButtonStrokeVisible = attr.getBoolean(R.styleable.FloatingActionsMenu_fab_addButtonStrokeVisible, true);
         mExpandDirection = attr.getInt(R.styleable.FloatingActionsMenu_fab_expandDirection, EXPAND_UP);
@@ -187,11 +187,26 @@ public class FloatingActionsMenu extends ViewGroup {
 
        public void updateBackground(){
            whiteOverlay = (RelativeLayout) ((HomeActivity)getContext()).findViewById(R.id.white_opacity);
+           whiteOverlay.setOnClickListener(new View.OnClickListener(){
+               public void onClick(View v) {
+                   toggle();
+                   if (whiteOverlay.getVisibility()== View.VISIBLE){
+                       whiteOverlay.setVisibility(View.GONE);
+                   }
+               }
+           });
            if (whiteOverlay.getVisibility()==View.GONE)
             whiteOverlay.setVisibility(View.VISIBLE);
            else {whiteOverlay.setVisibility(View.GONE);}
         }
 
+//    public void onWhiteOpacityClick(){
+//        whiteOverlay.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v) {
+//                toggle();
+//            }
+//        });
+//    }
     public void addButton(FloatingActionButton button) {
         addView(button, mButtonsCount - 1);
         mButtonsCount++;

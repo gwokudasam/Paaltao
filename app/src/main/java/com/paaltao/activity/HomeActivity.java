@@ -42,8 +42,6 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         // init toolbar (old action bar)
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        this.setTitle("you are awesome!");
         this.setSupportActionBar(toolbar);
 
 //        floating action menu
@@ -80,7 +78,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         });
 
         final FloatingActionButton openShop = (FloatingActionButton)findViewById(R.id.open_shop_fab);
-        openShop.setTitle("open a shop");
+        openShop.setTitle("Open a shop");
         openShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.paaltao.Adapters.TrendingShopAdapter;
 import com.paaltao.R;
+import com.paaltao.activity.HomeActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.logging.L;
@@ -42,6 +43,7 @@ public class TrendingShopFragment extends Fragment implements SwipeRefreshLayout
         mAdapter = new TrendingShopAdapter(getActivity(),getData(),activity);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Our trending shops");
         return layout;
     }
 

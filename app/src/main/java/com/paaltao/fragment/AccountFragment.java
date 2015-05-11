@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
+import com.paaltao.activity.HomeActivity;
 import com.paaltao.activity.ProfileActivity;
 
 //This is a user account fragment.
@@ -25,6 +26,7 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         initialize();
         onItemClick();
+        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Your account");
         return view;
     }
     public void initialize(){
