@@ -61,6 +61,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
 
 
         });
+        actionC.setIcon(R.drawable.ic_check_white);
         ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
 
         ShapeDrawable drawable = new ShapeDrawable(new OvalShape());

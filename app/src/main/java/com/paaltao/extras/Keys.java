@@ -20,6 +20,7 @@ public interface Keys {
         public static final String KEY_PRODUCT_ID = "id";
         public static final String KEY_PRODUCT_NAME = "productName";
         public static final String KEY_PRODUCT_DESCRIPTION = "description";
+        public static final String KEY_SHOP_NAME = "shopName";
         public static final String KEY_PRODUCT_IMAGE = "image";
         public static final String KEY_PRODUCT_PRICE = "price";
         public static final String KEY_IS_LIKED = "isLiked";

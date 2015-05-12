@@ -61,7 +61,7 @@ public class FragmentFeaturedProduct extends Fragment {
     FeaturedProductAdapter featuredProductAdapter;
     private ImageView favorite;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    String accessToken = "67drd56g",productName,description,imageURL,price,isLiked;
+    String accessToken = "67drd56g",productName,description,imageURL,price,isLiked,shopName;
     Long id;
     ProgressWheel progressWheel;
     View layout;
@@ -154,7 +154,9 @@ public class FragmentFeaturedProduct extends Fragment {
                         JSONObject featuredProductObject = featuredListArray.getJSONObject(i);
                         id = featuredProductObject.getLong(KEY_PRODUCT_ID);
                         productName = featuredProductObject.getString(KEY_PRODUCT_NAME);
+                        shopName = featuredProductObject.getString(KEY_SHOP_NAME);
                         description = featuredProductObject.getString(KEY_PRODUCT_DESCRIPTION);
+
                         imageURL = featuredProductObject.getString(KEY_PRODUCT_IMAGE);
                         isLiked = featuredProductObject.getString(KEY_IS_LIKED);
                         price = featuredProductObject.getString(KEY_PRODUCT_PRICE);
@@ -164,6 +166,7 @@ public class FragmentFeaturedProduct extends Fragment {
                         product.setProduct_id(id);
                         product.setProduct_name(productName);
                         product.setPrice(price);
+                        product.setShop_name(shopName);
                         product.setIs_liked(isLiked);
                         product.setImageURL(imageURL);
 

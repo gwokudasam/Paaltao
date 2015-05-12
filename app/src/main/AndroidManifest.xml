@@ -68,14 +68,14 @@
         <activity
             android:name=".activity.OpenShopActivity"
             android:label="@string/title_activity_open_shop"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".activity.ShopActivity"
             android:label="@string/title_activity_my_shop" />
         <activity
             android:name=".activity.AddProductActivity"
             android:label="@string/title_activity_add_product"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_profile" />
@@ -123,7 +123,7 @@
         <activity
             android:name=".activity.AddAddressActivity"
             android:label="@string/title_activity_add_address"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateVisible|adjustPan">
         </activity>
         <activity
             android:name=".activity.ProductListActivity"

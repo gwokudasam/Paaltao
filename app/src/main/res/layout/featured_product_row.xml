@@ -33,7 +33,7 @@
                 android:background="@color/black80"
                 android:padding="8dp"
                 android:fontFamily="sans-serif-light"
-                tools:text="1200 INR"
+                tools:text="@string/Rs"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -59,14 +59,14 @@
                     tools:text="Handmade Jewel"
                     android:paddingBottom="2dp"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="22sp" />
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingBottom="4dp"
-                    android:text="by The Indian Shop"
+                    tools:text="by The Indian Shop"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>

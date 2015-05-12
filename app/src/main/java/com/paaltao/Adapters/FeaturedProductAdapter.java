@@ -83,6 +83,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     public void onBindViewHolder(final ProductHolder holder, int position) {
         Product current = productArrayList.get(position);
         holder.productName.setText(current.getProduct_name());
+        holder.shopName.setText("by" + " "+ current.getShop_name());
         holder.productPrice.setText(current.getPrice());
 
         String imageURL = current.getImageURL();
@@ -111,7 +112,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     }
 
     class ProductHolder extends RecyclerView.ViewHolder {
-        TextView productName,productPrice;
+        TextView productName,productPrice,shopName;
         ImageView productImage;
 
         public ProductHolder(View itemView) {
@@ -120,6 +121,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
             productPrice = (TextView)itemView.findViewById(R.id.product_price);
             productImage = (ImageView) itemView.findViewById(R.id.product_image);
             productName = (TextView) itemView.findViewById(R.id.product_name);
+            shopName = (TextView)itemView.findViewById(R.id.shop_name);
         }
     }
 }
