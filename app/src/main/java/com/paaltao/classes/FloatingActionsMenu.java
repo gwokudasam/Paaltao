@@ -200,13 +200,6 @@ public class FloatingActionsMenu extends ViewGroup {
            else {whiteOverlay.setVisibility(View.GONE);}
         }
 
-//    public void onWhiteOpacityClick(){
-//        whiteOverlay.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v) {
-//                toggle();
-//            }
-//        });
-//    }
     public void addButton(FloatingActionButton button) {
         addView(button, mButtonsCount - 1);
         mButtonsCount++;

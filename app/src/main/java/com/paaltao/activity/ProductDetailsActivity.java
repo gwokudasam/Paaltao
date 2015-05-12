@@ -63,6 +63,7 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
                     .setOnSliderClickListener(this);
             mDemoSlider.addSlider(textSliderView);
         }
+        mDemoSlider.stopAutoCycle();
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setDuration(5000);
