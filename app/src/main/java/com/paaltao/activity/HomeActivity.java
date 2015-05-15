@@ -1,11 +1,13 @@
 package com.paaltao.activity;
 
+import android.app.Service;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,6 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.paaltao.R;
 import com.paaltao.classes.FloatingActionButton;
@@ -22,6 +27,10 @@ import com.paaltao.classes.FloatingActionsMenu;
 import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
 import com.paaltao.fragment.TrendingShopFragment;
+import com.paaltao.persistentsearch.SearchBox;
+import com.paaltao.persistentsearch.SearchResult;
+
+import java.util.ArrayList;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -33,6 +42,9 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     private ViewPagerAdapter pagerAdapter;
     MaterialTabHost tabHost;
     private Resources res;
+    SearchBox search;
+    Toolbar toolbar;
+    RelativeLayout overlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +53,29 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         res = this.getResources();
         // init toolbar (old action bar)
 
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        search = (SearchBox) findViewById(R.id.searchbox);
+        search.enableVoiceRecognition(this);
+
+        overlay = (RelativeLayout)findViewById(R.id.white_opacity);
+
+        overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeSearch();
+            }
+        });
+
+        toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         this.setSupportActionBar(toolbar);
+
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                openSearch();
+                return true;
+            }
+        });
 
 //        floating action menu
         //final View actionB = findViewById(R.id.action_b);
@@ -177,7 +210,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_product_details, menu);
+    getMenuInflater().inflate(R.menu.menu_home, menu);
 
         return true;
     }
@@ -193,7 +226,85 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             startActivity(intent);
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    //openSearch
+
+    public void openSearch() {
+        overlay.setVisibility(View.VISIBLE);
+        toolbar.setTitle("");
+        search.revealFromMenuItem(R.id.action_search, this);
+        for (int x = 0; x < 10; x++) {
+            SearchResult option = new SearchResult("Result "
+                    + Integer.toString(x), getResources().getDrawable(
+                    R.drawable.ic_history));
+            search.addSearchable(option);
+        }
+        search.setMenuListener(new SearchBox.MenuListener() {
+
+            @Override
+            public void onMenuClick() {
+                // Hamburger has been clicked
+                Toast.makeText(HomeActivity.this, "Menu click",
+                        Toast.LENGTH_LONG).show();
+            }
+
+        });
+        search.setSearchListener(new SearchBox.SearchListener() {
+
+            @Override
+            public void onSearchOpened() {
+                // Use this to tint the screen
+
+            }
+
+            @Override
+            public void onSearchClosed() {
+                // Use this to un-tint the screen
+                closeSearch();
+
+            }
+
+            @Override
+            public void onSearchTermChanged() {
+                // React to the search term changing
+                // Called after it has updated results
+            }
+
+            @Override
+            public void onSearch(String searchTerm) {
+                Toast.makeText(HomeActivity.this, searchTerm + " Searched",
+                        Toast.LENGTH_LONG).show();
+                toolbar.setTitle(searchTerm);
+
+            }
+
+            @Override
+            public void onSearchCleared() {
+
+            }
+
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            search.populateEditText(matches);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    protected void closeSearch() {
+        overlay.setVisibility(View.GONE);
+        search.hideCircularly(this);
+        if(search.getSearchText().isEmpty())toolbar.setTitle("");
+
     }
 
 

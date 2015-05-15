@@ -90,6 +90,10 @@
     <string name="title_activity_product_list">ProductListActivity</string>
     <string name="product_image_shop">shop_product_image</string>
     <string name="title_activity_manage_shop">ManageShopActivity</string>
+    <string name="product_description">Product Description</string>
+    <string name="select_quantity">Select quantity</string>
+    <string name="search">search paaltao</string>
+    <string name="speak_now">Speak Now</string>
 
 
 </resources>

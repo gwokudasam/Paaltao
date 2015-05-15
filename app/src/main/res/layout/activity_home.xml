@@ -11,6 +11,7 @@
         layout="@layout/app_bar"
         />
 
+
     <it.neokree.materialtabs.MaterialTabHost
         android:id="@+id/materialTabHost"
         android:layout_width="match_parent"
@@ -30,9 +31,10 @@
         android:id="@+id/white_opacity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/materialTabHost"
+        android:layout_below="@+id/app_bar"
         android:background="@color/white99"
         android:visibility="gone" />
+
 
 
     <com.paaltao.classes.FloatingActionsMenu
@@ -67,6 +69,18 @@
             fab:fab_title="open a shop" />
 
     </com.paaltao.classes.FloatingActionsMenu>
+
+    <com.paaltao.persistentsearch.SearchBox
+        android:layout_width="wrap_content"
+        android:id="@+id/searchbox"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginRight="-6dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
 
 

@@ -12,7 +12,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar">
+        android:layout_below="@+id/app_bar"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,20 +25,19 @@
                 <com.daimajia.slider.library.SliderLayout
                     android:id="@+id/slider"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="400dp"
                     tools:src = "@drawable/apple_small"
                     android:scaleType="centerCrop" />
 
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
 
-                <LinearLayout
                     android:id="@+id/product_title_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginBottom="40dp"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
@@ -45,175 +45,19 @@
                         android:gravity="center"
                         android:padding="16dp"
                         android:textSize="20sp"
-                        tools:text="@string/product_detail_title"
+                        android:text="@string/product_detail_title"
                         android:textColor="@color/black"
                         android:fontFamily="sans-serif-light" />
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-
-
-                        <TextView
-                            android:id="@+id/product_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:padding="16dp"
-                            android:textSize="18sp"
-                            tools:text="Rs 2500"  />
-
-
-
-
-
-                </LinearLayout>
-
-
-            </android.support.v7.widget.CardView>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
-
-                <Button
-                    android:id="@+id/add_cart_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="6dp"
-                    android:background="@color/lightGreen"
-                    android:fontFamily="sans-light"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="@string/add_cart"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="20sp">
-
-                </Button>
-            </RelativeLayout>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardUseCompatPadding="false">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/item_details_title"
-                        style="@style/product_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/item_details_title" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/item_details_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:padding="16dp"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-light"
-                        tools:text="@string/item_details"
-                        android:textColor="@color/material_blue_grey_950"
-                        android:visibility="visible" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        style="@style/product_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/product_reviews_title" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/reviews_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:padding="12dp"
-                        android:text="@string/item_details"
-                        android:textColor="@color/material_blue_grey_950"
-                        android:visibility="gone" />
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        style="@style/product_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/shipping_title" />
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:padding="12dp"
-                        android:text="@string/item_details"
-                        android:textColor="@color/material_blue_grey_950"
-                        android:visibility="gone" />
-
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                card_view:cardCornerRadius="5dp"
-                android:layout_margin="5dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Sold by"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
+                        android:id="@+id/product_price"
+                        android:text="INR 1200"
+                        android:padding="10dp"
                         android:gravity="center_horizontal"
-                        android:layout_marginBottom="12dp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/shop_name"
-                        android:textSize="20sp"
-                        android:gravity="center_horizontal"
-                        android:layout_marginBottom="12dp"/>
-
-
+                        android:textSize="25sp"
+                        android:textColor="@color/lightGreen"/>
 
                     <View
                         android:layout_width="fill_parent"
@@ -223,20 +67,147 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Visit Shop"
-                        android:textColor="@color/teal"
-                        android:textSize="16sp"
-                        android:padding="10dp"/>
+                        android:text="@string/product_description"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="This is one of most traditional products crafted in India. The product has been created using melted glass, ceramiv and other materials"
+                        android:textSize="20sp"
+                        android:fontFamily="sans-serif-light"/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_quantity"
+                            android:layout_alignParentLeft="true"
+                            android:padding="16dp"
+                            android:textSize="18sp"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_alignParentRight="true"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:src="@drawable/ic_remove_circle_outline_grey"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textSize="18sp"/>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+                                android:src="@drawable/ic_add_circle_outline_grey"/>
+                        </LinearLayout>
 
 
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+                    </RelativeLayout>
 
 
-        </LinearLayout>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_cart"
+                        android:padding="16dp"
+                        android:background="@color/lightGreen"
+                        android:textColor="@color/white"
+                        android:layout_margin="10dp"
+                        />
 
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:text="Visit the seller's shop"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Shop Name"
+            android:padding="16dp"
+            android:paddingBottom="40dp"
+            android:fontFamily="sans-serif-light"/>
+
+            </LinearLayout>
+
+
+     </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+
+
+        <TextView
+            android:id="@+id/shipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="shipping"
+            android:background="@color/teal"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_toLeftOf="@+id/centerShim"
+            android:layout_alignParentLeft="true"
+            android:padding="16dp"/>
+
+        <View
+            android:id="@+id/centerShim"
+            android:layout_height="0dp"
+            android:layout_width="1dp"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black99"
+            android:background="@color/greenMaterial"
+            android:text="reviews"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/centerShim"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"/>
+    </RelativeLayout>
 
 
 </RelativeLayout>

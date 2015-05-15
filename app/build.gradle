@@ -46,6 +46,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':simple.facebook-2.2')
+    compile 'com.cocosw:bottomsheet:1.+@aar'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.afollestad:material-dialogs:0.7.2.2'
@@ -54,7 +55,6 @@ dependencies {
     compile 'me.relex:circleindicator:1.1.1@aar'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'it.neokree:MaterialTabs:0.11'
-    //compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.2@aar'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'

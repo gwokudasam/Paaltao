@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -22,14 +23,12 @@ import java.util.HashMap;
 
 public class ProductDetailsActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener{
 
-    TextView itemDetailsContent;
-    TextView itemDetailsTitle;
+    TextView shipping,reviews;
     Menu badge_menu;
     MenuItem badge_item_cart;
     int badge_item_id_cart;
     View target_cart;
     BadgeView badge_cart;
-    Button cartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,9 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
 
 
         HashMap<String,String> url_maps = new HashMap<>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+        url_maps.put("Hannibal", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1417.jpg");
+        url_maps.put("Big Bang Theory", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1167.jpg");
+        url_maps.put("House of Cards", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1189.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
 //        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
@@ -135,20 +134,21 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
 
     public void initialize() // Method to initialize all variables
     {
-        itemDetailsTitle = (TextView)findViewById(R.id.item_details_title);
-        itemDetailsContent = (TextView)findViewById(R.id.item_details_content);
-        cartButton = (Button)findViewById(R.id.add_cart_btn);
+        shipping = (TextView)findViewById(R.id.shipping);
+        reviews = (TextView)findViewById(R.id.reviews);
 
     }
 
     public void onItemClick()
     {
-        cartButton.setOnClickListener(new View.OnClickListener() {
+        shipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                badge_cart.show();
+                new BottomSheet.Builder(ProductDetailsActivity.this).title("Shipping").sheet(R.id.about_shop,"Hello World").show();
             }
         });
+
+
 
 
     }

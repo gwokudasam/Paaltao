@@ -26,7 +26,6 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         initialize();
         onItemClick();
-        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Your account");
         return view;
     }
     public void initialize(){

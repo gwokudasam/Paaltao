@@ -28,7 +28,6 @@ public class TrendingShopFragment extends Fragment implements SwipeRefreshLayout
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     ProductListActivity activity;
-    //SwipeRefreshLayout swipeRefreshLayout;
     private ImageView favorite;
     View layout;
 
@@ -37,13 +36,10 @@ public class TrendingShopFragment extends Fragment implements SwipeRefreshLayout
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_trending_shop, container, false);
         initialize();
-//        swipeRefreshLayout.setOnRefreshListener(this);
-//        swipeRefreshLayout.setColorSchemeColors(R.color.primaryColor,R.color.greenMaterial,R.color.teal);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.trendingShop_recycler_view);
         mAdapter = new TrendingShopAdapter(getActivity(),getData(),activity);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Our trending shops");
         return layout;
     }
 

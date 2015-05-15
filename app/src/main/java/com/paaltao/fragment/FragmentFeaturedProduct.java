@@ -76,7 +76,6 @@ public class FragmentFeaturedProduct extends Fragment {
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
         mRecyclerView.setAdapter(featuredProductAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Our featured products");
         return layout;
     }
 
