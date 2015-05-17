@@ -18,6 +18,14 @@ public class SharedPreferenceClass {
                 Activity.MODE_PRIVATE);
         this.prefsEditor = sharedprefs.edit();
     }
+    public void saveVendorLoginSuccess(String hasShop){
+        prefsEditor.putString("has_shop",hasShop);
+        prefsEditor.commit();
+    }
+
+    public String getVendorLoginSuccess(){
+        return sharedprefs.getString("has_shop","");
+    }
 
     public void saveLoginflag(String login_flag) {
         prefsEditor.putString("login_flag", login_flag);

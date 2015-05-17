@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.paaltao.R;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
 import com.paaltao.fragment.TrendingShopFragment;
@@ -44,13 +45,17 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     private Resources res;
     SearchBox search;
     Toolbar toolbar;
+    FloatingActionButton openShop,actionB;
     RelativeLayout overlay;
+    String vendor_login;
+    SharedPreferenceClass preferenceClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         res = this.getResources();
+        preferenceClass = new SharedPreferenceClass(getApplicationContext());
         // init toolbar (old action bar)
 
         search = (SearchBox) findViewById(R.id.searchbox);
@@ -68,14 +73,12 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         this.setSupportActionBar(toolbar);
 
-
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                openSearch();
-                return true;
-            }
-        });
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                return true;
+//            }
+//        });
 
 //        floating action menu
         //final View actionB = findViewById(R.id.action_b);
@@ -101,7 +104,7 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         drawable.getPaint().setColor(getResources().getColor(R.color.white));
 
 
-        final FloatingActionButton actionB = (FloatingActionButton) findViewById(R.id.action_b);
+        actionB = (FloatingActionButton) findViewById(R.id.action_b);
         actionB.setTitle("Manage shop");
         actionB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +114,21 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             }
         });
 
-        final FloatingActionButton openShop = (FloatingActionButton)findViewById(R.id.open_shop_fab);
+        openShop = (FloatingActionButton)findViewById(R.id.open_shop_fab);
         openShop.setTitle("Open a shop");
+
+        if(preferenceClass.getVendorLoginSuccess() != null){
+            vendor_login = preferenceClass.getVendorLoginSuccess();}
+
+        if(vendor_login != null){
+            if(vendor_login.contains("true")){
+                actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+            else {
+                openShop.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+
+        }
         openShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,6 +240,9 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         if (id == R.id.cart_icon) {
             Intent intent = new Intent(HomeActivity.this,CartActivity.class);
             startActivity(intent);
+        }
+        if (id == R.id.action_search){
+            openSearch();
         }
 
 

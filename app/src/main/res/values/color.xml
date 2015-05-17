@@ -19,5 +19,5 @@
     <color name="facebook_btn">#3b5998</color>
     <color name="google_btn">#dd4b39</color>
     <color name="signup_btn">#d7c6c4</color>
-    <color name="transparent">#00ffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -52,14 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         view = inflater.inflate(R.layout.category_card, parent, false);
 
         CategoryHolder holder = new CategoryHolder(view);
-//        holder.categoryImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(activity,ProductListActivity.class);
-//                activity.startActivity(intent);
-//
-//                }
-//        });
+
         return holder;
     }
     public void setClickListener(ClickListener clickListener){

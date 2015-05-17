@@ -7,6 +7,17 @@ public class Product {
     long product_id;
     String product_name;
 
+    public String getShop_image_url() {
+        return shop_image_url;
+    }
+
+    public void setShop_image_url(String shop_image_url) {
+        this.shop_image_url = shop_image_url;
+    }
+
+    String shop_image_url;
+
+
     public String getShop_name() {
         return shop_name;
     }

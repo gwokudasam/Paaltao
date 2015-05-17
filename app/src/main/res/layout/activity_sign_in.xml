@@ -6,9 +6,14 @@
     android:background="@drawable/paaltao_background"
     tools:context="com.paaltao.activity.SignInActivity">
 
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
         android:background="@color/black80">
 
 
@@ -16,8 +21,7 @@
     <LinearLayout
         android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
 
         >

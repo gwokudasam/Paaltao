@@ -41,7 +41,7 @@ public class IntroPageActivity extends ActionBarActivity {
     CircleIndicator indicator;
     TextView fbBtn,gplusBtn,signUp,signIn;
     SimpleFacebook mSimpleFacebook;
-
+    String token;
     SharedPreferenceClass preferenceClass;
     Context mContext;
 
@@ -58,6 +58,14 @@ public class IntroPageActivity extends ActionBarActivity {
         }
         initialize();
         onClick();
+
+        if(token != null && token.length() != 0 ){
+            Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
+
         Vector<View> pages = new Vector<View>();
         _layoutInflater = getLayoutInflater();
 
@@ -89,6 +97,8 @@ public class IntroPageActivity extends ActionBarActivity {
         signIn = (TextView) findViewById(R.id.signInBtn);
         gplusBtn = (TextView)findViewById(R.id.google_login);
         mSimpleFacebook = SimpleFacebook.getInstance(this);
+        preferenceClass = new SharedPreferenceClass(this);
+        token = preferenceClass.getAccessToken();
 
 
 
@@ -101,14 +111,6 @@ public class IntroPageActivity extends ActionBarActivity {
 
                 mSimpleFacebook.login(onLoginListener);
 
-            }
-        });
-
-        gplusBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
             }
         });
 

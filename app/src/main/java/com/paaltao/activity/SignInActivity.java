@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import static com.paaltao.extras.Keys.UserCredentials.*;
 import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.LOGIN;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class SignInActivity extends ActionBarActivity {
     Button SignUpBtn;
@@ -42,13 +43,18 @@ public class SignInActivity extends ActionBarActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver;
+    String emailId,accessToken,api_ver,token;
     SharedPreferenceClass preferenceClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
+        this.setSupportActionBar(toolbar);
+        this.setTitle("Sign in");
         initiate();
         onItemClick();
 
@@ -81,7 +87,6 @@ public class SignInActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (validationCheck()) {
-//                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
                     sendJsonRequest();
                 }
 
@@ -107,7 +112,7 @@ public class SignInActivity extends ActionBarActivity {
 
     public static String getRequestUrl() {
 
-        return BASE_URL
+        return UAT_BASE_URL
                 + LOGIN;
 
     }
@@ -136,8 +141,6 @@ public class SignInActivity extends ActionBarActivity {
                 }
                 parseJSONResponse(jsonObject);
                 //Calling the Snackbar
-                Log.e("error", jsonObject.toString());
-                Log.e("json", signIn.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -178,18 +181,35 @@ public class SignInActivity extends ActionBarActivity {
         try {
             JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
             JSONObject signInObject = dataObject.getJSONObject(KEY_SIGN_IN);
+            JSONObject accessTokenObject = signInObject.getJSONObject(KEY_ACCESS_TOKEN);
             JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+            if(dataObject.has(KEY_VENDOR)){
+            JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
+                if(vendorObject != null){
+                String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
+                if(vendor_login != null && vendor_login.contains("true")){
+                    preferenceClass.saveVendorLoginSuccess(vendor_login);
+                }}
+            }
             emailId = signInObject.getString(KEY_EMAIL);
-            api_ver = signInObject.getString(KEY_API_VER);
-            accessToken = signInObject.getString(KEY_ACCESS_TOKEN);
+            if(accessTokenObject.has(KEY_TOKEN)){
+            token = accessTokenObject.getString(KEY_TOKEN);}
+
+
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
 
-            if (accessToken!= null && accessToken.length()!=0){
-                preferenceClass.saveAccessToken(accessToken);
+
+
+
+            if (token!= null && token.length()!=0){
+                preferenceClass.saveAccessToken(token);
                 preferenceClass.saveUserEmail(emailId);
+
                 Intent intent = new Intent(SignInActivity.this,HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
             else {
                 new SnackBar.Builder(SignInActivity.this)

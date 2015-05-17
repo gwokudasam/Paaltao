@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.paaltao.Adapters.CartAdapter;
@@ -24,6 +26,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class CartActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    ImageView addQuantity,removeQuantity;
+    TextView itemQuantity,itemPrice;
     SweetAlertDialog dialog;
 
     @Override
@@ -58,12 +62,9 @@ public class CartActivity extends ActionBarActivity {
 
     public static ArrayList getData(){
         ArrayList data = new ArrayList();
-        int[] icons = {R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,
-                R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher};
-        String[] product_names = {"Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone",
-                "Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone"};
-        String[] categories = {"Handmade","Photography","Electronics","Electronics","Electronics","Electronics","Electronics",
-                "Electronics","Electronics","Electronics"};
+        int[] icons = {R.drawable.ic_launcher,R.drawable.ic_launcher};
+        String[] product_names = {"Automatic Drone","Automatic Drone"};
+        String[] categories = {"Handmade","Photography"};
 
         for(int i=0; i<product_names.length && i<icons.length && i<categories.length;i++){
             Product current = new Product();
@@ -77,6 +78,11 @@ public class CartActivity extends ActionBarActivity {
     }
 
     public void initialize(){
+        addQuantity = (ImageView)findViewById(R.id.add_quantity);
+        removeQuantity = (ImageView)findViewById(R.id.remove_quantity);
+        itemQuantity = (TextView)findViewById(R.id.item_quantity);
+        itemPrice = (TextView)findViewById(R.id.item_price);
+
 
     }
 

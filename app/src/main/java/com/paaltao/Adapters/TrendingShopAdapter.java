@@ -9,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.paaltao.R;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
+import com.paaltao.activity.ShopActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.logging.L;
+import com.paaltao.network.VolleySingleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,66 +29,91 @@ import java.util.List;
 public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapter.ProductHolder> {
 
     private Context context;
-    private ProductListActivity activity;
+    private ShopActivity activity;
     private LayoutInflater inflater;
     private View view;
-    List<Product> data = Collections.emptyList();
+    private ClickListener clickListener;
+    private VolleySingleton singleton;
+    private ImageLoader imageLoader;
+    private ArrayList<Product> shopArrayList = new ArrayList<>();
 
-    public TrendingShopAdapter(Context context, List<Product> data,ProductListActivity activity){
-
-        inflater = LayoutInflater.from(context);
+    public TrendingShopAdapter(Context context,ShopActivity activity){
         this.activity = activity;
-        this.data = data;
+        singleton = VolleySingleton.getsInstance();
+        imageLoader = singleton.getImageLoader();
         this.context= context;
     }
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = inflater.inflate(R.layout.trendingshop_row,parent,false);
+        inflater = LayoutInflater.from(context);
+        view = inflater.inflate(R.layout.trendingshop_row, parent, false);
 
 
         ProductHolder holder = new ProductHolder(view);
-        holder.productImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(context!=null) {
-                    context.startActivity(new Intent(context, ProductListActivity.class));
-                }
-                else{
-                    Intent intent = new Intent(activity,ProductListActivity.class);
-                    activity.startActivity(intent);
-                }
-            }
-        });
-        initialize();
-        onItemClick();
+
         return holder;
     }
 
-    public void initialize(){
-
+    public void setShopArrayList(ArrayList<Product> shopArrayList){
+        this.shopArrayList = shopArrayList;
+        notifyDataSetChanged();
+        notifyItemRangeChanged(0, shopArrayList.size());
     }
-    public void onItemClick(){
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
 
     }
 
     @Override
-    public void onBindViewHolder(ProductHolder holder, int position) {
-        Product current = data.get(position);
+    public void onBindViewHolder(final ProductHolder holder, int position) {
+        Product current = shopArrayList.get(position);
+        holder.shopName.setText(current.getShop_name());
+
+        String shop_image_url = current.getShop_image_url();
+
+        if(shop_image_url != null){
+            imageLoader.get(shop_image_url, new ImageLoader.ImageListener() {
+                @Override
+                public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                    holder.shopImage.setImageBitmap(imageContainer.getBitmap());
+
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+
+                }
+            });
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return shopArrayList.size();
     }
 
-    class ProductHolder extends RecyclerView.ViewHolder {
-        ImageView productImage;
+    class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView shopImage;
+        TextView shopName;
 
         public ProductHolder(View itemView) {
             super(itemView);
 
-            productImage = (ImageView) itemView.findViewById(R.id.product_image);
+            shopImage = (ImageView) itemView.findViewById(R.id.shop_image);
+            shopName = (TextView)itemView.findViewById(R.id.shop_name);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener != null){
+                clickListener.itemClicked(v, getLayoutPosition());
+            }
+        }
+    }
+    public interface ClickListener{
+        void itemClicked(View view, int position);
+
     }
 }

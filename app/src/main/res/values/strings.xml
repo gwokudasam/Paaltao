@@ -94,6 +94,9 @@
     <string name="select_quantity">Select quantity</string>
     <string name="search">search paaltao</string>
     <string name="speak_now">Speak Now</string>
+    <string name="trending_shop_image">Trending Shop Image</string>
+    <string name="title_activity_paaltao_info">PaaltaoInfo</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 
 
 </resources>

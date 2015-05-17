@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    card_view:cardUseCompatPadding="false">
+    card_view:cardCornerRadius="0dp"
+    android:layout_margin="10dp"
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,27 +14,13 @@
 
 
         <ImageView
-            android:id="@+id/product_image"
+            android:id="@+id/shop_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@color/black80"
-                android:padding="8dp"
-                android:text="1200 INR"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/trending_shop_image" />
 
 
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -51,8 +39,9 @@
                     android:padding="10dp"
                     android:text="Arindam's Shop"
                     android:paddingBottom="2dp"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="25sp" />
             </LinearLayout>
 
         </RelativeLayout>

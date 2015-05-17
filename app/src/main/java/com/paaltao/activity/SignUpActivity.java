@@ -44,6 +44,11 @@ public class SignUpActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
+        this.setSupportActionBar(toolbar);
+        this.setTitle("Sign up");
         initiate();
         onItemClick();
     }
