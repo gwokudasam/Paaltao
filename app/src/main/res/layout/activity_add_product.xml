@@ -124,7 +124,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
                 card_view:cardUseCompatPadding="true">
 
                 <com.paaltao.classes.FloatLabeledEditText
@@ -132,6 +131,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
+                        android:id="@+id/product_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#00000000"
@@ -148,7 +148,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
                 android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
                 card_view:cardUseCompatPadding="true">
 
                 <LinearLayout
@@ -177,15 +176,13 @@
 
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
                 android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-
+                android:layout_margin="10dp"
+                android:background="@color/white">
 
                 <com.paaltao.classes.FloatLabeledEditText
                     android:layout_width="match_parent"
@@ -194,7 +191,6 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#00000000"
                         android:hint="Set Product Price"
                         android:inputType="numberDecimal"
                         android:padding="14dp"
@@ -202,63 +198,82 @@
                         android:id="@+id/product_price" />
                 </com.paaltao.classes.FloatLabeledEditText>
 
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-
-
                 <com.paaltao.classes.FloatLabeledEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
+                        android:id="@+id/shipping_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#00000000"
                         android:hint="Set Shipping Price"
                         android:inputType="numberDecimal"
                         android:padding="14dp"
                         android:textColorHint="@color/half_black" />
                 </com.paaltao.classes.FloatLabeledEditText>
 
+                <com.paaltao.classes.FloatLabeledEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:orientation="vertical"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardUseCompatPadding="true">
-
+                    <EditText
+                        android:id="@+id/product_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|left"
+                        android:hint="Product Description"
+                        android:lines="6"
+                        android:inputType="textMultiLine"
+                        android:scrollHorizontally="false"
+                        android:padding="14dp"
+                        android:textColorHint="@color/half_black" />
+                </com.paaltao.classes.FloatLabeledEditText>
 
                 <com.paaltao.classes.FloatLabeledEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
+                        android:id="@+id/product_weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#00000000"
-                        android:ems="10"
-                        android:hint="Product Description"
+                        android:hint="@string/product_weight"
+                        android:padding="14dp"
+                        android:inputType="numberDecimal"
+                        android:textColorHint="@color/half_black" />
+                </com.paaltao.classes.FloatLabeledEditText>
+                <com.paaltao.classes.FloatLabeledEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/product_quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/product_quantity"
+                        android:padding="14dp"
+                        android:inputType="numberDecimal"
+                        android:textColorHint="@color/half_black" />
+                </com.paaltao.classes.FloatLabeledEditText>
+
+                <com.paaltao.classes.FloatLabeledEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/shipping_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|left"
+                        android:hint="Shipping Details"
+                        android:lines="6"
                         android:inputType="textMultiLine"
+                        android:scrollHorizontally="false"
                         android:padding="14dp"
                         android:textColorHint="@color/half_black" />
                 </com.paaltao.classes.FloatLabeledEditText>
 
-
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
 
 

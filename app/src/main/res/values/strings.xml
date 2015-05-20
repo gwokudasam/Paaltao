@@ -51,13 +51,10 @@
     <string name="changelog_show_full">More…</string>
     <string name="item_quantity">qty :</string>
     <string-array name="quantity">
-            <item>Handmade</item>
-            <item>Sports</item>
-            <item>Vintage</item>
-            <item>Photography</item>
-            <item>Paintings</item>
-            <item>Electronics</item>
-            <item>Others</item>
+            <item>Handicraft</item>
+            <item>Art &amp; Craft</item>
+            <item>Antique</item>
+            <item>Handmade Apparel</item>
     </string-array>
     <string name="title_activity_open_shop">OpenShopActivity</string>
     <string name="shop_cover_image">Shop cover image</string>
@@ -97,6 +94,8 @@
     <string name="trending_shop_image">Trending Shop Image</string>
     <string name="title_activity_paaltao_info">PaaltaoInfo</string>
     <string name="title_activity_notification">NotificationActivity</string>
+    <string name="product_weight">Product Weight in grams</string>
+    <string name="product_quantity">Product Quantity</string>
 
 
 </resources>

@@ -1,11 +1,14 @@
 package com.paaltao.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.SharedPreferenceClass;
@@ -30,7 +38,8 @@ import me.relex.circleindicator.CircleIndicator;
 
 import static com.sromku.simple.fb.Permission.*;
 
-public class IntroPageActivity extends ActionBarActivity {
+public class IntroPageActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener{
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
 
@@ -44,7 +53,14 @@ public class IntroPageActivity extends ActionBarActivity {
     String token;
     SharedPreferenceClass preferenceClass;
     Context mContext;
-
+    private static final int STATE_DEFAULT = 0;
+    private static final int STATE_SIGN_IN = 1;
+    private static final int STATE_IN_PROGRESS = 2;
+    private static final String SAVED_PROGRESS = "sign_in_progress";
+    private GoogleApiClient mGoogleApiClient;
+    private int mSignInProgress;
+    private PendingIntent mSignInIntent;
+    public static String username;
 
 
 
@@ -58,6 +74,15 @@ public class IntroPageActivity extends ActionBarActivity {
         }
         initialize();
         onClick();
+
+        gplusBtn.setOnClickListener(this);
+        if (savedInstanceState != null)
+        {
+            mSignInProgress = savedInstanceState.getInt(
+                    SAVED_PROGRESS, STATE_DEFAULT);
+        }
+        mGoogleApiClient = buildGoogleApiClient();
+
 
         if(token != null && token.length() != 0 ){
             Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
@@ -129,6 +154,36 @@ public class IntroPageActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+
+    }
+
+
+    private GoogleApiClient buildGoogleApiClient()
+    {
+        return new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+
+        if (mGoogleApiClient.isConnected())
+        {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -148,7 +203,26 @@ public class IntroPageActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data);
+        switch (requestCode)
+        {
+            case 0:
+                if (resultCode == RESULT_OK)
+                {
+                    mSignInProgress = STATE_SIGN_IN;
+                }
+                else
+                {
+                    mSignInProgress = STATE_DEFAULT;
+                }
+                if (!mGoogleApiClient.isConnecting())
+                {
+                    mGoogleApiClient.connect();
+                }
+                break;
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     OnLoginListener onLoginListener = new OnLoginListener() {
@@ -235,4 +309,84 @@ public class IntroPageActivity extends ActionBarActivity {
     };
 
 
+    private void resolveSignInError()
+    {
+        if (mSignInIntent != null)
+        {
+            try
+            {
+                mSignInProgress = STATE_IN_PROGRESS;
+                startIntentSenderForResult(
+                        mSignInIntent.getIntentSender(), 0,
+                        null, 0, 0, 0);
+            }
+            catch (IntentSender.SendIntentException e)
+            {
+                Log.i("Log error",
+                        "Sign in intent could not be sent: "
+                                + e.getLocalizedMessage());
+                mSignInProgress = STATE_SIGN_IN;
+                mGoogleApiClient.connect();
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Error signing in", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        gplusBtn.setEnabled(false);
+
+        Person currentUser = Plus.PeopleApi
+                .getCurrentPerson(mGoogleApiClient);
+        username = currentUser.getDisplayName();
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Welcome " + username, Toast.LENGTH_LONG);
+
+        toast.setGravity(Gravity.CENTER, 0, -150);
+        toast.show();
+        mSignInProgress = STATE_DEFAULT;
+        Intent i = new Intent(getApplicationContext(),
+                HomeActivity.class);
+        i.putExtra("username", currentUser.getDisplayName());
+        startActivity(i);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (!mGoogleApiClient.isConnecting())
+        {
+            switch (v.getId())
+            {
+                case R.id.google_login:
+                    resolveSignInError();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+
+        if (mSignInProgress != STATE_IN_PROGRESS)
+        {
+            mSignInIntent = connectionResult.getResolution();
+            if (mSignInProgress == STATE_SIGN_IN)
+            {
+                resolveSignInError();
+            }
+        }
+    }
 }

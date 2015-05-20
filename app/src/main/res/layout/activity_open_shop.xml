@@ -153,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Shop url(www.paaltao.com/shop url)"
-                    android:id="@+id/shop_link"
+                    android:id="@+id/shop_url"
                     android:inputType="text"
                     android:padding="14dp"
                     android:fontFamily="sans-serif-light"

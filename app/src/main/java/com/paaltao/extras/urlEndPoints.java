@@ -8,6 +8,8 @@ public class urlEndPoints {
     public static final String UAT_BASE_URL = "http://dev.paaltao.com/index.php/mobileApp/index/";
     public static final String LOGIN = "login";
     public static final String SIGN_UP = "signup";
+    public static final String OPEN_SHOP = "openShop";
+    public static final String ADD_PRODUCT = "addProduct";
     public static final String FEATURED_LIST = "getFeaturedList";
     public static final String TRENDING_SHOP_LIST = "getTrendingShopList";
     public static final String CATEGORY_LIST ="categoryList";

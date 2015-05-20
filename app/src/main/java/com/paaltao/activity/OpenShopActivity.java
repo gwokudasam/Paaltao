@@ -7,27 +7,68 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
 import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.network.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ACCESS_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_DATA;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_EMAIL;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_HAS_SHOP;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_OPEN_SHOP;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SELLER_ID;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_IN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
+import static com.paaltao.extras.urlEndPoints.BASE_URL;
+import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
+import static com.paaltao.extras.urlEndPoints.SIGN_UP;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class OpenShopActivity extends ActionBarActivity implements ImageChooserListener {
     Button selectCoverButton;
     private  ImageChooserManager imageChooserManager;
-    String imagePath;
+    String imagePath,sellerID,accessToken,encodedImage;
     ImageView coverImageArea;
     private SweetAlertDialog dialog;
+    private Bitmap myBitmap;
+    private EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL;
+    SharedPreferenceClass preferenceClass;
 
 
     @Override
@@ -43,7 +84,6 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
         onItemClick();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -58,6 +98,12 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_launch){
+            if (validationCheck()) {
+                sendJsonRequest();
+            }
+        }
+
         //noinspection SimplifiableIfStatement
 
 
@@ -67,7 +113,108 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
     public void initialize(){
         selectCoverButton = (Button)findViewById(R.id.select_cover_button);
         coverImageArea = (ImageView)findViewById(R.id.shop_cover_image);
+        shopName = (EditText)findViewById(R.id.shop_name);
+        aboutShop = (EditText)findViewById(R.id.about_shop);
+        contactNo = (EditText)findViewById(R.id.shop_contact);
+        shopAddress = (EditText)findViewById(R.id.shop_street_name);
+        city = (EditText)findViewById(R.id.shop_city_name);
+        state = (EditText)findViewById(R.id.shop_state);
+        postalCode = (EditText)findViewById(R.id.shop_pincode);
+        shopURL = (EditText)findViewById(R.id.shop_url);
+
+        preferenceClass = new SharedPreferenceClass(this);
     }
+
+    public boolean validationCheck(){
+
+        if(shopName.getText().toString().length() == 0)
+            shopName.setError("Please provide a shop name");
+        else if (aboutShop.getText().toString().length() == 0)
+            aboutShop.setError("Please provide some info about your shop");
+        else if(contactNo.getText().toString().length() == 0 && contactNo.getText().toString().length()>10)
+            contactNo.setError("Please provide 10 digit contact number");
+        else if(postalCode.getText().toString().length() == 0)
+            postalCode.setError("Please provide a postal code");
+        else if(shopURL.getText().toString().length() == 0 && shopURL.getText().toString().contains("."))
+            shopURL.setError("Please provide a shop url");
+        else return true;
+        return false;
+    }
+
+    public void sendJsonRequest(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject openShop = new JSONObject();
+        try{
+            jsonObject.put("accessToken","67drd56g");
+            jsonObject.put("merchantName","Arindam Dawn");
+            jsonObject.put("userEmail","arindamdawn3@gmail.com");
+            jsonObject.put("shopName",shopName.getText().toString());
+            jsonObject.put("aboutShop",aboutShop.getText().toString());
+            jsonObject.put("contactNo",contactNo.getText().toString());
+            jsonObject.put("street",shopAddress.getText().toString());
+            jsonObject.put("city",city.getText().toString());
+            jsonObject.put("state",city.getText().toString());
+            jsonObject.put("country","India");
+            jsonObject.put("pincode",postalCode.getText().toString());
+            jsonObject.put("shopUrl",shopURL.getText().toString());
+            jsonObject.put("coverImage","");
+            openShop.put("openShop", jsonObject);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),openShop,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                Log.e("error",jsonObject.toString());
+                Log.e("json",openShop.toString());
+
+
+
+                parseJSONResponse(jsonObject);
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(OpenShopActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    public static String getRequestUrl() {
+
+        return UAT_BASE_URL
+                + OPEN_SHOP;
+
+    }
+
 
     public void onItemClick(){
         selectCoverButton.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +227,69 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
         });
 
     }
+
+    public void parseJSONResponse(JSONObject jsonObject) {
+        if (jsonObject == null || jsonObject.length() == 0) {
+            return;
+        }
+        try {
+            JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
+            JSONObject openShopObject = dataObject.getJSONObject(KEY_OPEN_SHOP);
+            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+
+
+            sellerID = openShopObject.getString(KEY_SELLER_ID);
+            accessToken = openShopObject.getString(KEY_ACCESS_TOKEN);
+
+
+
+            String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
+            String message = errorNodeObject.getString(KEY_MESSAGE);
+
+            if (message.contains("Already Registered")){
+                new SnackBar.Builder(OpenShopActivity.this)
+                        .withMessage("A shop already exist with this username")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+            else{
+                new SnackBar.Builder(OpenShopActivity.this)
+                        .withMessage("Congrats! Shop Created")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+                preferenceClass.saveVendorLoginSuccess("true");
+                Intent intent = new Intent(OpenShopActivity.this,HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+//
+//
+//            if (accessToken!= null && accessToken.length()!=0){
+////                preferenceClass.saveAccessToken(token);
+////                preferenceClass.saveUserEmail(emailId);
+//
+//                Intent intent = new Intent(OpenShopActivity.this,ShopActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//                finish();
+//            }
+//            else {
+//                new SnackBar.Builder(OpenShopActivity.this)
+//                        .withMessage("Shop URL exists! Please provide a new one")
+//                        .withTextColorId(R.color.white)
+//                        .withDuration((short) 6000)
+//                        .show();
+//            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     public void chooseImage(){
         imageChooserManager = new ImageChooserManager(this,
                 ChooserType.REQUEST_PICK_PICTURE);
@@ -139,9 +349,10 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
                 if (image != null) {
                     // Use the image
                     imagePath = image.getFileThumbnail();
+
                     Log.d("TAG","PATH is"+imagePath);
 
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imagePath);
+                    myBitmap = BitmapFactory.decodeFile(imagePath);
 
                     ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
 
@@ -158,6 +369,7 @@ public class OpenShopActivity extends ActionBarActivity implements ImageChooserL
             }
         });
     }
+
 
     @Override
     public void onError(final String reason) {

@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,11 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
     RelativeLayout overlay;
     String vendor_login;
     SharedPreferenceClass preferenceClass;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +127,14 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
             vendor_login = preferenceClass.getVendorLoginSuccess();}
 
         if(vendor_login != null){
+            Log.i("vendor_login",vendor_login);
             if(vendor_login.contains("true")){
-                actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+
+                openShop.setVisibility(openShop.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
             }
             else {
-                openShop.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                Log.e("vendor_login",vendor_login);
+                actionB.setVisibility(actionB.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
             }
 
         }

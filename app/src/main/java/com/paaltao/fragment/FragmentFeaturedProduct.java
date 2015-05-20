@@ -104,9 +104,9 @@ public class FragmentFeaturedProduct extends Fragment {
                 featuredProductAdapter.setProductArrayList(productArrayList);
                 Log.e("productArray",productArrayList.toString());
 
-                Log.e("url",UAT_BASE_URL+FEATURED_LIST);
-                Log.e("error", jsonObject.toString());
-                Log.e("json", getFeaturedList.toString());
+//                Log.e("url",UAT_BASE_URL+FEATURED_LIST);
+//                Log.e("error", jsonObject.toString());
+//                Log.e("json", getFeaturedList.toString());
             }
         }, new Response.ErrorListener() {
             @Override

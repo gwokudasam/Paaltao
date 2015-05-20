@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,12 +26,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.Adapters.TrendingShopAdapter;
 import com.paaltao.R;
-import com.paaltao.activity.HomeActivity;
-import com.paaltao.activity.ProductListActivity;
-import com.paaltao.activity.ShopActivity;
+import com.paaltao.activity.MyShopActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
-import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -40,21 +36,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.paaltao.extras.Keys.ProductList.KEY_DATA;
 import static com.paaltao.extras.Keys.ProductList.KEY_ERROR_CODE;
-import static com.paaltao.extras.Keys.ProductList.KEY_FEATURED_LIST;
-import static com.paaltao.extras.Keys.ProductList.KEY_IS_LIKED;
-import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_DESCRIPTION;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_ID;
-import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_IMAGE;
-import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_NAME;
-import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_PRICE;
 import static com.paaltao.extras.Keys.ProductList.KEY_SHOP_IMAGE;
 import static com.paaltao.extras.Keys.ProductList.KEY_SHOP_NAME;
 import static com.paaltao.extras.Keys.ProductList.KEY_TRENDING_SHOP_LIST;
-import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.TRENDING_SHOP_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
@@ -65,7 +53,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     TrendingShopAdapter trendingShopAdapter;
-    ShopActivity activity;
+    MyShopActivity activity;
     private ImageView favorite;
     private ArrayList<Product> trendingShopList = new ArrayList<>();
     String accessToken = "67drd56g",shopName,shopImageUrl;
@@ -114,9 +102,9 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
                   trendingShopAdapter.setShopArrayList(trendingShopList);
                   Log.e("productArray", trendingShopList.toString());
 
-                Log.e("url",UAT_BASE_URL+TRENDING_SHOP_LIST);
-                Log.e("error", jsonObject.toString());
-                Log.e("json", trendingShopList.toString());
+//                Log.e("url",UAT_BASE_URL+TRENDING_SHOP_LIST);
+//                Log.e("error", jsonObject.toString());
+//                Log.e("json", trendingShopList.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -191,6 +179,6 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
 
     @Override
     public void itemClicked(View view, int position) {
-        startActivity(new Intent(getActivity(),ShopActivity.class));
+        startActivity(new Intent(getActivity(),MyShopActivity.class));
     }
 }

@@ -1,6 +1,5 @@
 package com.paaltao.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +8,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.paaltao.R;
-import com.paaltao.fragment.ShopInfoFragment;
 import com.paaltao.fragment.ShopProductFragment;
 import com.paaltao.fragment.ShopStoryFragment;
 
@@ -21,7 +17,7 @@ import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
-public class ShopActivity extends ActionBarActivity implements MaterialTabListener {
+public class MyShopActivity extends ActionBarActivity implements MaterialTabListener {
     private ViewPager pager;
     private ViewPagerAdapter pagerAdapter;
     MaterialTabHost tabHost;
@@ -86,8 +82,6 @@ public class ShopActivity extends ActionBarActivity implements MaterialTabListen
                     return new ShopProductFragment();
                 case 1:
                     return new ShopStoryFragment();
-                case 2:
-                    return new ShopInfoFragment();
 
 
             }
@@ -96,7 +90,7 @@ public class ShopActivity extends ActionBarActivity implements MaterialTabListen
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
@@ -114,9 +108,6 @@ public class ShopActivity extends ActionBarActivity implements MaterialTabListen
                 return "Products";
             case 1:
                 return "Story";
-            case 2:
-                return "Shipping";
-
 
         }
         return null;

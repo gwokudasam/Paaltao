@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -39,7 +37,7 @@ public class ManageShopActivity extends ActionBarActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManageShopActivity.this,ShopActivity.class);
+                Intent intent = new Intent(ManageShopActivity.this,MyShopActivity.class);
                 startActivity(intent);
             }
         });

@@ -12,16 +12,39 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
 import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.paaltao.R;
+import com.paaltao.logging.L;
+import com.paaltao.network.VolleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.paaltao.extras.urlEndPoints.ADD_PRODUCT;
+import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class AddProductActivity extends ActionBarActivity implements ImageChooserListener{
     private ImageChooserManager imageChooserManager;
@@ -29,6 +52,8 @@ public class AddProductActivity extends ActionBarActivity implements ImageChoose
     ImageView product_select1,product_select2,product_select3,product_select4;
     private SweetAlertDialog dialog;
     private int item;
+    private EditText productName,productPrice,shippingPrice,productDescription,productWeight,productQuantity,shippingDetails;
+    private Spinner category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +94,10 @@ public class AddProductActivity extends ActionBarActivity implements ImageChoose
 
         //noinspection SimplifiableIfStatement
        switch (id){
-           case R.id.home:
-               finish();
+           case R.id.action_done:
+               if (validationCheck()) {
+                   sendJsonRequest();
+               }
        }
         return super.onOptionsItemSelected(item);
     }
@@ -81,7 +108,109 @@ public class AddProductActivity extends ActionBarActivity implements ImageChoose
         product_select2 = (ImageView)findViewById(R.id.product_pic2);
         product_select3 = (ImageView)findViewById(R.id.product_pic3);
         product_select4 = (ImageView)findViewById(R.id.product_pic4);
+        productName = (EditText)findViewById(R.id.product_name);
+        productPrice = (EditText)findViewById(R.id.product_price);
+        productQuantity = (EditText)findViewById(R.id.product_quantity);
+        productDescription = (EditText)findViewById(R.id.product_description);
+        productWeight = (EditText)findViewById(R.id.product_weight);
+        category = (Spinner)findViewById(R.id.category_selector);
+        shippingPrice = (EditText)findViewById(R.id.shipping_price);
+        shippingDetails = (EditText)findViewById(R.id.shipping_details);
+
     }
+
+    public boolean validationCheck(){
+        if(productName.getText().toString().length() == 0)
+            productName.setError("Please provide a product name");
+        else if (productDescription.getText().toString().length() == 0)
+            productDescription.setError("Please provide some info about your product");
+        else if(productQuantity.getText().toString().length() == 0)
+            productQuantity.setError("Please provide product quantity");
+        else if(productWeight.getText().toString().length() == 0)
+            productWeight.setError("Please provide product weight");
+        else if (shippingPrice.getText().toString().length() == 0)
+            shippingPrice.setError("Please provide a shipping price");
+        else if (productPrice.getText().toString().length() == 0)
+            productPrice.setError("Please provide a product price");
+        else if (shippingDetails.getText().toString().length() == 0)
+            shippingDetails.setError("Please provide shipping details");
+        else return true;
+        return false;
+    }
+    public void sendJsonRequest(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject addProduct = new JSONObject();
+        final JSONArray images = new JSONArray();
+        try{
+            jsonObject.put("accessToken","67drd56g");
+            jsonObject.put("name",productName.getText());
+            jsonObject.put("description",productDescription.getText());
+            jsonObject.put("weight",productWeight.getText());
+            jsonObject.put("quantity",productQuantity.getText());
+            jsonObject.put("price",productPrice.getText());
+            jsonObject.put("category",category.getSelectedItem().toString());
+            jsonObject.put("shippingCost",shippingPrice.getText());
+            jsonObject.put("shippingDetails",shippingDetails.getText());
+            images.put("");
+            jsonObject.put("images",images);
+            addProduct.put("addProduct", jsonObject);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),addProduct,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                Log.e("error",jsonObject.toString());
+                Log.e("json", addProduct.toString());
+
+
+
+
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(AddProductActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    public static String getRequestUrl() {
+
+        return UAT_BASE_URL
+                + ADD_PRODUCT;
+
+    }
+
+
 
     public void onItemClick(){
         product_select1.setOnClickListener(new View.OnClickListener() {
