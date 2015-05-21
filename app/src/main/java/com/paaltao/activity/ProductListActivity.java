@@ -3,6 +3,7 @@ package com.paaltao.activity;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +51,7 @@ import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class ProductListActivity extends ActionBarActivity {
+public class ProductListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private JSONArray productListArray;

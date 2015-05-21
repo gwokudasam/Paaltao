@@ -49,15 +49,31 @@
                         android:textColor="@color/black"
                         android:fontFamily="sans-serif-light" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/product_price"
-                        android:text="INR 1200"
+                        android:id="@+id/currency"
+                        android:text="@string/Rs"
                         android:padding="10dp"
-                        android:gravity="center_horizontal"
                         android:textSize="25sp"
                         android:textColor="@color/lightGreen"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/product_price"
+                        android:text="1200"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="25sp"
+                        android:textColor="@color/lightGreen"/>
+                </LinearLayout>
 
                     <View
                         android:layout_width="fill_parent"
@@ -71,7 +87,8 @@
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
                         android:paddingBottom="10dp"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        tools:visibility="gone"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -79,6 +96,7 @@
                         android:padding="16dp"
                         android:text="This is one of most traditional products crafted in India. The product has been created using melted glass, ceramiv and other materials"
                         android:textSize="20sp"
+                        tools:visibility="gone"
                         android:fontFamily="sans-serif-light"/>
 
                     <View
@@ -104,27 +122,31 @@
                             android:orientation="horizontal"
                             android:layout_alignParentRight="true"
                             android:paddingTop="16dp"
+                            android:paddingRight="16dp"
                             android:paddingBottom="16dp">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="16dp"
-                                android:paddingRight="16dp"
-                                android:src="@drawable/ic_remove_circle_outline_grey"/>
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/remove_quantity"
+                                android:layout_marginRight="14dp"
+                                android:layout_marginTop="3dp"
+                                android:src="@drawable/ic_remove_circle_outline_grey" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1"
+                                android:paddingTop="4dp"
                                 android:textSize="18sp"/>
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="16dp"
-                                android:paddingRight="16dp"
-                                android:src="@drawable/ic_add_circle_outline_grey"/>
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/add_quantity"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginLeft="14dp"
+                                android:src="@drawable/ic_add_circle_outline_grey" />
                         </LinearLayout>
 
 
@@ -170,7 +192,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        tools:visibility="gone">
 
 
 
@@ -195,13 +218,13 @@
             android:visibility="invisible"
             android:layout_centerHorizontal="true"/>
         <TextView
-            android:id="@+id/reviews"
+            android:id="@+id/share_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textColor="@color/black99"
             android:background="@color/greenMaterial"
-            android:text="reviews"
+            android:text="share"
             android:textSize="18sp"
             android:layout_toRightOf="@+id/centerShim"
             android:layout_alignParentRight="true"

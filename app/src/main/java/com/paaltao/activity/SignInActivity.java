@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.LOGIN;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class SignInActivity extends ActionBarActivity {
+public class SignInActivity extends AppCompatActivity {
     Button SignUpBtn;
     Button SignInBtn;
     ProgressWheel progressBar;

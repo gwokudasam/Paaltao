@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -46,7 +47,7 @@ import static com.paaltao.extras.urlEndPoints.ADD_PRODUCT;
 import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class AddProductActivity extends ActionBarActivity implements ImageChooserListener{
+public class AddProductActivity extends AppCompatActivity implements ImageChooserListener{
     private ImageChooserManager imageChooserManager;
     String imagePath;
     ImageView product_select1,product_select2,product_select3,product_select4;
@@ -68,7 +69,6 @@ public class AddProductActivity extends ActionBarActivity implements ImageChoose
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("Add a product");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initialize();
         onItemClick();
 

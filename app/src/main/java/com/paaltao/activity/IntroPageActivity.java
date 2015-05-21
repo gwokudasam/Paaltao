@@ -7,6 +7,7 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 import static com.sromku.simple.fb.Permission.*;
 
-public class IntroPageActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class IntroPageActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
@@ -354,7 +355,9 @@ public class IntroPageActivity extends ActionBarActivity implements GoogleApiCli
         Intent i = new Intent(getApplicationContext(),
                 HomeActivity.class);
         i.putExtra("username", currentUser.getDisplayName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+        finish();
     }
 
     @Override

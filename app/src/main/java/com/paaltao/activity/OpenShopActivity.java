@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -60,7 +61,7 @@ import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
 import static com.paaltao.extras.urlEndPoints.SIGN_UP;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class OpenShopActivity extends ActionBarActivity implements ImageChooserListener {
+public class OpenShopActivity extends AppCompatActivity implements ImageChooserListener {
     Button selectCoverButton;
     private  ImageChooserManager imageChooserManager;
     String imagePath,sellerID,accessToken,encodedImage;

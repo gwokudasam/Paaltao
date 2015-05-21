@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.paaltao.R;
 
-public class ManageShopActivity extends ActionBarActivity {
+public class ManageShopActivity extends AppCompatActivity {
     RelativeLayout layout,layout1,layout2,layout3;
 
     @Override
@@ -46,6 +47,14 @@ public class ManageShopActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManageShopActivity.this,AddProductActivity.class);
                 startActivity(intent);
+            }
+        });
+        layout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManageShopActivity.this,OpenShopActivity.class);
+                startActivity(intent);
+                intent.putExtra("editShop",true);
             }
         });
 

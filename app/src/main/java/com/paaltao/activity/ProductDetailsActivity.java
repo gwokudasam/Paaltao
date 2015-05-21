@@ -5,23 +5,47 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.classes.BadgeView;
+import com.paaltao.classes.Product;
+import com.paaltao.network.VolleySingleton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ProductDetailsActivity extends ActionBarActivity implements BaseSliderView.OnSliderClickListener{
+import static com.paaltao.extras.urlEndPoints.PRODUCT_DETAILS;
+import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
+
+public class ProductDetailsActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener{
 
     TextView shipping,reviews;
     Menu badge_menu;
@@ -29,6 +53,8 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
     int badge_item_id_cart;
     View target_cart;
     BadgeView badge_cart;
+    String accessToken = "67drd56g";
+    private ArrayList<Product> productArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +63,7 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
         SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle("");
         this.setSupportActionBar(toolbar);
 
 
@@ -132,10 +158,70 @@ public class ProductDetailsActivity extends ActionBarActivity implements BaseSli
         return super.onOptionsItemSelected(item);
     }
 
+    public static String getRequestUrl() {
+
+        return UAT_BASE_URL
+                + PRODUCT_DETAILS;
+
+    }
+
+    public void sendJsonRequest(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject productDetails = new JSONObject();
+        try{
+            jsonObject.put("accessToken",accessToken);
+            jsonObject.put("id","3");
+            productDetails.put("getProductDetails",jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(),productDetails, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+               // productArrayList = parseJsonResponse(jsonObject);
+                Log.e("productArray", productArrayList.toString());
+
+                Log.e("url",UAT_BASE_URL+PRODUCT_LIST);
+                Log.e("error", jsonObject.toString());
+                Log.e("json", productDetails.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(ProductDetailsActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+
     public void initialize() // Method to initialize all variables
     {
         shipping = (TextView)findViewById(R.id.shipping);
-        reviews = (TextView)findViewById(R.id.reviews);
+        reviews = (TextView)findViewById(R.id.share_product);
 
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class CartActivity extends ActionBarActivity {
+public class CartActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     ImageView addQuantity,removeQuantity;
@@ -42,10 +43,7 @@ public class CartActivity extends ActionBarActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
-        Toolbar toolbar1 = (Toolbar)this.findViewById(R.id.toolbar_bottom);
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar1.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar1.setTitle("Checkout");
         this.setSupportActionBar(toolbar);
         this.setTitle("Your Cart");
 

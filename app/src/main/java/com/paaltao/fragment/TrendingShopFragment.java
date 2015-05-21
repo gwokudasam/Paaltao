@@ -179,6 +179,9 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
 
     @Override
     public void itemClicked(View view, int position) {
-        startActivity(new Intent(getActivity(),MyShopActivity.class));
+
+        startActivity(new Intent(getActivity(), MyShopActivity.class));
     }
+
+
 }

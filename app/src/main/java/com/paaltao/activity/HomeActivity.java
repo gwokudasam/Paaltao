@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -39,7 +40,7 @@ import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
 
-public class HomeActivity extends ActionBarActivity implements MaterialTabListener {
+public class HomeActivity extends AppCompatActivity implements MaterialTabListener {
     private ViewPager pager;
     private ViewPagerAdapter pagerAdapter;
     MaterialTabHost tabHost;
@@ -77,6 +78,8 @@ public class HomeActivity extends ActionBarActivity implements MaterialTabListen
         });
 
         toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        toolbar.setTitle("");
+        toolbar.setLogo(R.drawable.ic_launcher);
         this.setSupportActionBar(toolbar);
 
 //        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {

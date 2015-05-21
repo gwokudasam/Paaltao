@@ -48,7 +48,7 @@
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
-        app:fab_addButtonColorNormal="@color/lightGreen">
+        app:fab_addButtonColorNormal="@color/teal">
 
 
         <com.paaltao.classes.FloatingActionButton

@@ -48,8 +48,8 @@ public class ShopProductFragment extends Fragment {
 
     public static List<Product> getData(){
         ArrayList data = new ArrayList();
-        int[] icons = {R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,
-                R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small,R.drawable.apple_small};
+        int[] icons = {R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,
+                R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher,R.drawable.ic_launcher};
         String[] product_names = {"Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone",
                 "Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone","Automatic Drone"};
         String[] categories = {"Handmade","Photography","Electronics","Electronics","Electronics","Electronics","Electronics",

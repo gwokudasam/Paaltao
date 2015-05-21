@@ -14,5 +14,6 @@ public class urlEndPoints {
     public static final String TRENDING_SHOP_LIST = "getTrendingShopList";
     public static final String CATEGORY_LIST ="categoryList";
     public static final String PRODUCT_LIST = "productList";
+    public static final String PRODUCT_DETAILS = "getProductDetails";
 
 }

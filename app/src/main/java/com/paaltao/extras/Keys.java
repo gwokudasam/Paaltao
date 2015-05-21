@@ -40,6 +40,12 @@ public interface Keys {
         public static final String KEY_CATEGORY_IMAGE = "image";
         public static final String KEY_CATEGORY_ID = "id";
         public static final String KEY_PRODUCT_LIST = "productList";
+        public static final String KEY_PRODUCT_IMAGES = "productImages";
+        public static final String KEY_SHIPPING_DETAILS = "shippingDetails";
+        public static final String KEY_REVIEWS = "reviews";
+        public static final String KEY_AVERAGE_RATING = "avg_rating_in_percet";
+        public static final String KEY_COMMENT = "comment";
+        public static final String KEY_DATE = "date";
 
 
 

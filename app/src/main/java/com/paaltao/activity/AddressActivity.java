@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,7 @@ import com.paaltao.classes.Address;
 
 import java.util.ArrayList;
 
-public class AddressActivity extends ActionBarActivity {
+public class AddressActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
@@ -37,7 +38,6 @@ public class AddressActivity extends ActionBarActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("My Address");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +51,7 @@ import static com.paaltao.extras.urlEndPoints.CATEGORY_LIST;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class CategoryActivity extends ActionBarActivity implements CategoryAdapter.ClickListener{
+public class CategoryActivity extends AppCompatActivity implements CategoryAdapter.ClickListener{
 
     private RecyclerView mRecyclerView;
     Long id;
