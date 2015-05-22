@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.sromku.simple.fb.utils.Utils;
 import java.util.Vector;
 
 import de.cketti.library.changelog.ChangeLog;
+import eu.inloop.easygcm.GcmHelper;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.sromku.simple.fb.Permission.*;
@@ -43,6 +45,8 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         View.OnClickListener{
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
+
 
 
     ViewPager pagercontainer;
@@ -54,6 +58,8 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     String token;
     SharedPreferenceClass preferenceClass;
     Context mContext;
+    int heightPixels,widthPixels,densityDpi;
+    float density;
     private static final int STATE_DEFAULT = 0;
     private static final int STATE_SIGN_IN = 1;
     private static final int STATE_IN_PROGRESS = 2;
@@ -74,6 +80,8 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             cl.getLogDialog().show();
         }
         initialize();
+
+        GcmHelper.init(this);
         onClick();
 
         gplusBtn.setOnClickListener(this);
@@ -158,6 +166,16 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
 
     }
+    public void getScreenInfo(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        heightPixels = metrics.heightPixels;
+        widthPixels = metrics.widthPixels;
+        density = metrics.density;
+        densityDpi = metrics.densityDpi;
+    }
+
 
 
     private GoogleApiClient buildGoogleApiClient()

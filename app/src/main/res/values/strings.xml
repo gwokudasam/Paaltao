@@ -38,6 +38,7 @@
     <string name="shipping_title">Shipping</string>
     <string name="category_image_text">category image</string>
     <string name="cart_icon">cart icon</string>
+    <string name="easygcm_sender_id">172987161234</string>
     <string name="title_activity_swipe_refresh">SwipeRefreshActivity</string>
     <string name="title_activity_cart">CartActivity</string>
     <string name="checkout_text">Checkout</string>

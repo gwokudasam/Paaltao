@@ -1,5 +1,6 @@
 package com.paaltao.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_IMAGE;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_LIST;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_NAME;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_PRICE;
+import static com.paaltao.extras.Keys.ProductList.KEY_SHOP_NAME;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
@@ -59,7 +61,7 @@ public class ProductListActivity extends AppCompatActivity {
     FeaturedProductAdapter featuredProductAdapter;
     private ImageView favorite;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    String accessToken = "67drd56g",productName,description,imageURL,price,isLiked;
+    String accessToken = "67drd56g",productName,description,imageURL,price,isLiked,catId,shopName;
     Long id;
 
 
@@ -75,6 +77,9 @@ public class ProductListActivity extends AppCompatActivity {
         featuredProductAdapter = new FeaturedProductAdapter(this,activity);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(featuredProductAdapter);
+
+        Intent intent = getIntent();
+        catId = intent.getStringExtra("catId");
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -95,7 +100,7 @@ public class ProductListActivity extends AppCompatActivity {
         final JSONObject productList = new JSONObject();
         try{
             jsonObject.put("accessToken",accessToken);
-            jsonObject.put("id","3");
+            jsonObject.put("id",catId);
             productList.put("productList",jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -110,6 +115,7 @@ public class ProductListActivity extends AppCompatActivity {
                 Log.e("productArray", productArrayList.toString());
 
                 Log.e("url",UAT_BASE_URL+PRODUCT_LIST);
+                Log.e("id",catId);
                 Log.e("error", jsonObject.toString());
                 Log.e("json", productList.toString());
             }
@@ -161,6 +167,7 @@ public class ProductListActivity extends AppCompatActivity {
                         description = featuredProductObject.getString(KEY_PRODUCT_DESCRIPTION);
                         imageURL = featuredProductObject.getString(KEY_PRODUCT_IMAGE);
                         isLiked = featuredProductObject.getString(KEY_IS_LIKED);
+                        shopName = featuredProductObject.getString(KEY_SHOP_NAME);
                         price = featuredProductObject.getString(KEY_PRODUCT_PRICE);
 
 
@@ -170,6 +177,7 @@ public class ProductListActivity extends AppCompatActivity {
                         product.setPrice(price);
                         product.setIs_liked(isLiked);
                         product.setImageURL(imageURL);
+                        product.setShop_name(shopName);
 
                         productArrayList.add(product);
 

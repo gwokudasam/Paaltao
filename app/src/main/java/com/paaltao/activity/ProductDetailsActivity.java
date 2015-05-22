@@ -28,6 +28,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
@@ -53,7 +54,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     int badge_item_id_cart;
     View target_cart;
     BadgeView badge_cart;
-    String accessToken = "67drd56g";
+    String accessToken = "67drd56g",productId;
     private ArrayList<Product> productArrayList = new ArrayList<>();
 
     @Override
@@ -61,6 +62,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+
+        Intent intent = getIntent();
+        productId = intent.getStringExtra("productId");
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitle("");
@@ -73,20 +77,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         url_maps.put("House of Cards", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1189.jpg");
         url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
-//        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-//        file_maps.put("Hannibal",R.drawable.apple_small);
-//        file_maps.put("Big Bang Theory",R.drawable.apple_small);
-//        file_maps.put("House of Cards",R.drawable.apple_small);
-//        file_maps.put("Game of Thrones", R.drawable.apple_small);
 
         for(String name : url_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
+            DefaultSliderView sliderView = new DefaultSliderView(this);
             // initialize a SliderLayout
-            textSliderView
+            sliderView
                     .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                     .setOnSliderClickListener(this);
-            mDemoSlider.addSlider(textSliderView);
+            mDemoSlider.addSlider(sliderView);
         }
         mDemoSlider.stopAutoCycle();
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
@@ -170,7 +169,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         final JSONObject productDetails = new JSONObject();
         try{
             jsonObject.put("accessToken",accessToken);
-            jsonObject.put("id","3");
+            jsonObject.put("id",productId);
             productDetails.put("getProductDetails",jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -185,6 +184,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
 
                 Log.e("url",UAT_BASE_URL+PRODUCT_LIST);
                 Log.e("error", jsonObject.toString());
+                Log.e("id",productId);
                 Log.e("json", productDetails.toString());
             }
         }, new Response.ErrorListener() {

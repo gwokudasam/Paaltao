@@ -1,5 +1,6 @@
 package com.paaltao.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,8 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
 import com.paaltao.activity.HomeActivity;
+import com.paaltao.activity.MyShopActivity;
+import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
@@ -54,7 +57,7 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 /**
  * Created by Arindam Dawn on 28-Jan-15.
  */
-public class FragmentFeaturedProduct extends Fragment {
+public class FragmentFeaturedProduct extends Fragment implements FeaturedProductAdapter.ClickListener{
     private RecyclerView mRecyclerView;
     private JSONArray featuredListArray;
     ProductListActivity activity;
@@ -75,6 +78,7 @@ public class FragmentFeaturedProduct extends Fragment {
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
         mRecyclerView.setAdapter(featuredProductAdapter);
+        featuredProductAdapter.setClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return layout;
     }
@@ -186,4 +190,11 @@ public class FragmentFeaturedProduct extends Fragment {
     }
 
 
+    @Override
+    public void itemClicked(View view, int position) {
+        Long product_id = productArrayList.get(position).getProduct_id();
+        Intent intent = new Intent(getActivity(),ProductDetailsActivity.class);
+        intent.putExtra("productId", product_id.toString());
+        startActivity(intent);
+    }
 }

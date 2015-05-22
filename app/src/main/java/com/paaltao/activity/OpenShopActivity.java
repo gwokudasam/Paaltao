@@ -41,6 +41,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -158,6 +162,9 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             jsonObject.put("country","India");
             jsonObject.put("pincode",postalCode.getText().toString());
             jsonObject.put("shopUrl",shopURL.getText().toString());
+            if (encodedImage != null){
+            jsonObject.put("coverImage",encodedImage);}
+            else
             jsonObject.put("coverImage","");
             openShop.put("openShop", jsonObject);
 
@@ -173,7 +180,11 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             public void onResponse(JSONObject jsonObject) {
 
                 Log.e("error",jsonObject.toString());
-                Log.e("json",openShop.toString());
+                Log.e("json", openShop.toString());
+                if (encodedImage != null){
+                    Log.e("base64",encodedImage);
+                }
+
 
 
 
@@ -265,24 +276,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                 startActivity(intent);
                 finish();
             }
-//
-//
-//            if (accessToken!= null && accessToken.length()!=0){
-////                preferenceClass.saveAccessToken(token);
-////                preferenceClass.saveUserEmail(emailId);
-//
-//                Intent intent = new Intent(OpenShopActivity.this,ShopActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//                finish();
-//            }
-//            else {
-//                new SnackBar.Builder(OpenShopActivity.this)
-//                        .withMessage("Shop URL exists! Please provide a new one")
-//                        .withTextColorId(R.color.white)
-//                        .withDuration((short) 6000)
-//                        .show();
-//            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -361,6 +355,28 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
 
                     coverImageArea.setVisibility(View.VISIBLE);
                     dialog.hide();
+                    dialog.dismiss();
+
+                    InputStream inputStream = null;//You can get an inputStream using any IO API
+                    try {
+                        inputStream = new FileInputStream(imagePath);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    byte[] bytes;
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    try {
+                        assert inputStream != null;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            output.write(buffer, 0, bytesRead);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    bytes = output.toByteArray();
+                    encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
 
 
                     // image.getFilePathOriginal();

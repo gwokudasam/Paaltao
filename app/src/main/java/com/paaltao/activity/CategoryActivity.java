@@ -49,6 +49,7 @@ import static com.paaltao.extras.Keys.ProductList.*;
 import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.CATEGORY_LIST;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
+import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryAdapter.ClickListener{
@@ -194,6 +195,11 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
 
     @Override
     public void itemClicked(View view, int position) {
-        startActivity(new Intent(getApplicationContext(),ProductListActivity.class));
+        Long cat_id = categoryArrayList.get(position).getCategory_id();
+        Intent intent = new Intent(getApplicationContext(), ProductListActivity.class);
+        intent.putExtra("catId", cat_id.toString());
+        startActivity(intent);
+
+
     }
 }

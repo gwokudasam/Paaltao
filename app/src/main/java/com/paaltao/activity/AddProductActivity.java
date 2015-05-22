@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.paaltao.extras.urlEndPoints.ADD_PRODUCT;
@@ -49,10 +57,11 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class AddProductActivity extends AppCompatActivity implements ImageChooserListener{
     private ImageChooserManager imageChooserManager;
-    String imagePath;
+    String imagePath,encodedImage;
     ImageView product_select1,product_select2,product_select3,product_select4;
     private SweetAlertDialog dialog;
     private int item;
+    private ArrayList<String> productImages = new ArrayList<>();
     private EditText productName,productPrice,shippingPrice,productDescription,productWeight,productQuantity,shippingDetails;
     private Spinner category;
 
@@ -151,7 +160,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             jsonObject.put("category",category.getSelectedItem().toString());
             jsonObject.put("shippingCost",shippingPrice.getText());
             jsonObject.put("shippingDetails",shippingDetails.getText());
-            images.put("");
+            images.put(productImages);
             jsonObject.put("images",images);
             addProduct.put("addProduct", jsonObject);
 
@@ -169,6 +178,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                 Log.e("error",jsonObject.toString());
                 Log.e("json", addProduct.toString());
 
+                if (encodedImage != null && productImages != null){
+                    Log.e("images",productImages.toString());
+                }
 
 
 
@@ -319,24 +331,50 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                         case R.id.product_pic1:
                             myImage1.setImageBitmap(myBitmap);
                             myImage1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            productImages.add(encodedImage);
                             break;
                         case R.id.product_pic2:
                             myImage2.setImageBitmap(myBitmap);
                             myImage2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            productImages.add(encodedImage);
                             break;
                         case R.id.product_pic3:
                             myImage3.setImageBitmap(myBitmap);
                             myImage3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            productImages.add(encodedImage);
                             break;
 
                         case R.id.product_pic4:
                             myImage4.setImageBitmap(myBitmap);
                             myImage4.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            productImages.add(encodedImage);
                             break;
                     }
-//                    myImage1.setImageBitmap(myBitmap);
-//                    myImage1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
                     dialog.hide();
+                    dialog.dismiss();
+
+
+                    InputStream inputStream = null;//You can get an inputStream using any IO API
+                    try {
+                        inputStream = new FileInputStream(imagePath);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    byte[] bytes;
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    try {
+                        assert inputStream != null;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            output.write(buffer, 0, bytesRead);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    bytes = output.toByteArray();
+                    encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
 
 
                     // image.getFilePathOriginal();

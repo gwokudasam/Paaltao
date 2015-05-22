@@ -32,6 +32,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     private LayoutInflater inflater;
     private View view;
     private VolleySingleton singleton;
+    private ClickListener clickListener;
     private ImageLoader imageLoader;
     private ArrayList<Product> productArrayList = new ArrayList<>();
 
@@ -50,24 +51,17 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
 
 
         ProductHolder holder = new ProductHolder(view);
-        holder.productImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(context!=null) {
-                    context.startActivity(new Intent(context, ProductDetailsActivity.class));
-                }
-                else{
-                    Intent intent = new Intent(activity,ProductDetailsActivity.class);
-                    activity.startActivity(intent);
-                }
-            }
-        });
+
         initialize();
         onItemClick();
         return holder;
     }
 
     public void initialize(){
+
+    }
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
 
     }
     public void setProductArrayList(ArrayList<Product> productArrayList){
@@ -111,7 +105,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
         return productArrayList.size();
     }
 
-    class ProductHolder extends RecyclerView.ViewHolder {
+    class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView productName,productPrice,shopName;
         ImageView productImage;
 
@@ -123,5 +117,16 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
             productName = (TextView) itemView.findViewById(R.id.product_name);
             shopName = (TextView)itemView.findViewById(R.id.shop_name);
         }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener != null){
+                clickListener.itemClicked(v, getLayoutPosition());
+            }
+        }
+    }
+    public interface ClickListener{
+        void itemClicked(View view, int position);
+
     }
 }

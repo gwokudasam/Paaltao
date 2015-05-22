@@ -33,6 +33,8 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0.0"
+        applicationId "com.paaltao"
+        manifestPlaceholders = [ localApplicationId:applicationId ]
     }
     buildTypes {
         release {
@@ -65,4 +67,5 @@ dependencies {
     compile 'com.github.mrengineer13:snackbar:1.1.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile 'eu.inloop:easygcm:1.4.0@aar'
 }
