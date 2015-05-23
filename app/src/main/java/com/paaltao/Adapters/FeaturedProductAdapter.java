@@ -38,7 +38,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
 
     public FeaturedProductAdapter(Context context,ProductListActivity activity){
 
-        inflater = LayoutInflater.from(context);
+
         this.activity = activity;
         singleton = VolleySingleton.getsInstance();
         imageLoader = singleton.getImageLoader();
@@ -47,6 +47,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
     }
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.featured_product_row, parent, false);
 
 
@@ -116,6 +117,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
             productImage = (ImageView) itemView.findViewById(R.id.product_image);
             productName = (TextView) itemView.findViewById(R.id.product_name);
             shopName = (TextView)itemView.findViewById(R.id.shop_name);
+            itemView.setOnClickListener(this);
         }
 
         @Override

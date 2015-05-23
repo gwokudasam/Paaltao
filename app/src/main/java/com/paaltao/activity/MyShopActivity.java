@@ -31,6 +31,7 @@ public class MyShopActivity extends AppCompatActivity implements MaterialTabList
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
         this.setTitle("Shop");
+        if(getSupportActionBar() != null)
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabHost = (MaterialTabHost) this.findViewById(R.id.shopTabHost);

@@ -44,7 +44,7 @@ public class SignInActivity extends AppCompatActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token;
+    String emailId,accessToken,api_ver,token,firstName,lastName;
     SharedPreferenceClass preferenceClass;
 
     @Override
@@ -117,6 +117,7 @@ public class SignInActivity extends AppCompatActivity {
                 + LOGIN;
 
     }
+
 
 
     public void sendJsonRequest() {
@@ -192,7 +193,15 @@ public class SignInActivity extends AppCompatActivity {
                     preferenceClass.saveVendorLoginSuccess(vendor_login);
                 }}
             }
+
             emailId = signInObject.getString(KEY_EMAIL);
+            firstName = signInObject.getString(KEY_FIRST_NAME);
+            lastName = signInObject.getString(KEY_LAST_NAME);
+
+            preferenceClass.saveFirstName(firstName);
+            preferenceClass.saveLastName(lastName);
+            preferenceClass.saveUserEmail(emailId);
+
             if(accessTokenObject.has(KEY_TOKEN)){
             token = accessTokenObject.getString(KEY_TOKEN);}
 

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -26,12 +27,14 @@ import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.HomeActivity;
 import com.paaltao.activity.IntroPageActivity;
+import com.paaltao.activity.PaaltaoInfo;
 import com.paaltao.activity.ProfileActivity;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -52,6 +55,7 @@ public class AccountFragment extends Fragment {
     RelativeLayout accountLink,my_address,signOut;
     View view;
     String accessToken;
+    TextView firstName,lastName,about,terms,privacy;
     SharedPreferenceClass preferenceClass;
     SweetAlertDialog dialog;
 
@@ -62,6 +66,7 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         initialize();
         onItemClick();
+
         return view;
     }
 
@@ -144,6 +149,9 @@ public class AccountFragment extends Fragment {
 
             if (errorCode.equals("200")){
                 preferenceClass.clearAccessToken();
+                preferenceClass.clearFirstName();
+                preferenceClass.clearLastName();
+                preferenceClass.clearUserEmail();
                 Log.e("accessToken",accessToken);
                 Intent intent = new Intent(getActivity(),IntroPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -174,6 +182,16 @@ public class AccountFragment extends Fragment {
         my_address = (RelativeLayout)view.findViewById(R.id.my_address);
         signOut = (RelativeLayout)view.findViewById(R.id.signOut);
         preferenceClass = new SharedPreferenceClass(getActivity());
+        firstName = (TextView)view.findViewById(R.id.firstName);
+        lastName = (TextView)view.findViewById(R.id.lastName);
+        about = (TextView)view.findViewById(R.id.about);
+        terms = (TextView)view.findViewById(R.id.terms);
+        privacy = (TextView)view.findViewById(R.id.privacy);
+
+        if(preferenceClass.getFirstName() != null)
+        firstName.setText(preferenceClass.getFirstName());
+        if(preferenceClass.getLastName() != null)
+        lastName.setText(preferenceClass.getLastName());
     }
 
     public void onItemClick(){
@@ -194,6 +212,33 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 confirmSignOut();
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PaaltaoInfo.class);
+                intent.putExtra("page","about_paaltao");
+                startActivity(intent);
+            }
+        });
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PaaltaoInfo.class);
+                intent.putExtra("page","terms");
+                startActivity(intent);
+            }
+        });
+
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PaaltaoInfo.class);
+                intent.putExtra("page","privacy_policy");
+                startActivity(intent);
             }
         });
     }

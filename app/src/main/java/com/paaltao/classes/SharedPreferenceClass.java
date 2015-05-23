@@ -54,6 +54,21 @@ public class SharedPreferenceClass {
         return sharedprefs.getString("user_email", "");
     }
 
+    public void clearFirstName(){
+        prefsEditor.remove("firstname");
+        prefsEditor.commit();
+    }
+
+    public void clearLastName(){
+        prefsEditor.remove("lastname");
+        prefsEditor.commit();
+    }
+
+    public void clearUserEmail(){
+        prefsEditor.remove("user_email");
+        prefsEditor.commit();
+    }
+
     public void saveLastUserEmail(String last_user_email) {
         prefsEditor.putString("last_user_email", last_user_email);
         prefsEditor.commit();

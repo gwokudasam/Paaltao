@@ -65,6 +65,7 @@ dependencies {
     compile 'com.kbeanie:image-chooser-library:1.4.02@aar'
     compile 'com.google.android.gms:play-services:7.3.0'
     compile 'com.github.mrengineer13:snackbar:1.1.0'
+    compile 'org.sufficientlysecure:html-textview:1.1'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'eu.inloop:easygcm:1.4.0@aar'
