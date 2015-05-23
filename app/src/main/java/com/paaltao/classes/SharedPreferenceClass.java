@@ -27,8 +27,8 @@ public class SharedPreferenceClass {
         return sharedprefs.getString("has_shop","");
     }
 
-    public void saveLoginflag(String login_flag) {
-        prefsEditor.putString("login_flag", login_flag);
+    public void saveLoginflag(Boolean login_flag) {
+        prefsEditor.putBoolean("login_flag", login_flag);
         prefsEditor.commit();
     }
     public void checkApiVer(String api_ver) {
@@ -39,9 +39,11 @@ public class SharedPreferenceClass {
         return sharedprefs.getString("api_ver","");
     }
 
-    public String getLoginFlag() {
-        return sharedprefs.getString("login_flag", "");
+    public Boolean getLoginFlag() {
+        return sharedprefs.getBoolean("login_flag", false);
     }
+
+
 
     public void saveUserEmail(String user_email) {
         prefsEditor.putString("user_email", user_email);
@@ -68,6 +70,11 @@ public class SharedPreferenceClass {
 
     public String getAccessToken() {
         return sharedprefs.getString("access_token", "");
+    }
+
+    public void clearAccessToken(){
+        prefsEditor.remove("access_token");
+        prefsEditor.commit();
     }
 
     public void saveFirstName(String firstname) {

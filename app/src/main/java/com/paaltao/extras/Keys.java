@@ -8,6 +8,7 @@ public interface Keys {
         public static final String KEY_DATA = "data";
         public static final String KEY_API_VER = "api_ver";
         public static final String KEY_SIGN_IN = "signin";
+        public static final String KEY_SIGN_OUT = "signOut";
         public static final String KEY_EMAIL = "email";
         public static final String KEY_OPEN_SHOP = "openShop";
         public static final String KEY_ACCESS_TOKEN = "accessToken";

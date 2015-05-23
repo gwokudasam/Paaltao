@@ -357,26 +357,55 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                     dialog.hide();
                     dialog.dismiss();
 
-                    InputStream inputStream = null;//You can get an inputStream using any IO API
-                    try {
-                        inputStream = new FileInputStream(imagePath);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    try {
-                        assert inputStream != null;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            output.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    bytes = output.toByteArray();
-                    encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+                    BitmapFactory.Options options0 = new BitmapFactory.Options();
+                    options0.inSampleSize = 2;
+                    // options.inJustDecodeBounds = true;
+                    options0.inScaled = false;
+                    options0.inDither = false;
+                    options0.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                    Bitmap bmp = BitmapFactory.decodeFile(imagePath);
+
+                    ByteArrayOutputStream baos0 = new ByteArrayOutputStream();
+
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos0);
+                    byte[] imageBytes0 = baos0.toByteArray();
+
+                    myImage.setImageBitmap(bmp);
+
+                    encodedImage= Base64.encodeToString(imageBytes0, Base64.DEFAULT);
+
+
+//                    Bitmap bm = BitmapFactory.decodeFile(imagePath);
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    bm.compress(Bitmap.CompressFormat.JPEG, 75, baos); //bm is the bitmap object
+//                    byte[] b = baos.toByteArray();
+//                    encodedImage = Base64.encodeToString(b, Base64.NO_WRAP);
+                    Log.e("addy",encodedImage);
+
+
+//
+//                    InputStream inputStream = null;//You can get an inputStream using any IO API
+//                    try {
+//                        inputStream = new FileInputStream(imagePath);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    byte[] bytes;
+//                    byte[] buffer = new byte[8192];
+//                    int bytesRead;
+//                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+//                    try {
+//                        assert inputStream != null;
+//                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                            output.write(buffer, 0, bytesRead);
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    bytes = output.toByteArray();
+
 
 
                     // image.getFilePathOriginal();
