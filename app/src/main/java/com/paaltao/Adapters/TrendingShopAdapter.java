@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.paaltao.R;
-import com.paaltao.activity.MyShopActivity;
+import com.paaltao.activity.ShopActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.network.VolleySingleton;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapter.ProductHolder> {
 
     private Context context;
-    private MyShopActivity activity;
+    private ShopActivity activity;
     private LayoutInflater inflater;
     private View view;
     private ClickListener clickListener;
@@ -31,7 +31,7 @@ public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapte
     private ImageLoader imageLoader;
     private ArrayList<Product> shopArrayList = new ArrayList<>();
 
-    public TrendingShopAdapter(Context context,MyShopActivity activity){
+    public TrendingShopAdapter(Context context,ShopActivity activity){
         this.activity = activity;
         singleton = VolleySingleton.getsInstance();
         imageLoader = singleton.getImageLoader();

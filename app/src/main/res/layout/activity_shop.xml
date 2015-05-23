@@ -4,15 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.paaltao.activity.MyShopActivity">
+    tools:context="com.paaltao.activity.ShopActivity">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
+    <ScrollView
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_below="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -21,7 +24,7 @@
             <RelativeLayout
                 android:id="@+id/shop_cover_area"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="300dp"
                 android:visibility="visible">
 
                 <ImageView
@@ -34,7 +37,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="300dp"
                     android:background="@color/black80" />
 
                 <TextView
@@ -53,27 +56,34 @@
                     android:layout_below="@+id/shop_name"
                     android:layout_marginTop="0dp"
                     android:gravity="center_horizontal"
-                    android:text="Bankura,West Bengal"
+                    tools:text="Bankura,West Bengal"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
 
 
-            <it.neokree.materialtabs.MaterialTabHost
-                android:id="@+id/shopTabHost"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                app:accentColor="@color/primaryColor"
-                app:primaryColor="@color/white"
-                app:textColor="@color/primaryColor" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/shop_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
 
         </LinearLayout>
 
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/view_products"
+        android:background="@color/teal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="view products"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:gravity="center_horizontal"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

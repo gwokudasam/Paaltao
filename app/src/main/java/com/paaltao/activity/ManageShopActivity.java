@@ -2,7 +2,6 @@ package com.paaltao.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,7 +37,7 @@ public class ManageShopActivity extends AppCompatActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManageShopActivity.this,MyShopActivity.class);
+                Intent intent = new Intent(ManageShopActivity.this,ShopActivity.class);
                 startActivity(intent);
             }
         });

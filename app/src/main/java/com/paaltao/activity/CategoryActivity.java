@@ -57,10 +57,11 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     private RecyclerView mRecyclerView;
     Long id;
     private JSONArray categoryListArray;
-    String accessToken = "67drd56g",imageURL,categoryName;
+    String accessToken,imageURL,categoryName;
     CategoryAdapter categoryAdapter;
     CategoryActivity activity;
     ProgressWheel progressWheel;
+    SharedPreferenceClass preferenceClass;
     private ArrayList<Category> categoryArrayList = new ArrayList<>();
 
 
@@ -146,6 +147,8 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     }
     public void initialize(){
         progressWheel = (ProgressWheel)findViewById(R.id.action_progress);
+        preferenceClass = new SharedPreferenceClass(this);
+        accessToken = preferenceClass.getAccessToken();
     }
 
     public ArrayList<Category> parseJsonResponse(JSONObject response) {

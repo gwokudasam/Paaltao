@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e2e2e2"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/app_bar"
@@ -11,6 +13,7 @@
 
 
     <!-- A RecyclerView with some commonly used attributes -->
+
 
 
     <android.support.v7.widget.RecyclerView
@@ -38,6 +41,54 @@
             android:textSize="20sp"/>
     </RelativeLayout>
 
+    <com.paaltao.classes.ProgressWheel
+        android:id="@+id/action_progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        wheel:matProg_barColor="@color/primaryColor"
+        wheel:matProg_progressIndeterminate="true" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:visibility="gone"
+        tools:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/cart_empty"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/empty_cart_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/cart_empty"/>
+
+        <TextView
+            android:id="@+id/empty_cart_text"
+            android:layout_below="@+id/empty_cart_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="oops! There are no items in your Cart"/>
+
+        <TextView
+            android:id="@+id/continue_shopping"
+            android:layout_below="@+id/empty_cart_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/primaryColor"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Continue Shopping"/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

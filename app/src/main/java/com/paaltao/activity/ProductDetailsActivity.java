@@ -68,7 +68,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitle("");
+        toolbar.setLogo(R.drawable.ic_launcher);
         this.setSupportActionBar(toolbar);
+
 
 
         HashMap<String,String> url_maps = new HashMap<>();

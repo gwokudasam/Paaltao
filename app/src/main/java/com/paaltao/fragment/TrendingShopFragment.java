@@ -26,7 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.Adapters.TrendingShopAdapter;
 import com.paaltao.R;
-import com.paaltao.activity.MyShopActivity;
+import com.paaltao.activity.ShopActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.network.VolleySingleton;
@@ -53,7 +53,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     TrendingShopAdapter trendingShopAdapter;
-    MyShopActivity activity;
+    ShopActivity activity;
     private ImageView favorite;
     private ArrayList<Product> trendingShopList = new ArrayList<>();
     String accessToken = "67drd56g",shopName,shopImageUrl;
@@ -181,7 +181,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     public void itemClicked(View view, int position) {
 
 
-        startActivity(new Intent(getActivity(), MyShopActivity.class));
+        startActivity(new Intent(getActivity(), ShopActivity.class));
     }
 
 

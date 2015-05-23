@@ -1,12 +1,9 @@
 package com.paaltao.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,14 +26,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.Adapters.FeaturedProductAdapter;
 import com.paaltao.R;
-import com.paaltao.activity.HomeActivity;
-import com.paaltao.activity.MyShopActivity;
 import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
-import com.paaltao.classes.SharedPreferenceClass;
-import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -44,13 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.paaltao.extras.Keys.ProductList.KEY_DATA;
 import static com.paaltao.extras.Keys.ProductList.KEY_ERROR_CODE;
-import static com.paaltao.extras.Keys.UserCredentials.*;
 import static com.paaltao.extras.Keys.ProductList.*;
-import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 

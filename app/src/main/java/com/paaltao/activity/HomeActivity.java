@@ -49,12 +49,18 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     Toolbar toolbar;
     FloatingActionButton openShop,actionB;
     RelativeLayout overlay;
-    String vendor_login;
+    String vendor_login,accessToken;
     SharedPreferenceClass preferenceClass;
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("TAG","onRESUME");
+        if (accessToken == null || accessToken.length() == 0){
+            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -64,6 +70,13 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         res = this.getResources();
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         // init toolbar (old action bar)
+        accessToken = preferenceClass.getAccessToken();
+
+        if (accessToken == null || accessToken.length() == 0){
+            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         search = (SearchBox) findViewById(R.id.searchbox);
         search.enableVoiceRecognition(this);

@@ -30,7 +30,7 @@
                 android:scaleType="centerCrop"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/app_logo"
-                android:src="@drawable/ic_launcher" />
+                tools:src="@drawable/ic_launcher" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -90,7 +90,7 @@
             android:label="@string/title_activity_open_shop"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".activity.MyShopActivity"
+            android:name=".activity.ShopActivity"
             android:label="@string/title_activity_my_shop"
             android:parentActivityName=".activity.ProfileActivity" >
         <meta-data
