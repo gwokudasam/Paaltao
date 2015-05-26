@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -34,71 +35,82 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.classes.BadgeView;
 import com.paaltao.classes.Product;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_IMAGES;
+import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_QUANTITY;
+import static com.paaltao.extras.Keys.ProductList.KEY_REVIEWS;
+import static com.paaltao.extras.Keys.ProductList.KEY_SHIPPING_DETAILS;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ACCESS_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_DATA;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_EMAIL;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_FIRST_NAME;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_HAS_SHOP;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_LAST_NAME;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_IN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
+import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_DETAILS;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_DETAILS;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class ProductDetailsActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener{
 
-    TextView shipping,reviews;
+    TextView shipping,reviews,productName,productPrice,productDescription,shopName,item_quantity;
+    ImageView addItem,removeitem;
     Menu badge_menu;
+    Intent intent;
+    Button addToCart;
+    int value = 0;
+    SharedPreferenceClass preferenceClass;
     MenuItem badge_item_cart;
     int badge_item_id_cart;
     View target_cart;
     BadgeView badge_cart;
-    String accessToken = "67drd56g",productId;
-    private ArrayList<Product> productArrayList = new ArrayList<>();
+    SliderLayout mDemoSlider;
+    String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
-        SliderLayout mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
-        Intent intent = getIntent();
+        preferenceClass = new SharedPreferenceClass(this);
+        accessToken = preferenceClass.getAccessToken();
+        Log.e("token",accessToken);
+
+        intent = getIntent();
         productId = intent.getStringExtra("productId");
+        Name = intent.getStringExtra("productName");
+        description = intent.getStringExtra("description");
+        price = intent.getStringExtra("productPrice");
+        shop = intent.getStringExtra("shopName");
+
+
+
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitle("");
         toolbar.setLogo(R.drawable.ic_launcher);
         this.setSupportActionBar(toolbar);
 
-
-
-        HashMap<String,String> url_maps = new HashMap<>();
-        url_maps.put("Hannibal", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1417.jpg");
-        url_maps.put("Big Bang Theory", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1167.jpg");
-        url_maps.put("House of Cards", "http://www.paaltao.com/media/catalog/product/cache/1/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1189.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
-
-
-        for(String name : url_maps.keySet()){
-            DefaultSliderView sliderView = new DefaultSliderView(this);
-            // initialize a SliderLayout
-            sliderView
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                    .setOnSliderClickListener(this);
-            mDemoSlider.addSlider(sliderView);
-        }
-        mDemoSlider.stopAutoCycle();
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setDuration(5000);
+        sendJsonRequest();
 
         initialize();
         onItemClick();
-
-
-
        
     }
 
@@ -132,8 +144,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
                 target_cart = findViewById(badge_item_id_cart);
                 badge_cart = new BadgeView(ProductDetailsActivity.this,
                         target_cart);
-                badge_cart.setText("1");
+                badge_cart.setText("0");
                 badge_cart.setTextColor(Color.parseColor("#ffffff"));
+                badge_cart.setBadgeBackgroundColor(getResources().getColor(R.color.teal));
 
 
             }
@@ -181,10 +194,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(),productDetails, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-               // productArrayList = parseJsonResponse(jsonObject);
-                Log.e("productArray", productArrayList.toString());
+                parseJSONResponse(jsonObject);
 
-                Log.e("url",UAT_BASE_URL+PRODUCT_LIST);
                 Log.e("error", jsonObject.toString());
                 Log.e("id",productId);
                 Log.e("json", productDetails.toString());
@@ -218,12 +229,73 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         requestQueue.add(jsonObjectRequest);
     }
 
+    public void parseJSONResponse(JSONObject jsonObject) {
+        if (jsonObject == null || jsonObject.length() == 0) {
+            return;
+        }
+        try {
+            JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
+            JSONObject productDetailsObject = dataObject.getJSONObject(KEY_PRODUCT_DETAILS);
+            JSONObject reviewsObject = productDetailsObject.getJSONObject(KEY_REVIEWS);
+            JSONArray productImagesArray = productDetailsObject.getJSONArray(KEY_PRODUCT_IMAGES);
+            for (int i = 0;i<productImagesArray.length();i++)
+            {
+                productImageURL = productImagesArray.getString(i);
+                DefaultSliderView sliderView = new DefaultSliderView(this);
+                // initialize a SliderLayout
+                sliderView
+                        .image(productImageURL)
+                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                        .setOnSliderClickListener(this);
+                mDemoSlider.addSlider(sliderView);
+            }
+            mDemoSlider.stopAutoCycle();
+            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+
+
+            quantity = productDetailsObject.getString(KEY_PRODUCT_QUANTITY);
+            shippingDetails = productDetailsObject.getString(KEY_SHIPPING_DETAILS);
+            quantity = productDetailsObject.getString(KEY_PRODUCT_QUANTITY);
+
+
+            productName.setText(Name);
+            productDescription.setText(description);
+            productPrice.setText(price);
+            shopName.setText(shop);
+            if (description != null){
+            Log.e("details",description);}
+
+
+            value = Double.valueOf(quantity).intValue();
+
+
+            String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
+            String message = errorNodeObject.getString(KEY_MESSAGE);
+
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void initialize() // Method to initialize all variables
     {
         shipping = (TextView)findViewById(R.id.shipping);
         reviews = (TextView)findViewById(R.id.share_product);
+        productName = (TextView)findViewById(R.id.product_name);
+        productPrice = (TextView)findViewById(R.id.product_price);
+        productDescription = (TextView)findViewById(R.id.product_description);
+        addToCart = (Button)findViewById(R.id.add_cart);
+        shopName = (TextView)findViewById(R.id.shop_name);
+        item_quantity = (TextView)findViewById(R.id.quantity);
+        addItem = (ImageView)findViewById(R.id.add_quantity);
+        removeitem = (ImageView)findViewById(R.id.remove_quantity);
 
     }
 
@@ -236,7 +308,29 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             }
         });
 
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(int i=1;i<= value;i++){
+                    item_quantity.setText(Integer.toString(i));
+                }
+            }
+        });
 
+        removeitem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                badge_cart.increment(1);
+                badge_cart.show();
+            }
+        });
 
 
     }

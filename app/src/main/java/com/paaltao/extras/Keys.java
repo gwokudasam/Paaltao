@@ -33,7 +33,9 @@ public interface Keys {
         public static final String KEY_PRODUCT_ID = "id";
         public static final String KEY_PRODUCT_NAME = "productName";
         public static final String KEY_PRODUCT_DESCRIPTION = "description";
+        public static final String KEY_PRODUCT_DETAILS = "productDetails";
         public static final String KEY_SHOP_NAME = "shopName";
+        public static final String KEY_PRODUCT_QUANTITY = "quantity";
         public static final String KEY_PRODUCT_IMAGE = "image";
         public static final String KEY_SHOP_IMAGE = "shopImage";
         public static final String KEY_PRODUCT_PRICE = "price";

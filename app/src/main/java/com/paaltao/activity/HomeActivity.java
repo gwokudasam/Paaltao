@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     MaterialTabHost tabHost;
     private Resources res;
     SearchBox search;
+    FloatingActionsMenu floatingActionsMenu;
     Toolbar toolbar;
     FloatingActionButton openShop,actionB;
     RelativeLayout overlay;
@@ -68,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         res = this.getResources();
+        Log.e("TAG","onCreate");
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         // init toolbar (old action bar)
         accessToken = preferenceClass.getAccessToken();
@@ -77,6 +79,8 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
             startActivity(intent);
             finish();
         }
+
+        floatingActionsMenu = new FloatingActionsMenu(getApplicationContext());
 
         search = (SearchBox) findViewById(R.id.searchbox);
         search.enableVoiceRecognition(this);

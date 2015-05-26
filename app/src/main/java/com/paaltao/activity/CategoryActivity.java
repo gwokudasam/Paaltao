@@ -199,8 +199,10 @@ public class CategoryActivity extends AppCompatActivity implements CategoryAdapt
     @Override
     public void itemClicked(View view, int position) {
         Long cat_id = categoryArrayList.get(position).getCategory_id();
+        String name = categoryArrayList.get(position).getCategory_name();
         Intent intent = new Intent(getApplicationContext(), ProductListActivity.class);
         intent.putExtra("catId", cat_id.toString());
+        intent.putExtra("catName",name);
         startActivity(intent);
 
 

@@ -344,14 +344,14 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             public void run() {
                 if (image != null) {
                     // Use the image
-                    imagePath = image.getFileThumbnail();
+                    imagePath = image.getFilePathOriginal();
 
 
                     Log.d("TAG","PATH is"+imagePath);
 
                     myBitmap = BitmapFactory.decodeFile(imagePath);
 
-                    Log.d("bitmap",myBitmap.toString());
+                    Log.d("bitmap", myBitmap.toString());
 
                     ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
 
@@ -363,12 +363,14 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
 
                     ByteArrayOutputStream baos0 = new ByteArrayOutputStream();
 
-                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos0);
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos0);
                     byte[] imageBytes0 = baos0.toByteArray();
                     encodedImage= Base64.encodeToString(imageBytes0, Base64.DEFAULT);
 
 
                     Log.e("addy",encodedImage);
+
+
 
 
 

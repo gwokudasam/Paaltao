@@ -30,6 +30,7 @@ import com.paaltao.activity.ProductDetailsActivity;
 import com.paaltao.activity.ProductListActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -53,8 +54,9 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
     ProductListActivity activity;
     FeaturedProductAdapter featuredProductAdapter;
     private ImageView favorite;
+    SharedPreferenceClass preferenceClass;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    String accessToken = "67drd56g",productName,description,imageURL,price,isLiked,shopName;
+    String accessToken,productName,imageURL,price,isLiked,shopName,description;
     Long id;
     ProgressWheel progressWheel;
     View layout;
@@ -64,6 +66,8 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         progressWheel = (ProgressWheel)layout.findViewById(R.id.action_progress_featured);
+        preferenceClass = new SharedPreferenceClass(getActivity());
+        accessToken = preferenceClass.getAccessToken();
         sendJsonRequest();
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
         featuredProductAdapter = new FeaturedProductAdapter(getActivity(), activity);
@@ -161,6 +165,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
                         product.setPrice(price);
                         product.setShop_name(shopName);
                         product.setIs_liked(isLiked);
+                        product.setDescription(description);
                         product.setImageURL(imageURL);
 
                         productArrayList.add(product);
@@ -183,8 +188,16 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
     @Override
     public void itemClicked(View view, int position) {
         Long product_id = productArrayList.get(position).getProduct_id();
+        String productDetails = productArrayList.get(position).getDescription();
+        String name = productArrayList.get(position).getProduct_name();
+        String productPrice = productArrayList.get(position).getPrice();
+        String shop = productArrayList.get(position).getShop_name();
         Intent intent = new Intent(getActivity(),ProductDetailsActivity.class);
         intent.putExtra("productId", product_id.toString());
+        intent.putExtra("description",productDetails);
+        intent.putExtra("productName",name);
+        intent.putExtra("productPrice",productPrice);
+        intent.putExtra("shopName",shop);
         startActivity(intent);
     }
 }

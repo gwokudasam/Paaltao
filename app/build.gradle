@@ -69,4 +69,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'eu.inloop:easygcm:1.4.0@aar'
+
 }

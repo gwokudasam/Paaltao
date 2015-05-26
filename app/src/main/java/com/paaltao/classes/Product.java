@@ -5,7 +5,19 @@ package com.paaltao.classes;
  */
 public class Product {
     long product_id;
+
+
     String product_name;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    String description;
 
     public String getShop_image_url() {
         return shop_image_url;
