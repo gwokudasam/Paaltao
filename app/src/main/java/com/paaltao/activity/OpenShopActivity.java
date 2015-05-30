@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -68,7 +69,7 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 public class OpenShopActivity extends AppCompatActivity implements ImageChooserListener {
     Button selectCoverButton;
     private  ImageChooserManager imageChooserManager;
-    String imagePath,sellerID,accessToken,encodedImage;
+    String imagePath,imagePath1,imagePath2,sellerID,accessToken,encodedImage;
     ImageView coverImageArea;
     private SweetAlertDialog dialog;
     private Bitmap myBitmap;
@@ -163,9 +164,9 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             jsonObject.put("pincode",postalCode.getText().toString());
             jsonObject.put("shopUrl",shopURL.getText().toString());
             if (encodedImage != null){
-            jsonObject.put("coverImage",encodedImage);}
+                jsonObject.put("coverImage",encodedImage);}
             else
-            jsonObject.put("coverImage","");
+                jsonObject.put("coverImage","");
             openShop.put("openShop", jsonObject);
 
 
@@ -308,8 +309,8 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     }
 
     public void chooseImageDialog(){
-                dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
-                dialog.setTitleText("Choose your Cover Image")
+        dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
+        dialog.setTitleText("Choose your Cover Image")
                 .setContentText("Choose from gallery or take a camera snapshot!")
                 .setConfirmText("Gallery")
                 .setCancelText("Camera")
@@ -344,7 +345,9 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             public void run() {
                 if (image != null) {
                     // Use the image
-                    imagePath = image.getFilePathOriginal();
+                    imagePath = image.getFileThumbnail();
+                    imagePath1 = image.getFilePathOriginal();
+                    imagePath2 = image.getFileThumbnailSmall();
 
 
                     Log.d("TAG","PATH is"+imagePath);
@@ -365,18 +368,13 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
 
                     myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos0);
                     byte[] imageBytes0 = baos0.toByteArray();
-                    encodedImage= Base64.encodeToString(imageBytes0, Base64.DEFAULT);
+                    encodedImage= Base64.encodeToString(imageBytes0, Base64.NO_WRAP);
+
+//                    encodedImage = com.paaltao.classes.Base64.encode(imageBytes0);
 
 
                     Log.e("addy",encodedImage);
 
-
-
-
-
-                    // image.getFilePathOriginal();
-                    // image.getFileThumbnail();
-                    // image.getFileThumbnailSmall();
                 }
             }
         });

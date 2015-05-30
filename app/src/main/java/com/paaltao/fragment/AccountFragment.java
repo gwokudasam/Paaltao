@@ -25,16 +25,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
-import com.paaltao.activity.HomeActivity;
 import com.paaltao.activity.IntroPageActivity;
 import com.paaltao.activity.PaaltaoInfo;
-import com.paaltao.activity.ProfileActivity;
+import com.paaltao.activity.EditProfileActivity;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -43,10 +41,7 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_DATA;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_OPEN_SHOP;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_SELLER_ID;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_OUT;
-import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
 import static com.paaltao.extras.urlEndPoints.SIGN_OUT;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
@@ -198,7 +193,7 @@ public class AccountFragment extends Fragment {
         accountLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ProfileActivity.class));
+                startActivity(new Intent(getActivity(), EditProfileActivity.class));
             }
         });
         my_address.setOnClickListener(new View.OnClickListener() {

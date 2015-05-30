@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true"/>
+
     <permission
         android:name="com.paaltao.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -92,7 +96,7 @@
         <activity
             android:name=".activity.ShopActivity"
             android:label="@string/title_activity_my_shop"
-            android:parentActivityName=".activity.ProfileActivity" >
+            android:parentActivityName=".activity.EditProfileActivity" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.paaltao.activity.ManageShopActivity" />
@@ -103,15 +107,15 @@
             android:label="@string/title_activity_add_product"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.EditProfileActivity"
             android:label="@string/title_activity_profile" />
         <activity
             android:name=".activity.AddressActivity"
             android:label="@string/title_activity_address"
-            android:parentActivityName=".activity.ProfileActivity" >
+            android:parentActivityName=".activity.EditProfileActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.paaltao.activity.ProfileActivity" />
+                android:value=".activity.EditProfileActivity" />
         </activity>
         <activity
             android:name=".activity.OrderActivity"

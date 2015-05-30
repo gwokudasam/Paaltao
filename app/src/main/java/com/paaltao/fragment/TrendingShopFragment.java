@@ -149,6 +149,9 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
                     trendingShopListArray = dataObject.getJSONArray(KEY_TRENDING_SHOP_LIST);
                     for (int i = 0; i < trendingShopListArray.length(); i++) {
                         JSONObject trendingShopObject = trendingShopListArray.getJSONObject(i);
+                        if (trendingShopObject.isNull(KEY_PRODUCT_ID)){
+                            shopName = "NA";
+                        }else{
                         id = trendingShopObject.getLong(KEY_PRODUCT_ID);
                         shopName = trendingShopObject.getString(KEY_SHOP_NAME);
 
@@ -162,7 +165,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
 
                         shopArrayList.add(product);
 
-                    }
+                    }}
                 }
                 if (response.has(KEY_ERROR_CODE)) {
                     JSONObject errorObject = response.getJSONObject(KEY_ERROR_CODE);

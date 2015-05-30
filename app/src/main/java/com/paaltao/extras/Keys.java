@@ -16,6 +16,7 @@ public interface Keys {
         public static final String KEY_TITLE = "title";
         public static final String KEY_CONTENT = "content";
         public static final String KEY_EMAIL = "email";
+        public static final String KEY_USER_LOGIN_SUCCESS = "user_login_success";
         public static final String KEY_OPEN_SHOP = "openShop";
         public static final String KEY_ACCESS_TOKEN = "accessToken";
         public static final String KEY_TOKEN = "token";

@@ -28,10 +28,13 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 import static com.paaltao.extras.Keys.UserCredentials.*;
 import static com.paaltao.extras.urlEndPoints.BASE_URL;
@@ -45,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText email, password;
     TextView forgotPassword;
     String emailId,accessToken,api_ver,token,firstName,lastName;
+    Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
     @Override
@@ -143,6 +147,7 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 parseJSONResponse(jsonObject);
                 //Calling the Snackbar
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -186,17 +191,21 @@ public class SignInActivity extends AppCompatActivity {
             JSONObject accessTokenObject = signInObject.getJSONObject(KEY_ACCESS_TOKEN);
             JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
             if(dataObject.has(KEY_VENDOR)){
-            JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
+                if (dataObject.isNull(KEY_VENDOR)){
+                    return;
+                }
+            else {JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
                 if(vendorObject != null){
                 String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
                 if(vendor_login != null && vendor_login.contains("true")){
                     preferenceClass.saveVendorLoginSuccess(vendor_login);
-                }}
+                }}}
             }
 
             emailId = signInObject.getString(KEY_EMAIL);
             firstName = signInObject.getString(KEY_FIRST_NAME);
             lastName = signInObject.getString(KEY_LAST_NAME);
+            login_success = signInObject.getBoolean(KEY_USER_LOGIN_SUCCESS);
 
             preferenceClass.saveFirstName(firstName);
             preferenceClass.saveLastName(lastName);
@@ -208,20 +217,20 @@ public class SignInActivity extends AppCompatActivity {
 
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
+            if (login_success){
+                Log.e("TAG",login_success.toString());
+                if (token!= null && token.length()!=0){
+                    preferenceClass.saveAccessToken(token);
+                    preferenceClass.saveUserEmail(emailId);
 
-
-
-
-            if (token!= null && token.length()!=0){
-                preferenceClass.saveAccessToken(token);
-                preferenceClass.saveUserEmail(emailId);
-
-                Intent intent = new Intent(SignInActivity.this,HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(SignInActivity.this,HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
             }
-            else {
+            else{
+                Log.e("TAG",login_success.toString());
                 new SnackBar.Builder(SignInActivity.this)
                         .withMessage("Username or Password is Incorrect!")
                         .withTextColorId(R.color.white)
