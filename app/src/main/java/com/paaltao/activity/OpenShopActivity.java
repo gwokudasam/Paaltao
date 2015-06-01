@@ -343,7 +343,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
 
             @Override
             public void run() {
-                if (image != null) {
+
                     // Use the image
                     imagePath = image.getFileThumbnail();
                     imagePath1 = image.getFilePathOriginal();
@@ -366,7 +366,6 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                     dialog.dismiss();
 
 
-                }
             }
         });
     }

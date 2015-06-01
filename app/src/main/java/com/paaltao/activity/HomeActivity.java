@@ -57,11 +57,11 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     protected void onResume() {
         super.onResume();
         Log.e("TAG","onRESUME");
-        if (accessToken == null || accessToken.length() == 0){
-            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (accessToken == null || accessToken.length() == 0){
+//            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
     }
 
     @Override
@@ -74,11 +74,11 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         // init toolbar (old action bar)
         accessToken = preferenceClass.getAccessToken();
 
-        if (accessToken == null || accessToken.length() == 0){
-            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (accessToken == null || accessToken.length() == 0){
+//            Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         floatingActionsMenu = new FloatingActionsMenu(getApplicationContext());
 

@@ -54,6 +54,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
     TextView fbBtn,gplusBtn,signUp,signIn;
+    Button test;
     SimpleFacebook mSimpleFacebook;
     String token;
     SharedPreferenceClass preferenceClass;
@@ -133,12 +134,23 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         preferenceClass = new SharedPreferenceClass(this);
         token = preferenceClass.getAccessToken();
+        test = (Button)findViewById(R.id.test);
 
 
 
     }
 
     public void onClick() {
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         fbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
