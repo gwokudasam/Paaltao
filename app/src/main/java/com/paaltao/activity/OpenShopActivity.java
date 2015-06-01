@@ -349,12 +349,13 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                     imagePath1 = image.getFilePathOriginal();
                     imagePath2 = image.getFileThumbnailSmall();
 
+                    Bitmap myBitmap = BitmapFactory.decodeFile(image.getFilePathOriginal());
+                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
+                    byte[] byteArr = byteArray.toByteArray();
+                    String imageInBase64 = Base64.encodeToString(byteArr, Base64.DEFAULT);
+    				Log.d("Data", imageInBase64);
 
-                    Log.d("TAG","PATH is"+imagePath);
-
-                    myBitmap = BitmapFactory.decodeFile(imagePath);
-
-                    Log.d("bitmap", myBitmap.toString());
 
                     ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
 
@@ -364,16 +365,6 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                     dialog.hide();
                     dialog.dismiss();
 
-                    ByteArrayOutputStream baos0 = new ByteArrayOutputStream();
-
-                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos0);
-                    byte[] imageBytes0 = baos0.toByteArray();
-                    encodedImage= Base64.encodeToString(imageBytes0, Base64.NO_WRAP);
-
-//                    encodedImage = com.paaltao.classes.Base64.encode(imageBytes0);
-
-
-                    Log.e("addy",encodedImage);
 
                 }
             }
