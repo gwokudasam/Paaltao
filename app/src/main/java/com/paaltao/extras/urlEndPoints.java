@@ -4,8 +4,8 @@ package com.paaltao.extras;
  * Created by arindam.paaltao on 2/16/2015.
  */
 public class urlEndPoints {
-    public static final String BASE_URL = "http://www.paaltao.com/index.php/mobileApp/index/";
-    public static final String UAT_BASE_URL = "http://dev.paaltao.com/index.php/mobileApp/index/";
+    public static final String BASE_URL = "http://192.168.1.8/paaltao/index.php/mobileApp/index/";
+    public static final String UAT_BASE_URL = "http://192.168.1.8/paaltao/index.php/mobileApp/index/";
     public static final String LOGIN = "login";
     public static final String SIGN_UP = "signup";
     public static final String SIGN_OUT = "signOut";

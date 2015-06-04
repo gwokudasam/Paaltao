@@ -1,8 +1,11 @@
 package com.paaltao.network;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.paaltao.classes.Paaltao;
@@ -36,6 +39,15 @@ public class VolleySingleton {
         }
         return  sInstance;
 
+    }
+
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? "TAG" : tag);
+
+        VolleyLog.d("Adding request to queue: %s", req.getUrl());
+
+        getRequestQueue().add(req);
     }
 
     public RequestQueue getRequestQueue(){

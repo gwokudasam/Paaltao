@@ -17,7 +17,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.AppEventsLogger;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,7 +37,9 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
+import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.network.VolleySingleton;
 import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Profile;
@@ -33,12 +47,20 @@ import com.sromku.simple.fb.listeners.OnLoginListener;
 import com.sromku.simple.fb.listeners.OnProfileListener;
 import com.sromku.simple.fb.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.Vector;
 
 import de.cketti.library.changelog.ChangeLog;
 import eu.inloop.easygcm.GcmHelper;
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.paaltao.extras.urlEndPoints.LOGIN;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 import static com.sromku.simple.fb.Permission.*;
 
 public class IntroPageActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -53,7 +75,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     String email = "", firstName = "",lastName = "", gender = "", profileid;
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
-    TextView fbBtn,gplusBtn,signUp,signIn;
+    TextView fbBtn,gplusBtn,signUp,signIn,sessionCheck;
     Button test;
     SimpleFacebook mSimpleFacebook;
     String token;
@@ -134,22 +156,19 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         preferenceClass = new SharedPreferenceClass(this);
         token = preferenceClass.getAccessToken();
-        test = (Button)findViewById(R.id.test);
-
+        sessionCheck = (TextView)findViewById(R.id.login_text);
 
 
     }
 
     public void onClick() {
 
-        test.setOnClickListener(new View.OnClickListener() {
+        sessionCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
-                startActivity(intent);
+                sendJsonRequest();
             }
         });
-
 
         fbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +207,65 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         densityDpi = metrics.densityDpi;
     }
 
+
+    //session Check service
+    public void sendJsonRequest() {
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject checkSession = new JSONObject();
+        try {
+            jsonObject.put("accessToken", "67drd56g");
+            checkSession.put("checkSession", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(), checkSession, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+
+                //Calling the Snackbar
+                Log.e("response",jsonObject.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(IntroPageActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public static String getRequestUrl() {
+
+       return "http://dev.paaltao.com/index.php/mobileApp/index/checkSession";
+
+    }
 
 
     private GoogleApiClient buildGoogleApiClient()

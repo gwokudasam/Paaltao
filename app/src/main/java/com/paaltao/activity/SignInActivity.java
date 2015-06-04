@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
+import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
@@ -34,6 +35,9 @@ import com.paaltao.network.VolleySingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.Objects;
 
 import static com.paaltao.extras.Keys.UserCredentials.*;
@@ -138,6 +142,8 @@ public class SignInActivity extends AppCompatActivity {
 
 
         RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(), signIn, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
@@ -147,6 +153,7 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 parseJSONResponse(jsonObject);
                 //Calling the Snackbar
+                Log.e("response",jsonObject.toString());
 
             }
         }, new Response.ErrorListener() {
@@ -179,6 +186,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
+
     }
 
     public void parseJSONResponse(JSONObject jsonObject) {

@@ -130,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:padding="16dp"
+                android:id="@+id/notification_settings"
                 android:text="Notification Settings"
                 android:textColor="@color/black" />
 

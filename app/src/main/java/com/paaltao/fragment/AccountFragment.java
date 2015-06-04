@@ -1,5 +1,6 @@
 package com.paaltao.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,18 +22,34 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.IntroPageActivity;
 import com.paaltao.activity.PaaltaoInfo;
 import com.paaltao.activity.EditProfileActivity;
+import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -50,9 +67,10 @@ public class AccountFragment extends Fragment {
     RelativeLayout accountLink,my_address,signOut;
     View view;
     String accessToken;
-    TextView firstName,lastName,about,terms,privacy;
+    TextView firstName,lastName,about,terms,privacy,notificationSettings;
     SharedPreferenceClass preferenceClass;
     SweetAlertDialog dialog;
+    Context context;
 
 
 
@@ -122,6 +140,8 @@ public class AccountFragment extends Fragment {
 
             }
         });
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getActivity()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -170,6 +190,62 @@ public class AccountFragment extends Fragment {
 
 
 
+    public void sendJsonRequest1(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject sessionCheck = new JSONObject();
+        try{
+            jsonObject.put("accessToken","67drd56g");
+            sessionCheck.put("checkSession", jsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getActivity().getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+        CookieHandler.setDefault(cookieManager);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl1(),sessionCheck,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                Log.e("error", jsonObject.toString());
+                Log.e("json", sessionCheck.toString());
+                L.T(getActivity(),jsonObject.toString());
+
+                            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                   sendJsonRequest1();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+
+        });
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
+
+    private String getRequestUrl1() {
+        return "http://192.168.1.8/paaltao/index.php/mobileApp/index/checkSession";
+    }
 
 
     public void initialize(){
@@ -182,14 +258,22 @@ public class AccountFragment extends Fragment {
         about = (TextView)view.findViewById(R.id.about);
         terms = (TextView)view.findViewById(R.id.terms);
         privacy = (TextView)view.findViewById(R.id.privacy);
-
         if(preferenceClass.getFirstName() != null)
         firstName.setText(preferenceClass.getFirstName());
         if(preferenceClass.getLastName() != null)
         lastName.setText(preferenceClass.getLastName());
+        notificationSettings = (TextView)view.findViewById(R.id.notification_settings);
     }
 
     public void onItemClick(){
+
+        notificationSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendJsonRequest1();
+            }
+        });
+
         accountLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
