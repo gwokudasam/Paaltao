@@ -27,6 +27,18 @@ public class SharedPreferenceClass {
         return sharedprefs.getString("has_shop","");
     }
 
+    public void saveCookie(String cookieValue){
+        prefsEditor.putString("sessionid",cookieValue);
+        prefsEditor.commit();
+    }
+    public void saveCookiee(String cookieValue){
+        prefsEditor.putString("Cookie",cookieValue);
+        prefsEditor.commit();
+    }
+    public String getCookie(){
+        return sharedprefs.getString("sessionid","");
+    }
+
     public void saveLoginflag(Boolean login_flag) {
         prefsEditor.putBoolean("login_flag", login_flag);
         prefsEditor.commit();

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -23,6 +24,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -33,6 +35,7 @@ import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.IntroPageActivity;
 import com.paaltao.activity.PaaltaoInfo;
 import com.paaltao.activity.EditProfileActivity;
+import com.paaltao.classes.MyApp;
 import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
@@ -48,6 +51,7 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.CookieStore;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,11 +63,15 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_OUT;
+import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.SIGN_OUT;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 //This is a user account fragment.
 public class AccountFragment extends Fragment {
+    private static final String SET_COOKIE_KEY = "Set-Cookie";
+    private static final String COOKIE_KEY = "Cookie";
+    private static final String SESSION_COOKIE = "sessionid";
     RelativeLayout accountLink,my_address,signOut;
     View view;
     String accessToken;
@@ -113,6 +121,7 @@ public class AccountFragment extends Fragment {
 
 
                 parseJSONResponse(jsonObject);
+
             }
         },new Response.ErrorListener() {
             @Override
@@ -139,11 +148,11 @@ public class AccountFragment extends Fragment {
                 }
 
             }
+
         });
-        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getActivity()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
-        CookieHandler.setDefault(cookieManager);
         requestQueue.add(jsonObjectRequest);
     }
+
 
     public void parseJSONResponse(JSONObject jsonObject) {
         if (jsonObject == null || jsonObject.length() == 0) {
@@ -203,23 +212,19 @@ public class AccountFragment extends Fragment {
 
 
         RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getActivity().getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
-        CookieHandler.setDefault(cookieManager);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl1(),sessionCheck,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
                 Log.e("error", jsonObject.toString());
                 Log.e("json", sessionCheck.toString());
-                L.T(getActivity(),jsonObject.toString());
+                L.m(jsonObject.toString());
 
                             }
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                   sendJsonRequest1();
 
                 } else if (volleyError instanceof AuthFailureError) {
 
@@ -237,14 +242,42 @@ public class AccountFragment extends Fragment {
 
             }
 
-        });
+        })
+        {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                // since we don't know which of the two underlying network vehicles
+                // will Volley use, we have to handle and store session cookies manually
+                //   MyApp.get().checkSessionCookie(response.headers);
+                //L.m(response.headers.toString());
+
+
+                return super.parseNetworkResponse(response);
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null
+                        || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                String sessionId = preferenceClass.getCookie();
+                Log.e("cOOOKIE","frontend="+sessionId);
+                Log.e("sessionid","frontend=7fgenogpffjvvmdg1gf439hta7");
+
+                   // headers.put(COOKIE_KEY,"frontend="+sessionId);
+                    headers.put(COOKIE_KEY,"frontend=e7qfldgsnf7aop381a8vk3b866");
+                return headers;
+            }};
         requestQueue.add(jsonObjectRequest);
 
     }
 
 
     private String getRequestUrl1() {
-        return "http://192.168.1.8/paaltao/index.php/mobileApp/index/checkSession";
+        return UAT_BASE_URL+"checkSession";
     }
 
 

@@ -391,7 +391,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
                         com.sromku.simple.fb.entities.Profile response) {
 
                     try {
-
                         email = response.getEmail();
                         firstName = response.getFirstName();
                         lastName = response.getLastName();

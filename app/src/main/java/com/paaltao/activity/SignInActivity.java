@@ -1,6 +1,7 @@
 package com.paaltao.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -26,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
+import com.paaltao.classes.MyApp;
 import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
@@ -38,6 +41,9 @@ import org.json.JSONObject;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.paaltao.extras.Keys.UserCredentials.*;
@@ -46,12 +52,15 @@ import static com.paaltao.extras.urlEndPoints.LOGIN;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class SignInActivity extends AppCompatActivity {
+    private static final String SET_COOKIE_KEY = "Set-Cookie";
+    private static final String COOKIE_KEY = "Cookie";
+    private static final String SESSION_COOKIE = "sessionid";
     Button SignUpBtn;
     Button SignInBtn;
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName;
+    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -142,24 +151,22 @@ public class SignInActivity extends AppCompatActivity {
 
 
         RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        CookieManager cookieManager = new CookieManager(new PersistentCookieStore(getApplicationContext()), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
-        CookieHandler.setDefault(cookieManager);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(), signIn, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
-                if(progressBar.getVisibility()== View.VISIBLE){
+                if (progressBar.getVisibility() == View.VISIBLE) {
                     progressBar.setVisibility(View.GONE);
                 }
                 parseJSONResponse(jsonObject);
                 //Calling the Snackbar
-                Log.e("response",jsonObject.toString());
+                Log.e("response", jsonObject.toString());
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if(progressBar.getVisibility()== View.VISIBLE){
+                if (progressBar.getVisibility() == View.VISIBLE) {
                     progressBar.setVisibility(View.GONE);
                 }
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
@@ -184,10 +191,43 @@ public class SignInActivity extends AppCompatActivity {
                 }
 
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        }) {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                // since we don't know which of the two underlying network vehicles
+                // will Volley use, we have to handle and store session cookies manually
+                // MyApp.get().checkSessionCookie(response.headers);
+                L.m(response.headers.toString());
 
-    }
+                L.m(response.headers.get("Set-Cookie"));
+                preferenceClass.saveCookiee(response.headers.get("Set-Cookie"));
+                cookie = response.headers.get("Set-Cookie");
+                String[] splitCookie = cookie.split(";");
+                String[] splitSessionId = splitCookie[0].split("=");
+                newCookie = splitSessionId[1];
+                //cookie = response.headers.values().toString();
+                Log.e("split",newCookie);
+                preferenceClass.saveCookie(newCookie);
+                return super.parseNetworkResponse(response);
+                }
+                @Override
+                public Map<String, String> getHeaders ()throws AuthFailureError {
+                    Map<String, String> headers = super.getHeaders();
+
+                    if (headers == null
+                            || headers.equals(Collections.emptyMap())) {
+                        headers = new HashMap<String, String>();
+                    }
+
+//                MyApp.get().addSessionCookie(headers);
+
+                    return headers;
+                }
+            }
+
+            ;
+            requestQueue.add(jsonObjectRequest);
+        }
 
     public void parseJSONResponse(JSONObject jsonObject) {
         if (jsonObject == null || jsonObject.length() == 0) {
@@ -221,6 +261,7 @@ public class SignInActivity extends AppCompatActivity {
 
             if(accessTokenObject.has(KEY_TOKEN)){
             token = accessTokenObject.getString(KEY_TOKEN);}
+
 
 
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
