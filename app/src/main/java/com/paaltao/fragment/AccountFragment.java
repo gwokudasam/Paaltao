@@ -218,6 +218,7 @@ public class AccountFragment extends Fragment {
 
                 Log.e("error", jsonObject.toString());
                 Log.e("json", sessionCheck.toString());
+                Log.e("url",getRequestUrl1());
                 L.m(jsonObject.toString());
 
                             }
@@ -250,8 +251,6 @@ public class AccountFragment extends Fragment {
                 // will Volley use, we have to handle and store session cookies manually
                 //   MyApp.get().checkSessionCookie(response.headers);
                 //L.m(response.headers.toString());
-
-
                 return super.parseNetworkResponse(response);
             }
             @Override
@@ -370,7 +369,7 @@ public class AccountFragment extends Fragment {
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        dialog.dismiss();
+                        dialog.cancel();
                     }
                 })
                 .show();

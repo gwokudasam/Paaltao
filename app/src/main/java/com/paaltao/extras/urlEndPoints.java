@@ -11,6 +11,8 @@ public class urlEndPoints {
     public static final String SIGN_OUT = "signOut";
     public static final String STATIC_PAGE = "staticPage";
     public static final String OPEN_SHOP = "openShop";
+    public static final String FB_CONNECT = "fbConnect";
+    public static final String GP_CONNECT = "gpConnect";
     public static final String ADD_PRODUCT = "addProduct";
     public static final String FEATURED_LIST = "getFeaturedList";
     public static final String TRENDING_SHOP_LIST = "getTrendingShopList";
@@ -18,5 +20,6 @@ public class urlEndPoints {
     public static final String CART_ITEMS = "getCartItems";
     public static final String PRODUCT_LIST = "productList";
     public static final String PRODUCT_DETAILS = "getProductDetails";
+    public static final String GET_ADDRESS = "getAddress";
 
 }

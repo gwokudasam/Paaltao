@@ -35,7 +35,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
     private VolleySingleton singleton;
     private ClickListener clickListener;
     private ArrayList<Product> cartArrayList = new ArrayList<>();
-    List<Product> data = Collections.emptyList();
     private Activity contextActivity;
 
     public CartAdapter(Context context , Activity contextActivity){

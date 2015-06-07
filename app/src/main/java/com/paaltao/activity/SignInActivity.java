@@ -41,6 +41,7 @@ import org.json.JSONObject;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class SignInActivity extends AppCompatActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie;
+    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -198,6 +199,7 @@ public class SignInActivity extends AppCompatActivity {
                 // will Volley use, we have to handle and store session cookies manually
                 // MyApp.get().checkSessionCookie(response.headers);
                 L.m(response.headers.toString());
+                L.m(Arrays.toString(response.data));
 
                 L.m(response.headers.get("Set-Cookie"));
                 preferenceClass.saveCookiee(response.headers.get("Set-Cookie"));
@@ -254,7 +256,9 @@ public class SignInActivity extends AppCompatActivity {
             firstName = signInObject.getString(KEY_FIRST_NAME);
             lastName = signInObject.getString(KEY_LAST_NAME);
             login_success = signInObject.getBoolean(KEY_USER_LOGIN_SUCCESS);
+            userId = signInObject.getString(KEY_USER_ID);
 
+            preferenceClass.saveCustomerId(userId);
             preferenceClass.saveFirstName(firstName);
             preferenceClass.saveLastName(lastName);
             preferenceClass.saveUserEmail(emailId);

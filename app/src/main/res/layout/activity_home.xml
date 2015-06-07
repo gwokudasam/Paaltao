@@ -82,6 +82,47 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:gravity="center"
+        android:id="@+id/no_internet"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/empty_cart_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/cart_empty"/>
+
+        <TextView
+            android:id="@+id/empty_cart_text"
+            android:layout_below="@+id/empty_cart_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="oops! Something is wrong with the internet"/>
+
+        <TextView
+            android:id="@+id/try_again"
+            android:layout_below="@+id/empty_cart_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/primaryColor"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Try Again"/>
+
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

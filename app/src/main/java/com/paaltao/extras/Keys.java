@@ -26,6 +26,15 @@ public interface Keys {
         public static final String KEY_VENDOR = "vendor";
         public static final String KEY_HAS_SHOP = "login_success";
         public static final String KEY_SELLER_ID = "seller_id";
+        public static final String KEY_COMPANY = "company";
+        public static final String KEY_CITY = "city";
+        public static final String KEY_COUNTRY_ID = "country_id";
+        public static final String KEY_REGION_ID = "region_id";
+        public static final String KEY_PINCODE = "postcode";
+        public static final String KEY_CONTACT = "telephone";
+        public static final String KEY_STREET = "street";
+        public static final String KEY_DEFAULT_SHIPPING = "default_shipping";
+        public static final String KEY_DEFAULT_BILLING = "default_billing";
     }
     public interface ProductList{
         public static final String KEY_DATA = "data";
@@ -57,6 +66,7 @@ public interface Keys {
         public static final String KEY_AVERAGE_RATING = "avg_rating_in_percet";
         public static final String KEY_COMMENT = "comment";
         public static final String KEY_DATE = "date";
+        public static final String KEY_ADDRESSES = "addresses";
 
 
 

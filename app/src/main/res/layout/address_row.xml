@@ -4,6 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_below="@+id/app_bar"
     android:layout_margin="6dp"
     android:orientation="vertical"
@@ -13,45 +14,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          >
 
         <TextView
-            android:id="@+id/address_title"
-            android:layout_width="match_parent"
+            android:id="@+id/firstName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Home"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_marginLeft="8dp"
+            android:textSize="20sp"
+            android:layout_marginTop="4dp"
+            tools:text="Arindam" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
 
         <TextView
-            android:id="@+id/street_no"
+            android:id="@+id/lastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="20sp"
+            android:layout_marginTop="4dp"
+            tools:text="Dawn" />
+
+      </LinearLayout>
+        <TextView
+            android:id="@+id/companyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:textSize="18sp"
             android:layout_marginTop="4dp"
-            android:text="1/18" />
+            android:fontFamily="sans-serif-light"
+            tools:text="Paaltao Holdings Ltd" />
 
-        <TextView
-            android:id="@+id/street_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:text="Poddar Nagar, Jadavpur" />
 
-        <TextView
-            android:id="@+id/landmark_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:text="Near South City Mall" />
+            <TextView
+                android:id="@+id/street_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"
+                tools:text="1/18, Poddar Nagar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,17 +74,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:layout_marginTop="4dp"
-                android:text="Kolkata" />
+                tools:text="Kolkata" />
+
+            <TextView
+                android:id="@+id/hiphen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:text="-" />
 
             <TextView
                 android:id="@+id/pincode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
                 android:layout_marginLeft="8dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
                 android:layout_marginTop="4dp"
-                android:text="700068" />
-
+                tools:text="700068" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +112,9 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="4dp"
-                android:text="West Bengal" />
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                tools:text="West Bengal" />
 
             <TextView
                 android:id="@+id/country"
@@ -97,9 +123,22 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="4dp"
-                android:text="India" />
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                tools:text="India" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            tools:text="9804816460" />
 
         <View
             android:layout_width="fill_parent"

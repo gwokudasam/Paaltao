@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -52,6 +53,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
     private RecyclerView mRecyclerView;
     private JSONArray featuredListArray;
     ProductListActivity activity;
+    RelativeLayout noInternet;
     FeaturedProductAdapter featuredProductAdapter;
     private ImageView favorite;
     SharedPreferenceClass preferenceClass;
@@ -67,6 +69,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
         layout = inflater.inflate(R.layout.featured_product_fragment, container, false);
         progressWheel = (ProgressWheel)layout.findViewById(R.id.action_progress_featured);
         preferenceClass = new SharedPreferenceClass(getActivity());
+        noInternet = (RelativeLayout)getActivity().findViewById(R.id.no_internet);
         accessToken = preferenceClass.getAccessToken();
         sendJsonRequest();
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.featured_recycler_view);
@@ -115,6 +118,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
                                 .withTextColorId(R.color.white)
                                 .withDuration((short) 6000)
                                 .show();
+                        noInternet.setVisibility(View.VISIBLE);
 
                     } else if (volleyError instanceof AuthFailureError) {
 

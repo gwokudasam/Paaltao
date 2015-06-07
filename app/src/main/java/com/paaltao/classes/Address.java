@@ -4,38 +4,59 @@ package com.paaltao.classes;
  * Created by arindam.paaltao on 21-Feb-15.
  */
 public class Address {
-    String title;
-    String streetNo;
+    String firstName;
+    String lastName;
+    String company;
     String streetName;
     String city;
-    String landmark;
     String state;
     String country;
     String pincode;
+    String contact;
 
-    public String getLandmark() {
-        return landmark;
+    public String getContact() {
+        return contact;
     }
 
-    public void setLandmark(String landmark) {
-        this.landmark = landmark;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
-    public String getStreetNo() {
-        return streetNo;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public String getTitle() {
-        return title;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getCompany() {
+        return company;
     }
 
-    public void setStreetNo(String streetNo) {
-        this.streetNo = streetNo;
+    public void setCompany(String company) {
+        this.company = company;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    String customerId;
+
+
 
     public String getStreetName() {
         return streetName;

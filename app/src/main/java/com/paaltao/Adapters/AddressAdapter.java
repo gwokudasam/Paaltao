@@ -13,7 +13,10 @@ import com.paaltao.R;
 import com.paaltao.activity.AddAddressActivity;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.classes.Address;
+import com.paaltao.classes.Product;
+import com.paaltao.network.VolleySingleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,13 +27,16 @@ import java.util.List;
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressHolder> {
     private View view;
     private Context context;
+    private VolleySingleton singleton;
     private LayoutInflater inflater;
+    private ClickListener clickListener;
     private AddressActivity contextActivity;
+    private ArrayList<Address> addressArrayList = new ArrayList<>();
     List<Address> data = Collections.emptyList();
 
-    public AddressAdapter(Context context, List<Address> data, AddressActivity contextActivity){
+    public AddressAdapter(Context context, AddressActivity contextActivity){
         this.context = context;
-        this.data = data;
+        singleton = VolleySingleton.getsInstance();
         this.contextActivity =  contextActivity;
     }
     @Override
@@ -41,18 +47,25 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
         return holder;
     }
 
+    public void setAddressArrayList(ArrayList<Address> addressArrayList){
+        this.addressArrayList = addressArrayList;
+        notifyDataSetChanged();
+        notifyItemRangeChanged(0, addressArrayList.size());
+    }
+
     @Override
     public void onBindViewHolder(AddressHolder holder, int position) {
 
         final Address current = data.get(position);
-        holder.title.setText(current.getTitle());
-        holder.street_no.setText(current.getStreetNo());
+        holder.firstName.setText(current.getFirstName());
+        holder.lastName.setText(current.getLastName());
         holder.street_name.setText(current.getStreetName());
-        holder.landmark.setText(current.getLandmark());
+        holder.company.setText(current.getCompany());
         holder.city.setText(current.getCity());
         holder.state.setText(current.getState());
         holder.country.setText(current.getCountry());
         holder.pincode.setText(current.getPincode());
+        holder.contact.setText(current.getContact());
 
         holder.remove_address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,33 +84,47 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return addressArrayList.size();
+    }
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+
     }
 
     public void remove(Address item) {
         int position = data.indexOf(item);
-        data.remove(position);
+        addressArrayList.remove(position);
         notifyItemRemoved(position);
     }
 
-    class AddressHolder extends RecyclerView.ViewHolder{
-        TextView title,street_no,street_name,landmark,city,state,country,remove_address,edit_address,pincode;
-
+    class AddressHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView firstName,lastName,company,street_name,city,state,country,remove_address,edit_address,pincode,contact;
 
         public AddressHolder(View itemView) {
             super(itemView);
 
-            title = (TextView)itemView.findViewById(R.id.address_title);
-            street_no = (TextView)itemView.findViewById(R.id.street_no);
+            firstName = (TextView)itemView.findViewById(R.id.firstName);
+            lastName = (TextView)itemView.findViewById(R.id.lastName);
+            company = (TextView)itemView.findViewById(R.id.companyName);
             street_name = (TextView)itemView.findViewById(R.id.street_name);
-            landmark = (TextView)itemView.findViewById(R.id.landmark_name);
             city = (TextView)itemView.findViewById(R.id.city_name);
             state = (TextView)itemView.findViewById(R.id.state);
             country = (TextView)itemView.findViewById(R.id.country);
-            remove_address = (TextView)itemView.findViewById(R.id.remove_address);
             pincode = (TextView)itemView.findViewById(R.id.pincode);
-            edit_address = (TextView)itemView.findViewById(R.id.edit_address);
-
+            contact = (TextView)itemView.findViewById(R.id.contact);
+            remove_address = (TextView)itemView.findViewById(R.id.remove_address);
         }
+
+        @Override
+        public void onClick(View v) {
+            if(clickListener != null){
+                clickListener.itemClicked(v, getLayoutPosition());
+            }
+        }
+    }
+    public interface ClickListener{
+        void itemClicked(View view, int position);
+
     }
 }
