@@ -29,6 +29,7 @@ import com.paaltao.Adapters.AddressAdapter;
 import com.paaltao.R;
 import com.paaltao.classes.Address;
 import com.paaltao.classes.Product;
+import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
@@ -57,6 +58,8 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_LAST_NAME;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_PINCODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_REGION_ID;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_STREET;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_FIRST_NAME;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_LAST_NAME;
 import static com.paaltao.extras.urlEndPoints.CART_ITEMS;
 import static com.paaltao.extras.urlEndPoints.GET_ADDRESS;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
@@ -66,6 +69,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     private AddressAdapter mAdapter;
     SharedPreferenceClass preferenceClass;
     private AddressActivity activity;
+    ProgressWheel progressWheel;
     private JSONArray addressListArray;
     private ArrayList<Address> addressArrayList = new ArrayList<>();
     private String accessToken,userId,firstName,lastName,company,city,state,country,country_id,region_id,contact,street,pincode;
@@ -74,6 +78,8 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
+        initialize();
+        sendJsonRequest();
         mRecyclerView = (RecyclerView)findViewById(R.id.address_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -113,7 +119,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
 
                 //console test
-                Log.e("cartList", addressArrayList.toString());
+                Log.e("addressList", addressArrayList.toString());
                 Log.e("input_payload",addressList.toString());
                 Log.e("error", jsonObject.toString());
             }
@@ -154,7 +160,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
     public ArrayList<Address> parseJsonResponse(JSONObject response) {
 
-        ArrayList<Address> cartArrayList = new ArrayList<>();
+        ArrayList<Address> addressArrayList = new ArrayList<>();
         if (response != null && response.length() > 0) {
 
             try {
@@ -173,12 +179,12 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                         finish();
                     }
                     else {
-                        addressListArray = dataObject.getJSONArray(KEY_CART_LIST);
+                        addressListArray = dataObject.getJSONArray(KEY_ADDRESSES);
                         if (addressListArray != null)
                             for (int i = 0; i < addressListArray.length(); i++) {
                                 JSONObject addressListObject = addressListArray.getJSONObject(i);
-                                firstName = addressListObject.getString(KEY_FIRST_NAME);
-                                lastName = addressListObject.getString(KEY_LAST_NAME);
+                                firstName = addressListObject.getString(KEY_USER_FIRST_NAME);
+                                lastName = addressListObject.getString(KEY_USER_LAST_NAME);
                                 company = addressListObject.getString(KEY_COMPANY);
                                 city = addressListObject.getString(KEY_CITY);
                                 country_id = addressListObject.getString(KEY_COUNTRY_ID);
@@ -216,7 +222,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                 e.printStackTrace();
             }
         }
-        return cartArrayList;
+        return addressArrayList;
     }
 
 

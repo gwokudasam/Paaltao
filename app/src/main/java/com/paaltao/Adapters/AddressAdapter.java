@@ -32,7 +32,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
     private ClickListener clickListener;
     private AddressActivity contextActivity;
     private ArrayList<Address> addressArrayList = new ArrayList<>();
-    List<Address> data = Collections.emptyList();
 
     public AddressAdapter(Context context, AddressActivity contextActivity){
         this.context = context;
@@ -56,7 +55,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
     @Override
     public void onBindViewHolder(AddressHolder holder, int position) {
 
-        final Address current = data.get(position);
+        Address current = addressArrayList.get(position);
         holder.firstName.setText(current.getFirstName());
         holder.lastName.setText(current.getLastName());
         holder.street_name.setText(current.getStreetName());
@@ -67,18 +66,18 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
         holder.pincode.setText(current.getPincode());
         holder.contact.setText(current.getContact());
 
-        holder.remove_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(current);
-
-                if(getItemCount() == 0)
-                {
-                    Intent intent = new Intent(contextActivity, AddAddressActivity.class);
-                    contextActivity.startActivity(intent);
-                }
-            }
-        });
+//        holder.remove_address.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                remove(current);
+//
+//                if(getItemCount() == 0)
+//                {
+//                    Intent intent = new Intent(contextActivity, AddAddressActivity.class);
+//                    contextActivity.startActivity(intent);
+//                }
+//            }
+//        });
 
     }
 
@@ -92,11 +91,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
 
     }
 
-    public void remove(Address item) {
-        int position = data.indexOf(item);
-        addressArrayList.remove(position);
-        notifyItemRemoved(position);
-    }
+//    public void remove(Address item) {
+//        int position = data.indexOf(item);
+//        addressArrayList.remove(position);
+//        notifyItemRemoved(position);
+//    }
 
     class AddressHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView firstName,lastName,company,street_name,city,state,country,remove_address,edit_address,pincode,contact;

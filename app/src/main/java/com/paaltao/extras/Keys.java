@@ -10,6 +10,8 @@ public interface Keys {
         public static final String KEY_SIGN_IN = "signin";
         public static final String KEY_USER_ID = "user_id";
         public static final String KEY_FIRST_NAME = "user_fname";
+        public static final String KEY_USER_FIRST_NAME = "firstname";
+        public static final String KEY_USER_LAST_NAME = "lastname";
         public static final String KEY_LAST_NAME = "user_lname";
         public static final String KEY_SIGN_OUT = "signOut";
         public static final String KEY_STATIC_PAGE = "staticPage";
