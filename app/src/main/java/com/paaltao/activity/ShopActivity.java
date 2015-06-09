@@ -217,9 +217,10 @@ public class ShopActivity extends AppCompatActivity {
         viewProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.m(shopCategoryId);
                 Intent intent = new Intent(ShopActivity.this, ProductListActivity.class);
                 intent.putExtra("catId", shopCategoryId);
+                intent.putExtra("shopName",shopName);
+                if (shopName != null){L.m(shopName);}
                 startActivity(intent);
             }
         });

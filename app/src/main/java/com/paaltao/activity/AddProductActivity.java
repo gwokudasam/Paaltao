@@ -186,6 +186,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                 Log.e("error",jsonObject.toString());
                 Log.e("JSONARRAY",jsonArray.toString());
                 Log.e("json", addProduct.toString());
+                L.m(sellerId);
 
 
 

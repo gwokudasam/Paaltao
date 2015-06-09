@@ -98,6 +98,7 @@
     <string name="product_weight">Product Weight in grams</string>
     <string name="product_quantity">Product Quantity</string>
     <string name="title_activity_edit_shop">EditShop</string>
+    <string name="title_activity_product_status">ProductStatus</string>
 
 
 </resources>

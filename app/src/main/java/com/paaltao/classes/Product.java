@@ -7,6 +7,29 @@ public class Product {
     long product_id;
 
 
+    String uploadedDate;
+    String Status;
+
+    public String getUploadedDate() {
+        return uploadedDate;
+    }
+
+    public void setUploadedDate(String uploadedDate) {
+        this.uploadedDate = uploadedDate;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getIs_liked() {
+        return is_liked;
+    }
+
     String product_name;
 
     public String getDescription() {

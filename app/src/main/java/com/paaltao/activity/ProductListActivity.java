@@ -65,7 +65,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
     RelativeLayout noProducts;
     private ImageView favorite;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    String accessToken,productName,description,imageURL,price,isLiked,catId,shopName,catName;
+    String accessToken,productName,description,imageURL,price,isLiked,catId,shopName,catName,shop_name;
     Long id;
 
 
@@ -80,6 +80,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         Intent intent = getIntent();
         catId = intent.getStringExtra("catId");
         catName = intent.getStringExtra("catName");
+        shop_name = intent.getStringExtra("shopName");
 
         initialize();
         sendJsonRequest();

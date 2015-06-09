@@ -178,6 +178,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.paaltao.activity.ManageShopActivity" />
         </activity>
+        <activity
+            android:name=".activity.ProductStatus"
+            android:label="@string/title_activity_product_status"
+            android:parentActivityName=".activity.ManageShopActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.paaltao.activity.ManageShopActivity" />
+        </activity>
     </application>
 
 </manifest>

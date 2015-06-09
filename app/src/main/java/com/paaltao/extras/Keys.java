@@ -50,6 +50,8 @@ public interface Keys {
         public static final String KEY_SHOP_DETAILS = "shopDetails";
         public static final String KEY_PRODUCT_QUANTITY = "quantity";
         public static final String KEY_PRODUCT_IMAGE = "image";
+        public static final String KEY_UPLOADED_DATE = "date";
+        public static final String KEY_PRODUCT_STATUS = "status";
         public static final String KEY_SHOP_IMAGE = "shopImage";
         public static final String KEY_PRODUCT_PRICE = "price";
         public static final String KEY_IS_LIKED = "isLiked";
@@ -59,6 +61,7 @@ public interface Keys {
         public static final String KEY_MESSAGE = "message";
         public static final String KEY_CATEGORY_LIST = "categoryList";
         public static final String KEY_CART_LIST = "getCartItems";
+        public static final String KEY_SELLER_PRODUCTS = "sellersProducts";
         public static final String KEY_CATEGORY_NAME = "name";
         public static final String KEY_CATEGORY_IMAGE = "image";
         public static final String KEY_CATEGORY_ID = "id";

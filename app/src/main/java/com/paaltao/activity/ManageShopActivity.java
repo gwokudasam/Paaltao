@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.paaltao.R;
 
 public class ManageShopActivity extends AppCompatActivity {
-    RelativeLayout layout,layout1,layout2,layout3;
+    RelativeLayout layout,layout1,layout2,layout3,layout4;
     String sellerId;
 
     @Override
@@ -33,6 +33,7 @@ public class ManageShopActivity extends AppCompatActivity {
        layout1 = (RelativeLayout)findViewById(R.id.edit_shop);
        layout2 = (RelativeLayout)findViewById(R.id.shop_orders);
        layout3 = (RelativeLayout)findViewById(R.id.add_product);
+       layout4 = (RelativeLayout)findViewById(R.id.product_status);
     }
 
     public void onClick(){
@@ -59,6 +60,13 @@ public class ManageShopActivity extends AppCompatActivity {
             }
         });
 
+        layout4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ManageShopActivity.this,ProductStatus.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

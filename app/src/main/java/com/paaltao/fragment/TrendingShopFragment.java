@@ -29,6 +29,7 @@ import com.paaltao.R;
 import com.paaltao.activity.ShopActivity;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -53,6 +54,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     TrendingShopAdapter trendingShopAdapter;
+    SharedPreferenceClass preferenceClass;
     ShopActivity activity;
     private ImageView favorite;
     private ArrayList<Product> trendingShopList = new ArrayList<>();
@@ -102,9 +104,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
                   trendingShopAdapter.setShopArrayList(trendingShopList);
                   Log.e("productArray", trendingShopList.toString());
 
-//                Log.e("url",UAT_BASE_URL+TRENDING_SHOP_LIST);
-//                Log.e("error", jsonObject.toString());
-//                Log.e("json", trendingShopList.toString());
+
             }
         }, new Response.ErrorListener() {
             @Override

@@ -19,6 +19,7 @@ public class urlEndPoints {
     public static final String TRENDING_SHOP_LIST = "getTrendingShopList";
     public static final String CATEGORY_LIST ="categoryList";
     public static final String CART_ITEMS = "getCartItems";
+    public static final String GET_SELLER_PRODUCTS = "getSellersProducts";
     public static final String VIEW_SHOP = "viewShop";
     public static final String PRODUCT_LIST = "productList";
     public static final String PRODUCT_DETAILS = "getProductDetails";

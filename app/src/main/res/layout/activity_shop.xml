@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:gravity="center_horizontal"
-                    android:text="Arindam's Shop"
+                    tools:text="Arindam's Shop"
                     android:textColor="@color/white"
                     android:textSize="28sp" />
 
