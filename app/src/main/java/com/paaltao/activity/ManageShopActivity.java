@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -12,6 +13,7 @@ import com.paaltao.R;
 
 public class ManageShopActivity extends AppCompatActivity {
     RelativeLayout layout,layout1,layout2,layout3;
+    String sellerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,9 @@ public class ManageShopActivity extends AppCompatActivity {
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManageShopActivity.this,OpenShopActivity.class);
+                Intent intent = new Intent(ManageShopActivity.this,EditShop.class);
+                intent.putExtra("sellerId",sellerId);
                 startActivity(intent);
-                intent.putExtra("editShop",true);
             }
         });
 

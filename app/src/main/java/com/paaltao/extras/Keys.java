@@ -47,6 +47,7 @@ public interface Keys {
         public static final String KEY_PRODUCT_DESCRIPTION = "description";
         public static final String KEY_PRODUCT_DETAILS = "productDetails";
         public static final String KEY_SHOP_NAME = "shopName";
+        public static final String KEY_SHOP_DETAILS = "shopDetails";
         public static final String KEY_PRODUCT_QUANTITY = "quantity";
         public static final String KEY_PRODUCT_IMAGE = "image";
         public static final String KEY_SHOP_IMAGE = "shopImage";
@@ -61,6 +62,7 @@ public interface Keys {
         public static final String KEY_CATEGORY_NAME = "name";
         public static final String KEY_CATEGORY_IMAGE = "image";
         public static final String KEY_CATEGORY_ID = "id";
+        public static final String KEY_SHOP_CATEGORY_ID = "shopCatId";
         public static final String KEY_PRODUCT_LIST = "productList";
         public static final String KEY_PRODUCT_IMAGES = "productImages";
         public static final String KEY_SHIPPING_DETAILS = "shippingDetails";

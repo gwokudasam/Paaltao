@@ -5,10 +5,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.paaltao.R;
 import com.paaltao.activity.HomeActivity;
 import com.paaltao.logging.L;
@@ -17,18 +21,23 @@ import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.utils.Logger;
 
+import org.litepal.LitePalApplication;
+
+import java.util.Map;
+
 import eu.inloop.easygcm.GcmListener;
 import eu.inloop.easygcm.WakeLockRelease;
 
 /**
  * Created by Arindam on 07-Feb-15.
  */
-public class Paaltao extends Application implements GcmListener{
+public class Paaltao extends LitePalApplication implements GcmListener{
     private static Paaltao sInstance;
     private static String APP_NAMESPACE = "com.paaltao";
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
     public static final int NOTIFICATION_ID = 1;
+
 
     @Override
     public void onCreate() {
@@ -85,4 +94,6 @@ public class Paaltao extends Application implements GcmListener{
     public void sendRegistrationIdToBackend(String registrationId) {
         Log.e("tokengcm",registrationId);
     }
+
+
 }

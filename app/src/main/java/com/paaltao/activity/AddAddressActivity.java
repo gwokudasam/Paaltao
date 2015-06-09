@@ -1,19 +1,33 @@
 package com.paaltao.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
 
 public class AddAddressActivity extends AppCompatActivity {
+    EditText firstName_field,lastName_field;
+    SharedPreferenceClass preferenceClass;
+    String firstName,lastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
+        initialize();
+
+        Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        this.setSupportActionBar(toolbar);
+        this.setTitle("Add Address");
     }
 
 
@@ -32,10 +46,20 @@ public class AddAddressActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_done) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void initialize(){
+        preferenceClass = new SharedPreferenceClass(getApplicationContext());
+        firstName_field = (EditText)findViewById(R.id.firstName_field);
+        lastName_field = (EditText)findViewById(R.id.lastName_field);
+        firstName = preferenceClass.getFirstName();
+        lastName = preferenceClass.getLastName();
+        firstName_field.setText(firstName);
+        lastName_field.setText(lastName);
     }
 }

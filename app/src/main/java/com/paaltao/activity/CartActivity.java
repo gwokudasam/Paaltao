@@ -67,7 +67,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
     String accessToken,imageURL,productName,productPrice;
     private CartAdapter cartAdapter;
     ProgressWheel progressWheel;
-    RelativeLayout cartEmpty;
+    RelativeLayout cartEmpty,noInternet;
     Long id;
     CartActivity activity;
     private JSONArray cartListArray;
@@ -138,6 +138,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                             .withTextColorId(R.color.white)
                             .withDuration((short) 6000)
                             .show();
+                    noInternet.setVisibility(View.VISIBLE);
+
 
                 } else if (volleyError instanceof AuthFailureError) {
 
@@ -231,6 +233,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
         accessToken = preferenceClass.getAccessToken();
         cartEmpty = (RelativeLayout)findViewById(R.id.cart_empty);
         continueShop = (TextView)findViewById(R.id.continue_shopping);
+        noInternet = (RelativeLayout)findViewById(R.id.no_internet);
 
 
     }

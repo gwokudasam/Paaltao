@@ -26,11 +26,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Choose A title (Eg : Home, Cousin's Place)"
-                android:id="@+id/address_title"
+                android:hint="First Name"
+                android:id="@+id/firstName_field"
                 android:inputType="textAutoComplete"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
         <com.paaltao.classes.FloatLabeledEditText
@@ -42,11 +42,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Street No (Eg : 35/D, 40S)"
-                android:id="@+id/street_no"
+                android:hint="Last Name"
+                android:id="@+id/lastName_field"
                 android:inputType="text"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
         <com.paaltao.classes.FloatLabeledEditText
@@ -58,29 +58,49 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Street Name (Eg : Park Street, Wellington)"
+                android:hint="Company Name"
+                android:id="@+id/companyName"
+                android:inputType="text"
+                android:padding="14dp"
+                android:textSize="15sp"
+                android:textColorHint="@color/black99" />
+        </com.paaltao.classes.FloatLabeledEditText>
+        <com.paaltao.classes.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contact"
+                android:id="@+id/contact_field"
+                android:inputType="phone"
+                android:padding="14dp"
+                android:textSize="15sp"
+                android:textColorHint="@color/black99" />
+        </com.paaltao.classes.FloatLabeledEditText>
+        <com.paaltao.classes.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Street Name"
                 android:id="@+id/street_name"
-                android:inputType="text"
+                android:inputType="textAutoComplete"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
-        </com.paaltao.classes.FloatLabeledEditText>
-        <com.paaltao.classes.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Landmark (Eg : Near Vincent School)"
-                android:id="@+id/landmark_name"
-                android:inputType="text"
-                android:padding="14dp"
-                android:textSize="15dp"
-                android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
+
+
+
         <com.paaltao.classes.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +114,7 @@
                 android:id="@+id/city_name"
                 android:inputType="textAutoComplete"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
 
         </com.paaltao.classes.FloatLabeledEditText>
@@ -111,7 +131,7 @@
                 android:id="@+id/pincode"
                 android:inputType="textPostalAddress"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
 
@@ -128,7 +148,7 @@
                 android:id="@+id/state"
                 android:inputType="textAutoComplete"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
         <com.paaltao.classes.FloatLabeledEditText
@@ -144,10 +164,48 @@
                 android:id="@+id/country"
                 android:inputType="text"
                 android:padding="14dp"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColorHint="@color/black99" />
         </com.paaltao.classes.FloatLabeledEditText>
+
+        <LinearLayout
+            android:id="@+id/default_billing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default Billing Address"
+            android:textSize="15sp"/>
+
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/default_shipping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default Shipping Address"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
     </ScrollView>
 
 </RelativeLayout>

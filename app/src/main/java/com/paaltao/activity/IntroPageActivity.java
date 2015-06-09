@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -33,6 +34,7 @@ import com.facebook.Session;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
@@ -94,6 +96,7 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_ID;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_LOGIN_SUCCESS;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
 import static com.paaltao.extras.urlEndPoints.FB_CONNECT;
+import static com.paaltao.extras.urlEndPoints.GP_CONNECT;
 import static com.paaltao.extras.urlEndPoints.LOGIN;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 import static com.sromku.simple.fb.Permission.*;
@@ -116,8 +119,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     CircleIndicator indicator;
     TextView fbBtn,gplusBtn,signUp,signIn,sessionCheck;
     Button test;
+    Person currentPerson;
     SimpleFacebook mSimpleFacebook;
-    String token;
+    String token,gplusEmail,token1,personVerifiedEmail="",personName,personPhoto,personGooglePlusProfile,personId,personGivenName,personFamilyName,personGender,personLocale;
     SharedPreferenceClass preferenceClass;
     Context mContext;
     int heightPixels,widthPixels,densityDpi;
@@ -138,10 +142,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
-        }
         initialize();
 
         GcmHelper.init(this);
@@ -454,9 +454,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
                     fbGetSession();
                     sendJsonRequestFacebook();
-                    Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
-                    startActivity(intent);
-                    finish();
                 }
             });
         }
@@ -621,6 +618,10 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         return UAT_BASE_URL +FB_CONNECT;
     }
 
+    private String getRequestUrlGplus() {
+        return UAT_BASE_URL +GP_CONNECT;
+    }
+
 
     private void resolveSignInError()
     {
@@ -656,37 +657,37 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         gplusBtn.setEnabled(false);
 
 
-        Person currentUser = Plus.PeopleApi
-                .getCurrentPerson(mGoogleApiClient);
-        username = currentUser.getName().getFamilyName();//family name
-        currentUser.getName().getGivenName();//given name
-        currentUser.getId();//id
+        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            personName = currentPerson.getDisplayName();
+            personPhoto = currentPerson.getImage().getUrl();
+            personGooglePlusProfile = currentPerson.getUrl();
+            personId = currentPerson.getId();
+            personGivenName = currentPerson.getName().getGivenName();
+            personFamilyName = currentPerson.getName().getFamilyName();
+            if (currentPerson.isVerified()){
+                personVerifiedEmail = "1";
+            }
+        }
 
-        String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        gplusEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
         String scopes = "audience:server:client_id:" + CLIENT_ID;
         try {
-            GoogleAuthUtil.getToken(
+           token1 =  GoogleAuthUtil.getToken(
                     getApplicationContext(),
-                    accountName, "oauth2:"
+                    gplusEmail, "oauth2:"
                             + Scopes.PLUS_LOGIN + " "
-                            + Scopes.PROFILE+" https://www.googleapis.com/auth/plus.profile.emails.read");
+                            + Scopes.PROFILE + " https://www.googleapis.com/auth/plus.profile.emails.read");
         } catch (IOException | GoogleAuthException e) {
             e.printStackTrace();
         }
 
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Welcome " + username, Toast.LENGTH_LONG);
 
-        toast.setGravity(Gravity.CENTER, 0, -150);
-        toast.show();
+        L.m(token1+""+"gplusToken");
+
         mSignInProgress = STATE_DEFAULT;
-        Intent i = new Intent(getApplicationContext(),
-                HomeActivity.class);
-        i.putExtra("username", currentUser.getDisplayName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-        finish();
+        sendGplusJsonRequest();
     }
 
     @Override
@@ -721,4 +722,175 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
     }
+
+    public void sendGplusJsonRequest() {
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject gpLogin = new JSONObject();
+        final JSONObject jsonObject1 = new JSONObject();
+        try {
+            jsonObject.put("id", personId);
+            jsonObject.put("email",gplusEmail);
+            jsonObject.put("first_name", firstName);
+            jsonObject.put("verified_email",personVerifiedEmail);
+            jsonObject.put("given_name", personGivenName);
+            jsonObject.put("family_name", personFamilyName);
+            jsonObject.put("link",personGooglePlusProfile);
+            jsonObject.put("picture",personPhoto);
+            jsonObject.put("gender",personGender);
+            gpLogin.put("gpResponse", jsonObject);
+            jsonObject1.put("accessToken", token1);
+            gpLogin.put("gpAccessToken",jsonObject1);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrlGplus(), gpLogin, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                parseGplusJSONResponse(jsonObject);
+                L.m(gpLogin.toString());
+
+                //Calling the Snackbar
+                Log.e("response",jsonObject.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(IntroPageActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public void parseGplusJSONResponse(JSONObject jsonObject) {
+        if (jsonObject == null || jsonObject.length() == 0) {
+            return;
+        }
+        try {
+            JSONObject dataObject = jsonObject.getJSONObject(Keys.UserCredentials.KEY_DATA);
+            JSONObject signInObject = dataObject.getJSONObject(KEY_SIGN_IN);
+            JSONObject accessTokenObject = signInObject.getJSONObject(KEY_ACCESS_TOKEN);
+            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+            if(dataObject.has(KEY_VENDOR)){
+                if (dataObject.isNull(KEY_VENDOR)){
+                    return;
+                }
+                else {JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
+                    if(vendorObject != null){
+                        String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
+                        if(vendor_login != null && vendor_login.contains("true")){
+                            preferenceClass.saveVendorLoginSuccess(vendor_login);
+                        }}}
+            }
+
+            emailId = signInObject.getString(KEY_EMAIL);
+            firstName = signInObject.getString(KEY_FIRST_NAME);
+            lastName = signInObject.getString(KEY_LAST_NAME);
+            login_success = signInObject.getBoolean(KEY_USER_LOGIN_SUCCESS);
+            userId = signInObject.getString(KEY_USER_ID);
+
+            preferenceClass.saveCustomerId(userId);
+            preferenceClass.saveFirstName(firstName);
+            preferenceClass.saveLastName(lastName);
+            preferenceClass.saveUserEmail(emailId);
+
+            Log.e("bla bla bla",preferenceClass.getCustomerId());
+
+            if(accessTokenObject.has(KEY_TOKEN)){
+                token = accessTokenObject.getString(KEY_TOKEN);}
+
+
+
+            String errorCode = errorNodeObject.getString(Keys.UserCredentials.KEY_ERROR_CODE);
+            String message = errorNodeObject.getString(KEY_MESSAGE);
+            if (login_success){
+                Log.e("TAG",login_success.toString());
+                if (token!= null && token.length()!=0){
+                    preferenceClass.saveAccessToken(token);
+                    preferenceClass.saveUserEmail(emailId);
+
+                    Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else{
+                Log.e("TAG",login_success.toString());
+                new SnackBar.Builder(IntroPageActivity.this)
+                        .withMessage("Username or Password is Incorrect!")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+//    public class GplusAsyncTask extends AsyncTask<Void, Void, String> {
+//        @Override
+//        protected String doInBackground(Void... params) {
+//            String token = null;
+//
+//            try {
+//                token = GoogleAuthUtil.getToken(
+//                        IntroPageActivity.this,
+//                        accountName,
+//                        "oauth2:" + SCOPES);
+//            } catch (IOException transientEx) {
+//                // Network or server error, try later
+//                Log.e(TAG, transientEx.toString());
+//
+//            } catch (UserRecoverableAuthException e) {
+//                // Recover (with e.getIntent())
+//                Log.e(TAG, e.toString());
+//
+//            } catch (GoogleAuthException authEx) {
+//                // The call is not ever expected to succeed
+//                // assuming you have already verified that
+//                // Google Play services is installed.
+//                Log.e(TAG, authEx.toString());
+//            }
+//
+//            return token;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String token) {
+//            /* here you have your token */
+//            Log.i(TAG, "Access token retrieved:" + token);
+//        }
+//
+//    }
+
+
 }

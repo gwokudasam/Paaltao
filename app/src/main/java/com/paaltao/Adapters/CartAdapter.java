@@ -132,7 +132,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         @Override
         public void onClick(View v) {
             if(clickListener != null){
-                clickListener.itemClicked(v, getLayoutPosition());
+                clickListener.itemClicked(v, getPosition());
             }
         }
     }

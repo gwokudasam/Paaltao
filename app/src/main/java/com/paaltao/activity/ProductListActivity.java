@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -61,6 +62,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
     ProgressWheel progressWheel;
     SharedPreferenceClass preferenceClass;
     FeaturedProductAdapter featuredProductAdapter;
+    RelativeLayout noProducts;
     private ImageView favorite;
     private ArrayList<Product> productArrayList = new ArrayList<>();
     String accessToken,productName,description,imageURL,price,isLiked,catId,shopName,catName;
@@ -75,6 +77,10 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         preferenceClass = new SharedPreferenceClass(this);
         accessToken = preferenceClass.getAccessToken();
         Log.e("token",accessToken);
+        Intent intent = getIntent();
+        catId = intent.getStringExtra("catId");
+        catName = intent.getStringExtra("catName");
+
         initialize();
         sendJsonRequest();
         mRecyclerView = (RecyclerView)findViewById(R.id.product_recycler_view);
@@ -85,9 +91,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         featuredProductAdapter.setClickListener(this);
         mRecyclerView.setAdapter(featuredProductAdapter);
 
-        Intent intent = getIntent();
-        catId = intent.getStringExtra("catId");
-        catName = intent.getStringExtra("catName");
+
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -98,6 +102,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         this.setSupportActionBar(toolbar);
     }
     public void initialize(){
+        noProducts = (RelativeLayout)findViewById(R.id.no_products);
     }
 
     public static String getRequestUrl() {
@@ -124,6 +129,9 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
             @Override
             public void onResponse(JSONObject jsonObject) {
                 productArrayList = parseJsonResponse(jsonObject);
+                if (productArrayList == null || productArrayList.size() == 0){
+                    noProducts.setVisibility(View.VISIBLE);
+                }
                 featuredProductAdapter.setProductArrayList(productArrayList);
                 Log.e("productArray", productArrayList.toString());
 

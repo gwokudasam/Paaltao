@@ -18,6 +18,17 @@ public class SharedPreferenceClass {
                 Activity.MODE_PRIVATE);
         this.prefsEditor = sharedprefs.edit();
     }
+
+    public void saveSellerId(String sellerId){
+        prefsEditor.putString("sellerId",sellerId);
+        prefsEditor.commit();
+    }
+    public String getSellerId(){return sharedprefs.getString("sellerId","");}
+
+    public void clearSellerId(){
+        prefsEditor.remove("sellerId");
+        prefsEditor.commit();
+    }
     public void saveVendorLoginSuccess(String hasShop){
         prefsEditor.putString("has_shop",hasShop);
         prefsEditor.commit();
@@ -38,14 +49,15 @@ public class SharedPreferenceClass {
         prefsEditor.putString("sessionid",cookieValue);
         prefsEditor.commit();
     }
-    public void saveCookiee(String cookieValue){
-        prefsEditor.putString("Cookie",cookieValue);
-        prefsEditor.commit();
-    }
+
     public String getCookie(){
         return sharedprefs.getString("sessionid","");
     }
 
+    public void clearCookie(){
+        prefsEditor.remove("sessionid");
+        prefsEditor.commit();
+    }
     public void saveLoginflag(Boolean login_flag) {
         prefsEditor.putBoolean("login_flag", login_flag);
         prefsEditor.commit();
@@ -108,6 +120,11 @@ public class SharedPreferenceClass {
 
     public void clearAccessToken(){
         prefsEditor.remove("access_token");
+        prefsEditor.commit();
+    }
+
+    public void clearVendorLoginSuccess(){
+        prefsEditor.remove("has_shop");
         prefsEditor.commit();
     }
 

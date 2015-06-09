@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.paaltao.activity.AddAddressActivity">
+    tools:context="com.paaltao.activity.EditShop">
     <item
-        android:id="@+id/action_done"
+        android:id="@+id/action_launch"
         android:orderInCategory="100"
-        android:title="@string/add_address"
+        android:title="@string/launch_shop"
         android:icon="@drawable/ic_check_white"
         app:showAsAction="always" />
 </menu>

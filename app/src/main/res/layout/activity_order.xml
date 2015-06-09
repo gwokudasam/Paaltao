@@ -3,6 +3,10 @@
     android:layout_height="match_parent"
     tools:context="com.paaltao.activity.OrderActivity">
 
+<include
+    layout="@layout/app_bar"
+    android:id="@+id/app_bar"/>
+
 
 
 </RelativeLayout>

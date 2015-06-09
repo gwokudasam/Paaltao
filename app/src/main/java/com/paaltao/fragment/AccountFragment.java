@@ -33,9 +33,11 @@ import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.IntroPageActivity;
+import com.paaltao.activity.OrderActivity;
 import com.paaltao.activity.PaaltaoInfo;
 import com.paaltao.activity.EditProfileActivity;
 import com.paaltao.classes.MyApp;
+import com.paaltao.classes.Paaltao;
 import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
@@ -72,14 +74,13 @@ public class AccountFragment extends Fragment {
     private static final String SET_COOKIE_KEY = "Set-Cookie";
     private static final String COOKIE_KEY = "Cookie";
     private static final String SESSION_COOKIE = "sessionid";
-    RelativeLayout accountLink,my_address,signOut;
+    RelativeLayout accountLink,my_address,signOut,my_orders;
     View view;
     String accessToken;
     TextView firstName,lastName,about,terms,privacy,notificationSettings;
     SharedPreferenceClass preferenceClass;
     SweetAlertDialog dialog;
     Context context;
-
 
 
     @Override
@@ -176,11 +177,14 @@ public class AccountFragment extends Fragment {
                 preferenceClass.clearFirstName();
                 preferenceClass.clearLastName();
                 preferenceClass.clearUserEmail();
+                preferenceClass.clearVendorLoginSuccess();
+                preferenceClass.clearCookie();
                 Log.e("accessToken",accessToken);
                 Intent intent = new Intent(getActivity(),IntroPageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().finish();
+                dialog.dismiss();
 
             }
             else{
@@ -247,10 +251,6 @@ public class AccountFragment extends Fragment {
         {
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                // since we don't know which of the two underlying network vehicles
-                // will Volley use, we have to handle and store session cookies manually
-                //   MyApp.get().checkSessionCookie(response.headers);
-                //L.m(response.headers.toString());
                 return super.parseNetworkResponse(response);
             }
             @Override
@@ -264,10 +264,10 @@ public class AccountFragment extends Fragment {
 
                 String sessionId = preferenceClass.getCookie();
                 Log.e("cOOOKIE","frontend="+sessionId);
-                Log.e("sessionid","frontend=7fgenogpffjvvmdg1gf439hta7");
+                Log.e("sessionid",sessionId);
 
                    // headers.put(COOKIE_KEY,"frontend="+sessionId);
-                    headers.put(COOKIE_KEY,"frontend=e7qfldgsnf7aop381a8vk3b866");
+                headers.put(COOKIE_KEY,"frontend="+sessionId);
                 return headers;
             }};
         requestQueue.add(jsonObjectRequest);
@@ -295,6 +295,7 @@ public class AccountFragment extends Fragment {
         if(preferenceClass.getLastName() != null)
         lastName.setText(preferenceClass.getLastName());
         notificationSettings = (TextView)view.findViewById(R.id.notification_settings);
+        my_orders = (RelativeLayout)view.findViewById(R.id.my_orders);
     }
 
     public void onItemClick(){
@@ -316,6 +317,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AddressActivity.class));
+            }
+        });
+
+        my_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), OrderActivity.class));
             }
         });
 
@@ -373,6 +381,7 @@ public class AccountFragment extends Fragment {
                     }
                 })
                 .show();
+
     }
 
 

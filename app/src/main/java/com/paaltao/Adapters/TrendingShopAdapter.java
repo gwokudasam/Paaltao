@@ -102,7 +102,7 @@ public class TrendingShopAdapter extends RecyclerView.Adapter<TrendingShopAdapte
         @Override
         public void onClick(View v) {
             if(clickListener != null){
-                clickListener.itemClicked(v, getLayoutPosition());
+                clickListener.itemClicked(v, getPosition());
             }
         }
     }

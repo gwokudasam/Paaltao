@@ -123,7 +123,7 @@ public class FeaturedProductAdapter extends RecyclerView.Adapter<FeaturedProduct
         @Override
         public void onClick(View v) {
             if(clickListener != null){
-                clickListener.itemClicked(v, getLayoutPosition());
+                clickListener.itemClicked(v, getPosition());
             }
         }
     }

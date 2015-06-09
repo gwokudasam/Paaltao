@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -35,6 +36,7 @@ import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
 import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
@@ -57,11 +59,13 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class AddProductActivity extends AppCompatActivity implements ImageChooserListener{
     private ImageChooserManager imageChooserManager;
-    String imagePath,encodedImage;
+    String imagePath,encodedImage,sellerId;
     ImageView product_select1,product_select2,product_select3,product_select4;
     private SweetAlertDialog dialog;
     private int item;
+    SharedPreferenceClass preferenceClass;
     private ArrayList<String> productImages = new ArrayList<>();
+    private JSONArray jsonArray;
     private EditText productName,productPrice,shippingPrice,productDescription,productWeight,productQuantity,shippingDetails;
     private Spinner category;
 
@@ -125,6 +129,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         category = (Spinner)findViewById(R.id.category_selector);
         shippingPrice = (EditText)findViewById(R.id.shipping_price);
         shippingDetails = (EditText)findViewById(R.id.shipping_details);
+        preferenceClass = new SharedPreferenceClass(getApplicationContext());
+        sellerId = preferenceClass.getSellerId();
 
     }
 
@@ -150,8 +156,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         final JSONObject jsonObject = new JSONObject();
         final JSONObject addProduct = new JSONObject();
         final JSONArray images = new JSONArray();
+        jsonArray = new JSONArray(productImages);
         try{
-            jsonObject.put("accessToken","67drd56g");
+            jsonObject.put("accessToken",preferenceClass.getAccessToken());
             jsonObject.put("name",productName.getText());
             jsonObject.put("description",productDescription.getText());
             jsonObject.put("weight",productWeight.getText());
@@ -160,8 +167,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             jsonObject.put("category",category.getSelectedItem().toString());
             jsonObject.put("shippingCost",shippingPrice.getText());
             jsonObject.put("shippingDetails",shippingDetails.getText());
-            images.put(productImages);
-            jsonObject.put("images",images);
+            jsonObject.put("vendorId",sellerId);
+            jsonObject.put("productImages",jsonArray);
             addProduct.put("addProduct", jsonObject);
 
 
@@ -175,12 +182,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                Log.e("count",String.valueOf(productImages.size()));
                 Log.e("error",jsonObject.toString());
+                Log.e("JSONARRAY",jsonArray.toString());
                 Log.e("json", addProduct.toString());
 
-                if (encodedImage != null && productImages != null){
-                    Log.e("images",productImages.toString());
-                }
 
 
 
@@ -211,7 +217,11 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
 
             }
         });
-        requestQueue.add(jsonObjectRequest);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        9000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                requestQueue.add(jsonObjectRequest);
     }
 
 
@@ -321,6 +331,10 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                     Log.d("TAG", "PATH is" + imagePath);
 
                     Bitmap myBitmap = BitmapFactory.decodeFile(imagePath);
+                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
+                    byte[] byteArr = byteArray.toByteArray();
+                    encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
 
                     ImageView myImage1 = (ImageView) findViewById(R.id.product_pic1);
                     ImageView myImage2 = (ImageView) findViewById(R.id.product_pic2);
@@ -355,26 +369,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                     dialog.dismiss();
 
 
-                    InputStream inputStream = null;//You can get an inputStream using any IO API
-                    try {
-                        inputStream = new FileInputStream(imagePath);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    try {
-                        assert inputStream != null;
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            output.write(buffer, 0, bytesRead);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    bytes = output.toByteArray();
-                    encodedImage = Base64.encodeToString(bytes, Base64.DEFAULT);
+
 
 
                     // image.getFilePathOriginal();

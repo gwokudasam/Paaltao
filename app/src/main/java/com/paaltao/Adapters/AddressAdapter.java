@@ -118,7 +118,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
         @Override
         public void onClick(View v) {
             if(clickListener != null){
-                clickListener.itemClicked(v, getLayoutPosition());
+                clickListener.itemClicked(v, getPosition());
             }
         }
     }

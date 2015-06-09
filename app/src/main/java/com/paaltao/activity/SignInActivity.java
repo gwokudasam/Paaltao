@@ -1,9 +1,7 @@
 package com.paaltao.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
-import com.paaltao.classes.MyApp;
+import com.paaltao.classes.Paaltao;
 import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
@@ -38,17 +35,13 @@ import com.paaltao.network.VolleySingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.paaltao.extras.Keys.UserCredentials.*;
-import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.LOGIN;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
@@ -61,7 +54,7 @@ public class SignInActivity extends AppCompatActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId;
+    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -202,14 +195,15 @@ public class SignInActivity extends AppCompatActivity {
                 L.m(Arrays.toString(response.data));
 
                 L.m(response.headers.get("Set-Cookie"));
-                preferenceClass.saveCookiee(response.headers.get("Set-Cookie"));
                 cookie = response.headers.get("Set-Cookie");
                 String[] splitCookie = cookie.split(";");
                 String[] splitSessionId = splitCookie[0].split("=");
                 newCookie = splitSessionId[1];
-                //cookie = response.headers.values().toString();
+                String cookiez = response.headers.values().toString();
                 Log.e("split",newCookie);
-                preferenceClass.saveCookie(newCookie);
+                Log.e("split",cookiez);
+                preferenceClass.saveCookie("frontend="+newCookie);
+
                 return super.parseNetworkResponse(response);
                 }
                 @Override
@@ -221,7 +215,6 @@ public class SignInActivity extends AppCompatActivity {
                         headers = new HashMap<String, String>();
                     }
 
-//                MyApp.get().addSessionCookie(headers);
 
                     return headers;
                 }
@@ -247,9 +240,17 @@ public class SignInActivity extends AppCompatActivity {
             else {JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
                 if(vendorObject != null){
                 String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
+                    Log.e("hasShop",vendor_login);
                 if(vendor_login != null && vendor_login.contains("true")){
                     preferenceClass.saveVendorLoginSuccess(vendor_login);
-                }}}
+                }
+                if (vendorObject.has(KEY_SELLER_ID)){
+                  if( vendorObject.isNull(KEY_SELLER_ID)){
+                        return;
+                    }
+                  sellerId =  vendorObject.getString(KEY_SELLER_ID);
+                }
+                }}
             }
 
             emailId = signInObject.getString(KEY_EMAIL);
@@ -262,6 +263,7 @@ public class SignInActivity extends AppCompatActivity {
             preferenceClass.saveFirstName(firstName);
             preferenceClass.saveLastName(lastName);
             preferenceClass.saveUserEmail(emailId);
+            preferenceClass.saveSellerId(sellerId);
 
             if(accessTokenObject.has(KEY_TOKEN)){
             token = accessTokenObject.getString(KEY_TOKEN);}

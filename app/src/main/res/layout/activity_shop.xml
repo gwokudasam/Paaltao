@@ -37,8 +37,9 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:background="@color/black80" />
+                    android:layout_height="match_parent"
+                    android:background="@color/black80"
+                    />
 
                 <TextView
                     android:id="@+id/shop_name"
@@ -55,11 +56,27 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/shop_name"
                     android:layout_marginTop="0dp"
+                    android:visibility="gone"
                     android:gravity="center_horizontal"
                     tools:text="Bankura,West Bengal"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shop Story"
+                android:textSize="22sp"
+                android:padding="20dp"/>
+            <TextView
+                android:id="@+id/shopDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Shop Story"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                android:padding="20dp"/>
 
 
 

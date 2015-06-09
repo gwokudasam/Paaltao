@@ -86,9 +86,6 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         mAdapter = new AddressAdapter(getApplicationContext(),this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-        initialize();
-        sendJsonRequest();
-
 
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);

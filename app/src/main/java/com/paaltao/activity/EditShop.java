@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -43,50 +41,38 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ACCESS_TOKEN;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_DATA;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_EMAIL;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_HAS_SHOP;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_OPEN_SHOP;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_SELLER_ID;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_IN;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
-import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
-import static com.paaltao.extras.urlEndPoints.BASE_URL;
+import static com.paaltao.extras.urlEndPoints.EDIT_SHOP;
 import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
-import static com.paaltao.extras.urlEndPoints.SIGN_UP;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
-public class OpenShopActivity extends AppCompatActivity implements ImageChooserListener {
-    Button selectCoverButton;
-    private  ImageChooserManager imageChooserManager;
+public class EditShop extends AppCompatActivity implements ImageChooserListener {
+
+    Button selectCoverButton,uploadPassbookPhoto;
+    private ImageChooserManager imageChooserManager;
     String imagePath,imagePath1,imagePath2,sellerID,accessToken,encodedImage;
-    ImageView coverImageArea;
+    ImageView coverImageArea,passbookPhoto;
     private SweetAlertDialog dialog;
     private Bitmap myBitmap;
-    private EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL;
+    EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL;
     SharedPreferenceClass preferenceClass;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_shop);
-
+        setContentView(R.layout.activity_edit_shop);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
-        this.setTitle("open a shop!");
+        this.setTitle("Edit Shop");
         initialize();
         onItemClick();
     }
@@ -94,7 +80,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_open_shop, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_shop, menu);
         return true;
     }
 
@@ -105,14 +91,12 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_launch){
             if (validationCheck()) {
                 sendJsonRequest();
             }
         }
-
-        //noinspection SimplifiableIfStatement
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -127,25 +111,28 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         city = (EditText)findViewById(R.id.shop_city_name);
         state = (EditText)findViewById(R.id.shop_state);
         postalCode = (EditText)findViewById(R.id.shop_pincode);
-        shopURL = (EditText)findViewById(R.id.shop_url);
-
+        passbookPhoto = (ImageView)findViewById(R.id.passbook_image);
+        uploadPassbookPhoto = (Button)findViewById(R.id.upload_passbook_image);
         preferenceClass = new SharedPreferenceClass(this);
+        sellerID = preferenceClass.getSellerId();
     }
 
-    public boolean validationCheck(){
+    public void onItemClick(){
+        selectCoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImageDialog();
+                Log.d("TAG", "image chooser selected!");
+            }
+        });
 
-        if(shopName.getText().toString().length() == 0)
-            shopName.setError("Please provide a shop name");
-        else if (aboutShop.getText().toString().length() == 0)
-            aboutShop.setError("Please provide some info about your shop");
-        else if(contactNo.getText().toString().length() == 0 && contactNo.getText().toString().length()>10)
-            contactNo.setError("Please provide 10 digit contact number");
-        else if(postalCode.getText().toString().length() == 0)
-            postalCode.setError("Please provide a postal code");
-        else if(shopURL.getText().toString().length() == 0 && shopURL.getText().toString().contains("."))
-            shopURL.setError("Please provide a shop url");
-        else return true;
-        return false;
+        uploadPassbookPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     public void sendJsonRequest(){
@@ -153,22 +140,22 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         final JSONObject openShop = new JSONObject();
         try{
             jsonObject.put("accessToken",preferenceClass.getAccessToken());
-            jsonObject.put("merchantName",preferenceClass.getFirstName()+""+preferenceClass.getLastName());
+            jsonObject.put("sellersName",preferenceClass.getFirstName()+""+preferenceClass.getLastName());
             jsonObject.put("userEmail",preferenceClass.getUserEmail());
             jsonObject.put("shopName",shopName.getText().toString());
             jsonObject.put("aboutShop",aboutShop.getText().toString());
             jsonObject.put("contactNo",contactNo.getText().toString());
             jsonObject.put("street",shopAddress.getText().toString());
             jsonObject.put("city",city.getText().toString());
+            jsonObject.put("vendorId",sellerID);
             jsonObject.put("state",city.getText().toString());
             jsonObject.put("country","India");
             jsonObject.put("pincode",postalCode.getText().toString());
-            jsonObject.put("shopUrl",shopURL.getText().toString());
             if (encodedImage != null){
                 jsonObject.put("shopImage",encodedImage);}
             else
                 jsonObject.put("shopImage","");
-            openShop.put("openShop", jsonObject);
+            openShop.put("editShop", jsonObject);
 
 
 
@@ -182,6 +169,8 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                if (sellerID != null){
+                Log.e("sellerId",sellerID);}
                 Log.e("error",jsonObject.toString());
                 Log.e("json", openShop.toString());
                 if (encodedImage != null){
@@ -197,7 +186,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    new SnackBar.Builder(OpenShopActivity.this)
+                    new SnackBar.Builder(EditShop.this)
                             .withMessage("No Internet Connection!")
                             .withTextColorId(R.color.white)
                             .withDuration((short) 6000)
@@ -231,69 +220,33 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     public static String getRequestUrl() {
 
         return UAT_BASE_URL
-                + OPEN_SHOP;
+                + EDIT_SHOP;
 
     }
 
-
-    public void onItemClick(){
-        selectCoverButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseImageDialog();
-                Log.d("TAG","image chooser selected!");
-                selectCoverButton.setText("Change cover image");
-            }
-        });
-
-    }
 
     public void parseJSONResponse(JSONObject jsonObject) {
         if (jsonObject == null || jsonObject.length() == 0) {
             return;
         }
-        try {
-            JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
-            JSONObject openShopObject = dataObject.getJSONObject(KEY_OPEN_SHOP);
-            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
 
-
-            sellerID = openShopObject.getString(KEY_SELLER_ID);
-            preferenceClass.saveSellerId(sellerID);
-            accessToken = openShopObject.getString(KEY_ACCESS_TOKEN);
-
-
-
-            String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
-            String message = errorNodeObject.getString(KEY_MESSAGE);
-
-            if (message.contains("Already Registered")){
-                new SnackBar.Builder(OpenShopActivity.this)
-                        .withMessage("A shop already exist with this username")
-                        .withTextColorId(R.color.white)
-                        .withDuration((short) 6000)
-                        .show();
-            }
-            else{
-                new SnackBar.Builder(OpenShopActivity.this)
-                        .withMessage("Congrats! Shop Created")
-                        .withTextColorId(R.color.white)
-                        .withDuration((short) 6000)
-                        .show();
-                preferenceClass.saveVendorLoginSuccess("true");
-                Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 
 
+    public boolean validationCheck(){
 
+        if(shopName.getText().toString().length() == 0)
+            shopName.setError("Please provide a shop name");
+        else if (aboutShop.getText().toString().length() == 0)
+            aboutShop.setError("Please provide some info about your shop");
+        else if(contactNo.getText().toString().length() == 0 && contactNo.getText().toString().length()>10)
+            contactNo.setError("Please provide 10 digit contact number");
+        else if(postalCode.getText().toString().length() == 0)
+            postalCode.setError("Please provide a postal code");
+        else return true;
+        return false;
+    }
     public void chooseImage(){
         imageChooserManager = new ImageChooserManager(this,
                 ChooserType.REQUEST_PICK_PICTURE);
@@ -345,47 +298,27 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     }
 
     @Override
-    public void onImageChosen(final ChosenImage image) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                    // Use the image
-                    imagePath = image.getFileThumbnail();
-                    imagePath1 = image.getFilePathOriginal();
-                    imagePath2 = image.getFileThumbnailSmall();
-
-                    Bitmap myBitmap = BitmapFactory.decodeFile(image.getFileThumbnail());
-                    ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
-                    byte[] byteArr = byteArray.toByteArray();
-                    encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
-    				Log.d("Data", encodedImage);
+    public void onImageChosen(ChosenImage image) {
+        imagePath = image.getFileThumbnail();
+        Bitmap myBitmap = BitmapFactory.decodeFile(image.getFileThumbnail());
+        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
+        byte[] byteArr = byteArray.toByteArray();
+        encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
+        Log.d("Data", encodedImage);
 
 
-                    ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
+        ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
 
-                    myImage.setImageBitmap(myBitmap);
+        myImage.setImageBitmap(myBitmap);
 
-                    coverImageArea.setVisibility(View.VISIBLE);
-                    dialog.hide();
-                    dialog.dismiss();
+        dialog.hide();
+        dialog.dismiss();
 
-
-            }
-        });
     }
 
-
     @Override
-    public void onError(final String reason) {
-        runOnUiThread(new Runnable() {
+    public void onError(String s) {
 
-            @Override
-            public void run() {
-                // Show error message
-            }
-        });
     }
 }
