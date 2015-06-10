@@ -31,7 +31,7 @@ public class ManageShopActivity extends AppCompatActivity {
     public void initialize(){
        layout = (RelativeLayout)findViewById(R.id.visit_my_shop);
        layout1 = (RelativeLayout)findViewById(R.id.edit_shop);
-       layout2 = (RelativeLayout)findViewById(R.id.shop_orders);
+//       layout2 = (RelativeLayout)findViewById(R.id.shop_orders);
        layout3 = (RelativeLayout)findViewById(R.id.add_product);
        layout4 = (RelativeLayout)findViewById(R.id.product_status);
     }

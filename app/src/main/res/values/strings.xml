@@ -99,6 +99,7 @@
     <string name="product_quantity">Product Quantity</string>
     <string name="title_activity_edit_shop">EditShop</string>
     <string name="title_activity_product_status">ProductStatus</string>
+    <string name="title_activity_edit_product">EditProductActivity</string>
 
 
 </resources>

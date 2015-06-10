@@ -24,6 +24,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.paaltao.R;
 import com.paaltao.classes.Paaltao;
 import com.paaltao.classes.PersistentCookieStore;
@@ -39,6 +43,7 @@ import java.net.CookiePolicy;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.paaltao.extras.Keys.UserCredentials.*;
@@ -50,11 +55,12 @@ public class SignInActivity extends AppCompatActivity {
     private static final String COOKIE_KEY = "Cookie";
     private static final String SESSION_COOKIE = "sessionid";
     Button SignUpBtn;
+    Integer size;
     Button SignInBtn;
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId;
+    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId,abcd,fuck;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -99,7 +105,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validationCheck()) {
-                    sendJsonRequest();
+                    request1();
                 }
 
             }
@@ -129,6 +135,128 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+    public void request1(){
+
+        JsonObject jsonObject = new JsonObject();
+        JsonObject signInObject = new JsonObject();
+        jsonObject.addProperty("email", "arindamdawn4@gmail.com");
+        jsonObject.addProperty("password", "123456");
+        signInObject.add("emailSignIn", jsonObject);
+
+        Ion.with(getApplicationContext())
+                .load(getRequestUrl())
+                .setJsonObjectBody(signInObject)
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
+                        Log.e("response", result.getHeaders().getHeaders().toString());
+                        Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+                        abcd = result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", "");
+                        Log.e("jhghjgdf", abcd);
+
+
+                        List<String> xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
+                        xxx.get(0);
+
+                        Log.e("gfhdfghdfg", xxx.get(7));
+                        size = xxx.size();
+                        Log.e("size",size.toString());
+                        String[] splitCookie = xxx.get(size-1).split(";");
+                        String[] splitSessionId = splitCookie[0].split("=");
+                        fuck = splitSessionId[1];
+                        parseJsonData(result.getResult());
+                        preferenceClass.saveCookie("frontend="+fuck);
+
+                    }
+
+
+                });
+
+
+    }
+
+    public void parseJsonData(JsonObject object){
+        if (object == null ) {
+            return;
+        }
+        try {
+            JsonObject dataObject = object.getAsJsonObject(KEY_DATA);
+            JsonObject signInObject = dataObject.getAsJsonObject(KEY_SIGN_IN);
+            JsonObject accessTokenObject = signInObject.getAsJsonObject(KEY_ACCESS_TOKEN);
+            JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
+            if(dataObject.has(KEY_VENDOR)){
+                if (dataObject.isJsonNull()){
+                    return;
+                }
+                else {JsonObject vendorObject = dataObject.getAsJsonObject(KEY_VENDOR);
+                    if(vendorObject != null){
+                        String vendor_login = (vendorObject.get(KEY_HAS_SHOP)).getAsString();
+                        Log.e("hasShop",vendor_login);
+                        if(vendor_login != null && vendor_login.contains("true")){
+                            preferenceClass.saveVendorLoginSuccess(vendor_login);
+                        }
+                        if (vendorObject.has(KEY_SELLER_ID)){
+                            if( vendorObject.isJsonNull()){
+                                return;
+                            }
+                            sellerId =  (vendorObject.get(KEY_SELLER_ID)).getAsString();
+                        }
+                    }}
+            }
+
+            emailId = (signInObject.get(KEY_EMAIL)).getAsString();
+            firstName = (signInObject.get(KEY_FIRST_NAME).getAsString());
+            lastName = (signInObject.get(KEY_LAST_NAME).getAsString());
+            login_success = (signInObject.get(KEY_USER_LOGIN_SUCCESS).getAsBoolean());
+            userId = (signInObject.get(KEY_USER_ID).getAsString());
+
+            preferenceClass.saveCustomerId(userId);
+            preferenceClass.saveFirstName(firstName);
+            preferenceClass.saveLastName(lastName);
+            preferenceClass.saveUserEmail(emailId);
+            preferenceClass.saveSellerId(sellerId);
+
+            if(accessTokenObject.has(KEY_TOKEN)){
+                token = (accessTokenObject.get(KEY_TOKEN).getAsString());}
+
+
+
+            String errorCode = (errorNodeObject.get(KEY_ERROR_CODE).getAsString());
+            String message = (errorNodeObject.get(KEY_MESSAGE).getAsString());
+            if (!(errorCode.contains("200"))){
+                new SnackBar.Builder(SignInActivity.this)
+                        .withMessage("Username or Password is Incorrect!")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+            if (login_success){
+                Log.e("TAG",login_success.toString());
+                if (token!= null && token.length()!=0){
+                    preferenceClass.saveAccessToken(token);
+                    preferenceClass.saveUserEmail(emailId);
+
+                    Intent intent = new Intent(SignInActivity.this,HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else{
+                Log.e("TAG",login_success.toString());
+                new SnackBar.Builder(SignInActivity.this)
+                        .withMessage("Username or Password is Incorrect!")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+        } catch (JsonIOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void sendJsonRequest() {
@@ -142,6 +270,9 @@ public class SignInActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+
 
 
         RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
@@ -272,6 +403,13 @@ public class SignInActivity extends AppCompatActivity {
 
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
+            if (!(errorCode.contains("200"))){
+                new SnackBar.Builder(SignInActivity.this)
+                        .withMessage("Username or Password is Incorrect!")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
             if (login_success){
                 Log.e("TAG",login_success.toString());
                 if (token!= null && token.length()!=0){

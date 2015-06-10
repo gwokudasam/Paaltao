@@ -186,6 +186,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.paaltao.activity.ManageShopActivity" />
         </activity>
+        <activity
+            android:name=".activity.EditProductActivity"
+            android:label="@string/title_activity_edit_product" >
+        </activity>
     </application>
 
 </manifest>

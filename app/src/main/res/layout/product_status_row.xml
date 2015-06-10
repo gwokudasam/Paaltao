@@ -94,8 +94,31 @@
                 android:textColor="@color/teal"/>
 
         </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/edit_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDIT"
+                android:padding="16dp"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/remove_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DELETE"
+                android:padding="16dp"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

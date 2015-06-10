@@ -24,5 +24,6 @@ public class urlEndPoints {
     public static final String PRODUCT_LIST = "productList";
     public static final String PRODUCT_DETAILS = "getProductDetails";
     public static final String GET_ADDRESS = "getAddress";
+    public static final String ADD_CART = "addToCart";
 
 }

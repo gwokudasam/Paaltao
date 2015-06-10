@@ -54,6 +54,7 @@ public interface Keys {
         public static final String KEY_PRODUCT_STATUS = "status";
         public static final String KEY_SHOP_IMAGE = "shopImage";
         public static final String KEY_PRODUCT_PRICE = "price";
+        public static final String KEY_CART_PRODUCT_PRICE = "productPrice";
         public static final String KEY_IS_LIKED = "isLiked";
         public static final String KEY_ACCESS_TOKEN = "accessToken";
         public static final String KEY_ERROR_NODE = "errorNode";
@@ -73,6 +74,7 @@ public interface Keys {
         public static final String KEY_AVERAGE_RATING = "avg_rating_in_percet";
         public static final String KEY_COMMENT = "comment";
         public static final String KEY_DATE = "date";
+        public static final String KEY_ADD_CART = "addToCart";
         public static final String KEY_ADDRESSES = "addresses";
 
 

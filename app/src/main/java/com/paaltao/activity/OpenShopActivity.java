@@ -267,6 +267,12 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
 
+            if (errorCode.contains("200")){
+                Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
             if (message.contains("Already Registered")){
                 new SnackBar.Builder(OpenShopActivity.this)
                         .withMessage("A shop already exist with this username")

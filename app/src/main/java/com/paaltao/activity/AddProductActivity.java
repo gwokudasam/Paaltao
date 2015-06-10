@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -36,7 +38,9 @@ import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
 import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.paaltao.R;
+import com.paaltao.classes.Product;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.extras.Keys;
 import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
@@ -53,17 +57,26 @@ import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.paaltao.extras.Keys.ProductList.KEY_DATA;
+import static com.paaltao.extras.Keys.ProductList.KEY_ERROR_CODE;
+import static com.paaltao.extras.Keys.ProductList.KEY_ERROR_NODE;
+import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_ID;
+import static com.paaltao.extras.Keys.ProductList.KEY_SHOP_IMAGE;
+import static com.paaltao.extras.Keys.ProductList.KEY_SHOP_NAME;
+import static com.paaltao.extras.Keys.ProductList.KEY_TRENDING_SHOP_LIST;
 import static com.paaltao.extras.urlEndPoints.ADD_PRODUCT;
 import static com.paaltao.extras.urlEndPoints.OPEN_SHOP;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class AddProductActivity extends AppCompatActivity implements ImageChooserListener{
     private ImageChooserManager imageChooserManager;
-    String imagePath,encodedImage,sellerId;
+    String imagePath,encodedImage,sellerId,errorCode;
     ImageView product_select1,product_select2,product_select3,product_select4;
     private SweetAlertDialog dialog;
     private int item;
+    private TextView viewProducts;
     SharedPreferenceClass preferenceClass;
+    RelativeLayout successMessage;
     private ArrayList<String> productImages = new ArrayList<>();
     private JSONArray jsonArray;
     private EditText productName,productPrice,shippingPrice,productDescription,productWeight,productQuantity,shippingDetails;
@@ -131,7 +144,8 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         shippingDetails = (EditText)findViewById(R.id.shipping_details);
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         sellerId = preferenceClass.getSellerId();
-
+        successMessage = (RelativeLayout)findViewById(R.id.in_review);
+        viewProducts = (TextView)findViewById(R.id.success_message);
     }
 
     public boolean validationCheck(){
@@ -182,6 +196,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                parseJsonResponse(jsonObject);
                 Log.e("count",String.valueOf(productImages.size()));
                 Log.e("error",jsonObject.toString());
                 Log.e("JSONARRAY",jsonArray.toString());
@@ -225,6 +240,41 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                 requestQueue.add(jsonObjectRequest);
     }
 
+    public void parseJsonResponse(JSONObject response) {
+
+        if (response != null && response.length() > 0) {
+
+            try {
+                JSONObject dataObject = response.getJSONObject(KEY_DATA);
+                JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+                    errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
+                    if (errorCode.contains("200")){
+                        successMessage.setVisibility(View.VISIBLE);
+                        viewProducts.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AddProductActivity.this,ProductStatus.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                else {
+                        new SnackBar.Builder(AddProductActivity.this)
+                                .withMessage("An error occured. Please try again")
+                                .withTextColorId(R.color.white)
+                                .withDuration((short) 6000)
+                                .show();
+                    }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public static String getRequestUrl() {
 
@@ -269,6 +319,14 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             }
         });
 
+        viewProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddProductActivity.this,ProductStatus.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
     public void chooseImage(){
         imageChooserManager = new ImageChooserManager(this,

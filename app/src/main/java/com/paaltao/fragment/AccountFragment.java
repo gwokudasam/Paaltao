@@ -267,7 +267,7 @@ public class AccountFragment extends Fragment {
                 Log.e("sessionid",sessionId);
 
                    // headers.put(COOKIE_KEY,"frontend="+sessionId);
-                headers.put(COOKIE_KEY,"frontend="+sessionId);
+                headers.put(COOKIE_KEY,preferenceClass.getCookie());
                 return headers;
             }};
         requestQueue.add(jsonObjectRequest);

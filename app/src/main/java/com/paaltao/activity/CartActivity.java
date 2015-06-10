@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -43,10 +44,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.paaltao.extras.Keys.ProductList.KEY_CART_LIST;
+import static com.paaltao.extras.Keys.ProductList.KEY_CART_PRODUCT_PRICE;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_ID;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_IMAGE;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_LIST;
@@ -156,7 +161,29 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                 }
 
             }
-        });
+        }) {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null
+                        || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                String sessionId = preferenceClass.getCookie();
+                Log.e("cOOOKIE","frontend="+sessionId);
+                Log.e("sessionid",sessionId);
+
+                // headers.put(COOKIE_KEY,"frontend="+sessionId);
+                headers.put("Cookie",preferenceClass.getCookie());
+                return headers;
+            }};
+                ;
         requestQueue.add(jsonObjectRequest);
     }
     public static String getRequestUrl() {
@@ -190,7 +217,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                                 JSONObject cartListObject = cartListArray.getJSONObject(i);
                                 id = cartListObject.getLong(KEY_PRODUCT_ID);
                                 productName = cartListObject.getString(KEY_PRODUCT_NAME);
-                                productPrice = cartListObject.getString(KEY_PRODUCT_PRICE);
+                                productPrice = cartListObject.getString(KEY_CART_PRODUCT_PRICE);
                                 imageURL = cartListObject.getString(KEY_PRODUCT_IMAGE);
 
 

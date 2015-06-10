@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     tools:context="com.paaltao.activity.ProductDetailsActivity">
 
     <include
@@ -80,6 +81,8 @@
                         android:paddingBottom="10dp"
                         android:textSize="25sp"
                         android:textColor="@color/teal"/>
+
+
                 </LinearLayout>
 
                     <View
@@ -114,7 +117,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        tools:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -162,6 +166,10 @@
                     </RelativeLayout>
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
                     <Button
                         android:id="@+id/add_cart"
                         android:layout_width="match_parent"
@@ -170,11 +178,12 @@
                         android:padding="16dp"
                         android:background="@color/teal"
                         android:textColor="@color/white"
-                        android:layout_margin="10dp"
-                        />
+                        android:layout_margin="10dp" />
 
 
 
+
+                </RelativeLayout>
 
 
         <TextView
@@ -242,5 +251,22 @@
             android:padding="16dp"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.paaltao.classes.ProgressWheel
+            android:id="@+id/action_progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_alignParentRight="true"
+            wheel:matProg_barColor="@color/white"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="30dp"
+            wheel:matProg_progressIndeterminate="true"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

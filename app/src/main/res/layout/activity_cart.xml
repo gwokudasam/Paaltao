@@ -14,29 +14,32 @@
 
     <!-- A RecyclerView with some commonly used attributes -->
 
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/app_bar">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cart_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:layout_below="@+id/app_bar"/>
-
+        android:layout_marginBottom="50dp"
+        />
+</RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/checkout"
-        android:background="@color/greenMaterial">
+        android:background="@color/teal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="checkout"
-            android:fontFamily="sans-serif-light"
             android:padding="16dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:gravity="center_horizontal"
             android:textSize="20sp"/>
     </RelativeLayout>
@@ -45,9 +48,10 @@
         android:id="@+id/action_progress"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:visibility="gone"
+        tools:visibility="visible"
         wheel:matProg_barColor="@color/primaryColor"
         wheel:matProg_progressIndeterminate="true" />
 
@@ -56,7 +60,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:gravity="center"
         android:id="@+id/cart_empty"
         android:background="@color/white">
@@ -95,7 +99,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:gravity="center"
         android:id="@+id/no_internet"
         android:background="@color/white">

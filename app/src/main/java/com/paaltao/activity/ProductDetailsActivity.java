@@ -32,9 +32,14 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.paaltao.R;
 import com.paaltao.classes.BadgeView;
 import com.paaltao.classes.Product;
+import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.network.VolleySingleton;
 
@@ -44,7 +49,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import static com.paaltao.extras.Keys.ProductList.KEY_ADD_CART;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_IMAGES;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_QUANTITY;
 import static com.paaltao.extras.Keys.ProductList.KEY_REVIEWS;
@@ -62,6 +69,7 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_IN;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_DETAILS;
+import static com.paaltao.extras.urlEndPoints.ADD_CART;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_DETAILS;
 import static com.paaltao.extras.urlEndPoints.PRODUCT_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
@@ -73,14 +81,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     Menu badge_menu;
     Intent intent;
     Button addToCart;
-    int value = 0;
+    int value = 1;
+    ProgressWheel progress;
     SharedPreferenceClass preferenceClass;
     MenuItem badge_item_cart;
     int badge_item_id_cart;
     View target_cart;
     BadgeView badge_cart;
     SliderLayout mDemoSlider;
-    String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop;
+    String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop,errorCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +187,83 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
                 + PRODUCT_DETAILS;
 
     }
+
+    public static String getRequestURLAddCart() {
+
+        return UAT_BASE_URL
+                + ADD_CART;
+
+    }
+
+    public void addCartJsonRequest(){
+        if (progress.getVisibility() == View.GONE){
+        progress.setVisibility(View.VISIBLE);}
+        JsonObject jsonObject = new JsonObject();
+        JsonObject addToCart = new JsonObject();
+        jsonObject.addProperty("accessToken",accessToken);
+        jsonObject.addProperty("product_id",productId);
+        jsonObject.addProperty("qty",value);
+        addToCart.add("addToCart", jsonObject);
+
+
+        Ion.with(getApplicationContext())
+                .load(getRequestURLAddCart())
+                .setJsonObjectBody(addToCart)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+                        Log.e("response",result.toString());
+                        parseCartJsonResponse(result);
+                    }
+                });
+
+
+
+
+
+    }
+
+
+    public void parseCartJsonResponse(JsonObject object){
+        if (progress.getVisibility() == View.VISIBLE){
+            progress.setVisibility(View.GONE);
+        }
+        if (object == null ) {
+            return;
+        }
+        try {
+            JsonObject dataObject = object.getAsJsonObject(KEY_DATA);
+            JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
+
+            String errorCode = errorNodeObject.get(KEY_ERROR_CODE).getAsString();
+            String message = errorNodeObject.get(KEY_MESSAGE).getAsString();
+
+            if (message.contains("Product added successfully")){
+                badge_cart.increment(1);
+                badge_cart.show();
+                new SnackBar.Builder(ProductDetailsActivity.this)
+                        .withMessage("Product has been successfully added to cart")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }else{
+                new SnackBar.Builder(ProductDetailsActivity.this)
+                        .withMessage("The requested product is unavailable")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+
+        } catch (JsonIOException e) {
+            e.printStackTrace();
+        }
+
+
+        }
+
+
 
     public void sendJsonRequest(){
         final JSONObject jsonObject = new JSONObject();
@@ -296,6 +382,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         item_quantity = (TextView)findViewById(R.id.quantity);
         addItem = (ImageView)findViewById(R.id.add_quantity);
         removeitem = (ImageView)findViewById(R.id.remove_quantity);
+        progress = (ProgressWheel)findViewById(R.id.action_progress);
 
     }
 
@@ -311,9 +398,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=1;i<= value;i++){
-                    item_quantity.setText(Integer.toString(i));
-                }
+
             }
         });
 
@@ -327,8 +412,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                badge_cart.increment(1);
-                badge_cart.show();
+                addCartJsonRequest();
             }
         });
 
