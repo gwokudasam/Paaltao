@@ -38,30 +38,37 @@
                     android:orientation="vertical"
                     android:layout_marginBottom="60dp"
                     >
-
                 <RatingBar
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/ratingBar"
-                    android:layout_gravity="center_horizontal" />
+                    android:max="5"
+                    android:stepSize="0.01"
+                    />
 
                 <TextView
                         android:id="@+id/product_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="16dp"
+
+                        android:paddingTop="16dp"
+                        android:paddingLeft="30dp"
+                        android:paddingBottom="6dp"
                         android:textSize="20sp"
                         android:text="@string/product_detail_title"
                         android:textColor="@color/black"
                         android:fontFamily="sans-serif-light" />
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_horizontal">
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="10dp"
+                    >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -75,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/product_price"
-                        android:text="1200"
+                        tools:text="1200"
                         android:paddingRight="10dp"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
@@ -88,6 +95,7 @@
                     <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@android:color/darker_gray" />
 
                     <TextView

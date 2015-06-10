@@ -55,7 +55,7 @@
             android:id="@+id/action_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
+            fab:fab_colorNormal="@color/greenMaterial"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_title="Action B" />
 
@@ -63,8 +63,8 @@
             android:id="@+id/open_shop_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            app:fab_addButtonColorNormal="@color/white"
+            fab:fab_colorNormal="@color/blue500"
+            app:fab_addButtonColorNormal="@color/blue500"
             fab:fab_colorPressed="@color/white_pressed"
             fab:fab_title="open a shop" />
 
@@ -87,7 +87,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:gravity="center"
         android:id="@+id/no_internet"
         android:background="@color/white">

@@ -123,11 +123,10 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
 
 
         });
-        actionC.setIcon(R.drawable.ic_check_white);
         ((FloatingActionsMenu) findViewById(R.id.multiple_actions)).addButton(actionC);
 
         ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
-        drawable.getPaint().setColor(getResources().getColor(R.color.white));
+        drawable.getPaint().setColor(getResources().getColor(R.color.blue500));
 
 
         actionB = (FloatingActionButton) findViewById(R.id.action_b);

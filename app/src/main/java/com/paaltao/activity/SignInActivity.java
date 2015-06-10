@@ -138,9 +138,9 @@ public class SignInActivity extends AppCompatActivity {
     public void request1(){
 
         JsonObject jsonObject = new JsonObject();
-        JsonObject signInObject = new JsonObject();
-        jsonObject.addProperty("email", "arindamdawn4@gmail.com");
-        jsonObject.addProperty("password", "123456");
+        final JsonObject signInObject = new JsonObject();
+        jsonObject.addProperty("email", email.getText().toString());
+        jsonObject.addProperty("password", password.getText().toString());
         signInObject.add("emailSignIn", jsonObject);
 
         Ion.with(getApplicationContext())
@@ -157,10 +157,10 @@ public class SignInActivity extends AppCompatActivity {
                         Log.e("jhghjgdf", abcd);
 
 
+
                         List<String> xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
                         xxx.get(0);
 
-                        Log.e("gfhdfghdfg", xxx.get(7));
                         size = xxx.size();
                         Log.e("size",size.toString());
                         String[] splitCookie = xxx.get(size-1).split(";");
@@ -206,15 +206,24 @@ public class SignInActivity extends AppCompatActivity {
                     }}
             }
 
+            if (signInObject.isJsonNull()){
+                return;
+            }
             emailId = (signInObject.get(KEY_EMAIL)).getAsString();
+            if (signInObject.has(KEY_FIRST_NAME)){
             firstName = (signInObject.get(KEY_FIRST_NAME).getAsString());
+                preferenceClass.saveFirstName(firstName);}
+            if (signInObject.has(KEY_LAST_NAME)){
             lastName = (signInObject.get(KEY_LAST_NAME).getAsString());
+                preferenceClass.saveLastName(lastName);}
             login_success = (signInObject.get(KEY_USER_LOGIN_SUCCESS).getAsBoolean());
+            if (signInObject.has(KEY_USER_ID)){
             userId = (signInObject.get(KEY_USER_ID).getAsString());
+                preferenceClass.saveCustomerId(userId);}
 
-            preferenceClass.saveCustomerId(userId);
-            preferenceClass.saveFirstName(firstName);
-            preferenceClass.saveLastName(lastName);
+
+
+
             preferenceClass.saveUserEmail(emailId);
             preferenceClass.saveSellerId(sellerId);
 

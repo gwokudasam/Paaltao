@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -69,6 +71,8 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class OpenShopActivity extends AppCompatActivity implements ImageChooserListener {
     Button selectCoverButton;
+    RelativeLayout shopOpened;
+    TextView manageShop;
     private  ImageChooserManager imageChooserManager;
     String imagePath,imagePath1,imagePath2,sellerID,accessToken,encodedImage;
     ImageView coverImageArea;
@@ -128,6 +132,8 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         state = (EditText)findViewById(R.id.shop_state);
         postalCode = (EditText)findViewById(R.id.shop_pincode);
         shopURL = (EditText)findViewById(R.id.shop_url);
+        shopOpened = (RelativeLayout)findViewById(R.id.shopOpened);
+        manageShop = (TextView)findViewById(R.id.manage_shop);
 
         preferenceClass = new SharedPreferenceClass(this);
     }
@@ -281,11 +287,17 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                         .show();
             }
             else{
-                new SnackBar.Builder(OpenShopActivity.this)
-                        .withMessage("Congrats! Shop Created")
-                        .withTextColorId(R.color.white)
-                        .withDuration((short) 6000)
-                        .show();
+                if(shopOpened.getVisibility() == View.GONE){
+                    shopOpened.setVisibility(View.VISIBLE);
+                    manageShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
                 preferenceClass.saveVendorLoginSuccess("true");
                 Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
                 startActivity(intent);

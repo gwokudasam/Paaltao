@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/paaltao_background"
-    tools:context="com.paaltao.activity.SignInActivity">
+    tools:context="com.paaltao.activity.SignInActivity"
+    >
 
     <include
         android:id="@+id/app_bar"
@@ -14,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
-        android:background="@color/black80">
+        >
 
 
 

@@ -51,7 +51,7 @@
                     android:id="@+id/about_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="6"
+                    android:lines="3"
                     android:hint="Tell the world about your shop"
                     android:gravity="top|left"
                     android:fontFamily="sans-serif-light"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Contact No"
                     android:id="@+id/shop_contact"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:padding="14dp"
                     android:fontFamily="sans-serif-light"
                     android:textColorHint="@color/black99"/>
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Your postal code"
                     android:id="@+id/shop_pincode"
-                    android:inputType="text"
+                    android:inputType="textPostalAddress"
                     android:padding="14dp"
                     android:fontFamily="sans-serif-light"
                     android:textColorHint="@color/black99"/>
@@ -166,7 +166,6 @@
                 android:layout_margin="20dp"
                 android:visibility="gone"
                 android:id="@+id/shop_cover_image"
-                tools:src="@drawable/apple_small"
                 android:contentDescription="@string/shop_cover_image" />
             <Button
                 android:layout_width="match_parent"
@@ -177,10 +176,150 @@
                 android:background="@color/teal"
                 android:textColor="@color/white"/>
 
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank account number"
+                    android:id="@+id/bank_account_no"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank name"
+                    android:id="@+id/bank_name"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank MICR no"
+                    android:id="@+id/bank_micr_no"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Cheque name"
+                    android:id="@+id/bank_cheque_name"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank address"
+                    android:id="@+id/bank_address"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+            <com.paaltao.classes.FloatLabeledEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank IFSC code"
+                    android:id="@+id/bank_IFSC"
+                    android:inputType="text"
+                    android:padding="14dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColorHint="@color/black99"/>
+            </com.paaltao.classes.FloatLabeledEditText>
+
 
 
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/shopOpened"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/teal"
+        android:visibility="gone"
+        android:paddingTop="50dp"
+        tools:visibility = "visible">
+
+        <ImageView
+            android:id="@+id/success_tick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_white"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/success_message"
+            android:layout_below="@+id/success_tick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:text="Congatulations your shop has been created!.You can now mange your shop and upload your awesome products"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:padding="20sp"/>
+
+        <TextView
+            android:layout_below="@+id/success_message"
+            android:id="@+id/manage_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Goto Manage Shop"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:layout_marginTop="40dp"/>
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

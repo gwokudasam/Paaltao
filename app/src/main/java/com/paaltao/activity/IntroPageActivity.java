@@ -185,6 +185,16 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
     }
 
+    //App launch service
+    public void appLaunchSendJson(){
+        
+    }
+
+
+
+
+
+
 
     public void initialize() {
         pagercontainer = (ViewPager) findViewById(R.id.pagercontainer);

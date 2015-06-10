@@ -190,6 +190,14 @@
             android:name=".activity.EditProductActivity"
             android:label="@string/title_activity_edit_product" >
         </activity>
+        <activity
+            android:name=".activity.ReviewsActivity"
+            android:label="@string/title_activity_reviews"
+            android:parentActivityName=".activity.ProductDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.paaltao.activity.ProductDetailsActivity" />
+        </activity>
     </application>
 
 </manifest>

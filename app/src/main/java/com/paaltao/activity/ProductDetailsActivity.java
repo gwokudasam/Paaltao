@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -52,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.paaltao.extras.Keys.ProductList.KEY_ADD_CART;
+import static com.paaltao.extras.Keys.ProductList.KEY_AVERAGE_RATING;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_IMAGES;
 import static com.paaltao.extras.Keys.ProductList.KEY_PRODUCT_QUANTITY;
 import static com.paaltao.extras.Keys.ProductList.KEY_REVIEWS;
@@ -81,7 +83,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     Menu badge_menu;
     Intent intent;
     Button addToCart;
-    int value = 1;
+    int value = 1,rating;
     ProgressWheel progress;
     SharedPreferenceClass preferenceClass;
     MenuItem badge_item_cart;
@@ -89,6 +91,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     View target_cart;
     BadgeView badge_cart;
     SliderLayout mDemoSlider;
+    RatingBar productRating;
+    Float ratingValue;
     String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop,errorCode;
 
     @Override
@@ -342,9 +346,21 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
 
 
             quantity = productDetailsObject.getString(KEY_PRODUCT_QUANTITY);
-            shippingDetails = productDetailsObject.getString(KEY_SHIPPING_DETAILS);
+            if (productDetailsObject.has(KEY_SHIPPING_DETAILS)){
+                if (productDetailsObject.isNull(KEY_SHIPPING_DETAILS)){
+                    shippingDetails = "Not Available";
+                }else{
+                    shippingDetails = productDetailsObject.getString(KEY_SHIPPING_DETAILS);
+                }
+            }else{
+                shippingDetails = "Not Available";
+            }
+
             quantity = productDetailsObject.getString(KEY_PRODUCT_QUANTITY);
 
+            rating = reviewsObject.getInt(KEY_AVERAGE_RATING);
+            ratingValue =  (float)((rating*20)/100);
+            //productRating.setRating(ratingValue);
 
             productName.setText(Name);
             productDescription.setText(description);
@@ -355,6 +371,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
 
 
             value = Double.valueOf(quantity).intValue();
+
 
 
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
@@ -383,6 +400,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         addItem = (ImageView)findViewById(R.id.add_quantity);
         removeitem = (ImageView)findViewById(R.id.remove_quantity);
         progress = (ProgressWheel)findViewById(R.id.action_progress);
+       //productRating = (RatingBar)findViewById(R.id.ratingBar);
 
     }
 
@@ -391,7 +409,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         shipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new BottomSheet.Builder(ProductDetailsActivity.this).title("Shipping").sheet(R.id.about_shop,"Hello World").show();
+                new BottomSheet.Builder(ProductDetailsActivity.this).title("Shipping Information").sheet(R.id.about_shop,shippingDetails).show();
             }
         });
 
@@ -417,6 +435,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         });
 
 
+        reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (ProductDetailsActivity.this,ReviewsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
