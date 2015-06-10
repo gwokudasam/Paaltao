@@ -78,7 +78,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     ImageView coverImageArea;
     private SweetAlertDialog dialog;
     private Bitmap myBitmap;
-    private EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL;
+    private EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL,bankAccountNo,bankName,bankIFSC,bankAddress,chequeName;
     SharedPreferenceClass preferenceClass;
 
 
@@ -134,6 +134,12 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         shopURL = (EditText)findViewById(R.id.shop_url);
         shopOpened = (RelativeLayout)findViewById(R.id.shopOpened);
         manageShop = (TextView)findViewById(R.id.manage_shop);
+        bankAccountNo = (EditText)findViewById(R.id.bank_account_no);
+        bankName = (EditText)findViewById(R.id.bank_name);
+        chequeName = (EditText)findViewById(R.id.bank_cheque_name);
+        bankAddress = (EditText)findViewById(R.id.bank_address);
+        bankIFSC = (EditText)findViewById(R.id.bank_IFSC);
+
 
         preferenceClass = new SharedPreferenceClass(this);
     }
@@ -169,6 +175,11 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             jsonObject.put("state",city.getText().toString());
             jsonObject.put("country","India");
             jsonObject.put("pincode",postalCode.getText().toString());
+            jsonObject.put("bank_account_no",bankAccountNo.getText().toString());
+            jsonObject.put("bank_address",bankAddress.getText().toString());
+            jsonObject.put("bank_name",bankName.getText().toString());
+            jsonObject.put("bank_ifsc",bankIFSC.getText().toString());
+            jsonObject.put("cheque_name",chequeName.getText().toString());
             jsonObject.put("shopUrl",shopURL.getText().toString());
             if (encodedImage != null){
                 jsonObject.put("shopImage",encodedImage);}

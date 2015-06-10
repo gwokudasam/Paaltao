@@ -84,6 +84,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:visibility="gone"
+            tools:visibility = "visible"
             wheel:matProg_barColor="@color/primaryColor"
             wheel:matProg_progressIndeterminate="true" />
 

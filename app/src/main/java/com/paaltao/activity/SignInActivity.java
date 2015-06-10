@@ -137,6 +137,9 @@ public class SignInActivity extends AppCompatActivity {
 
     public void request1(){
 
+        if (progressBar.getVisibility() == View.GONE){
+            progressBar.setVisibility(View.VISIBLE);
+        }
         JsonObject jsonObject = new JsonObject();
         final JsonObject signInObject = new JsonObject();
         jsonObject.addProperty("email", email.getText().toString());
@@ -178,6 +181,9 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void parseJsonData(JsonObject object){
+        if (progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+        }
         if (object == null ) {
             return;
         }
