@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,21 +24,49 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.paaltao.R;
+import com.paaltao.classes.BadgeView;
 import com.paaltao.classes.FloatingActionButton;
 import com.paaltao.classes.FloatingActionsMenu;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.fragment.AccountFragment;
 import com.paaltao.fragment.FragmentFeaturedProduct;
 import com.paaltao.fragment.TrendingShopFragment;
+import com.paaltao.logging.L;
+import com.paaltao.network.VolleySingleton;
 import com.paaltao.persistentsearch.SearchBox;
 import com.paaltao.persistentsearch.SearchResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+
+import static com.paaltao.extras.Keys.ProductList.KEY_CART_QUANTITY;
+import static com.paaltao.extras.Keys.ProductList.KEY_DATA;
+import static com.paaltao.extras.urlEndPoints.CART_QUANTITY;
+import static com.paaltao.extras.urlEndPoints.CATEGORY_LIST;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 
 public class HomeActivity extends AppCompatActivity implements MaterialTabListener {
@@ -46,6 +75,12 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     MaterialTabHost tabHost;
     private Resources res;
     SearchBox search;
+    int cartQty;
+    MenuItem badge_item_cart;
+    BadgeView badge_cart;
+    int badge_item_id_cart;
+    View target_cart;
+    Menu badge_menu;
     FloatingActionsMenu floatingActionsMenu;
     Toolbar toolbar;
     FloatingActionButton openShop,actionB;
@@ -74,11 +109,16 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         // init toolbar (old action bar)
         accessToken = preferenceClass.getAccessToken();
 
+
         if (accessToken == null || accessToken.length() == 0){
             Intent intent = new Intent(HomeActivity.this,IntroPageActivity.class);
             startActivity(intent);
             finish();
         }
+        //fetching cart quantity
+        getCartNumber();
+
+
 
         floatingActionsMenu = new FloatingActionsMenu(getApplicationContext());
 
@@ -256,6 +296,11 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_home, menu);
 
+
+
+
+
+
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -263,6 +308,9 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.cart_icon) {
@@ -356,4 +404,97 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
 
 
 
+    public void getCartNumber(){
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject cartQty = new JSONObject();
+        try{
+            jsonObject.put("accessToken",accessToken);
+            cartQty.put("getCartQty",jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(),cartQty, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                parseJsonData(jsonObject);
+                Log.e("json", cartQty.toString());
+                L.m(jsonObject.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(HomeActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        })
+        {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = super.getHeaders();
+
+                if (headers == null
+                        || headers.equals(Collections.emptyMap())) {
+                    headers = new HashMap<String, String>();
+                }
+
+                headers.put("Cookie",preferenceClass.getCookie());
+                return headers;
+            }};
+        requestQueue.add(jsonObjectRequest);
+    }
+    public static String getRequestUrl() {
+
+        return UAT_BASE_URL
+                + CART_QUANTITY;
+
+    }
+
+
+    public void parseJsonData(JSONObject jsonObject){
+
+        try{
+            JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
+            if (dataObject.has(KEY_CART_QUANTITY)){
+                if (dataObject.isNull(KEY_CART_QUANTITY)){
+                    return;
+                }
+                else{
+                   cartQty = dataObject.getInt(KEY_CART_QUANTITY) ;
+                    preferenceClass.saveCartItem(cartQty);
+
+                }
+
+            }
+
+        }
+
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
 }

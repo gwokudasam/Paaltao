@@ -209,7 +209,7 @@ public class AddAddressActivity extends AppCompatActivity {
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
 
-            if (message.contains("Address saved successfully")) {
+            if (errorCode.contains("200")) {
                 new SnackBar.Builder(AddAddressActivity.this)
                         .withMessage("Address added successfully")
                         .withTextColorId(R.color.white)

@@ -22,18 +22,7 @@ public class ReviewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews);
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.paaltao",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {
 
-        }
     }
 
     @Override

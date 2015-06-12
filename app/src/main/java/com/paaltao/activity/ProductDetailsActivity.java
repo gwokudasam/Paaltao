@@ -42,6 +42,7 @@ import com.paaltao.classes.BadgeView;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -87,7 +88,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     ProgressWheel progress;
     SharedPreferenceClass preferenceClass;
     MenuItem badge_item_cart;
-    int badge_item_id_cart;
+    int badge_item_id_cart,productQty;
     View target_cart;
     BadgeView badge_cart;
     SliderLayout mDemoSlider;
@@ -121,9 +122,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         this.setSupportActionBar(toolbar);
 
         sendJsonRequest();
-
         initialize();
         onItemClick();
+
+
+
        
     }
 
@@ -157,7 +160,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
                 target_cart = findViewById(badge_item_id_cart);
                 badge_cart = new BadgeView(ProductDetailsActivity.this,
                         target_cart);
-                badge_cart.setText("0");
+                badge_cart.setText(preferenceClass.getCartItem().toString());
                 badge_cart.setTextColor(Color.parseColor("#ffffff"));
                 badge_cart.setBadgeBackgroundColor(getResources().getColor(R.color.teal));
 
@@ -206,7 +209,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         JsonObject addToCart = new JsonObject();
         jsonObject.addProperty("accessToken",accessToken);
         jsonObject.addProperty("product_id",productId);
-        jsonObject.addProperty("qty",value);
+        jsonObject.addProperty("qty",item_quantity.getText().toString());
         addToCart.add("addToCart", jsonObject);
 
 
@@ -246,8 +249,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             String message = errorNodeObject.get(KEY_MESSAGE).getAsString();
 
             if (message.contains("Product added successfully")){
-                badge_cart.increment(1);
+                badge_cart.increment(Integer.parseInt(item_quantity.getText().toString()));
                 badge_cart.show();
+                preferenceClass.saveCartItem(Integer.parseInt(item_quantity.getText().toString()));
                 new SnackBar.Builder(ProductDetailsActivity.this)
                         .withMessage("Product has been successfully added to cart")
                         .withTextColorId(R.color.white)
@@ -358,6 +362,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             }
 
             quantity = productDetailsObject.getString(KEY_PRODUCT_QUANTITY);
+            productQty = Integer.parseInt(quantity);
+
+
+
 
             rating = reviewsObject.getInt(KEY_AVERAGE_RATING);
             ratingValue =  (float)((rating*20)/100);
@@ -414,16 +422,35 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             }
         });
 
+
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+             int a = Integer.parseInt(item_quantity.getText().toString());
+               if (a < productQty){
+                   a++;
+                   item_quantity.setText(String.valueOf(a));
+               }
+                else{
+                   new SnackBar.Builder(ProductDetailsActivity.this)
+                           .withMessage("You have reached the maximum available quantity")
+                           .withTextColorId(R.color.white)
+                           .withDuration((short) 6000)
+                           .show();
+               }
 
             }
         });
 
+
         removeitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int a = Integer.parseInt(item_quantity.getText().toString());
+                if (a>1){
+                    a--;
+                    item_quantity.setText(String.valueOf(a));
+                }
 
             }
         });

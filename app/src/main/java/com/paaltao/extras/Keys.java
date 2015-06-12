@@ -40,6 +40,7 @@ public interface Keys {
     }
     public interface ProductList{
         public static final String KEY_DATA = "data";
+        public static final String KEY_CART_QUANTITY = "getCartQty";
         public static final String KEY_TRENDING_SHOP_LIST = "trendingShoplist";
         public static final String KEY_FEATURED_LIST = "featuredList";
         public static final String KEY_PRODUCT_ID = "id";

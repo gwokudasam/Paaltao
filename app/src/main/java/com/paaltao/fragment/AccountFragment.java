@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -23,12 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpClientStack;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.github.mrengineer13.snackbar.SnackBar;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
@@ -41,27 +35,11 @@ import com.paaltao.activity.IntroPageActivity;
 import com.paaltao.activity.OrderActivity;
 import com.paaltao.activity.PaaltaoInfo;
 import com.paaltao.activity.EditProfileActivity;
-import com.paaltao.classes.MyApp;
-import com.paaltao.classes.Paaltao;
-import com.paaltao.classes.PersistentCookieStore;
 import com.paaltao.classes.SharedPreferenceClass;
-import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
-import org.apache.http.impl.client.AbstractHttpClient;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.CookieStore;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -71,7 +49,6 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_OUT;
-import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.SIGN_OUT;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 

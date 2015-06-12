@@ -37,6 +37,7 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -50,6 +51,9 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
+import com.paaltao.classes.DeviceInfo;
+import com.paaltao.classes.Paaltao;
+import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.extras.Keys;
 import com.paaltao.logging.L;
@@ -118,8 +122,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
     ViewPager pagercontainer;
     List<String> xxx;
+    ProgressWheel progressWheel;
     String[] splitCookie,splitSessionId;
-    String email = "", firstName = "",fuck,finalCookie="",fuck_harder,lastName = "", gender = "",profileid,birthday,link,locale,updatedTime,emailId,userId;
+    String email = "",gcm, firstName = "",fuck,finalCookie="",fuck_harder,lastName = "", gender = "",profileid,birthday,link,locale,updatedTime,emailId,userId;
     Boolean verified,login_success;
     int timeZone,size;
     Long expiryTime,currentTime,difference;
@@ -165,6 +170,10 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         mGoogleApiClient = buildGoogleApiClient();
 
 
+        // Initializing google plus api client
+
+
+
         if(token != null && token.length() != 0 ){
             Intent intent = new Intent(IntroPageActivity.this,HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -197,10 +206,19 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     //App launch service
     public void appLaunchSendJson(){
 
+        DeviceInfo deviceInfo = new DeviceInfo();
         final JSONObject jsonObject = new JSONObject();
         final JSONObject appLaunch = new JSONObject();
         try {
-            jsonObject.put("id", personId);
+            jsonObject.put("device_token", personId);
+            jsonObject.put("device_name", deviceInfo.getDeviceName());
+            jsonObject.put("device_type", personId);
+            jsonObject.put("device_osver", personId);
+            jsonObject.put("device_resolution", personId);
+            jsonObject.put("device_appver", personId);
+            jsonObject.put("device_lon", personId);
+            jsonObject.put("device_lat", personId);
+
             appLaunch.put("appLaunch", jsonObject);
 
 
@@ -274,6 +292,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         preferenceClass = new SharedPreferenceClass(this);
         token = preferenceClass.getAccessToken();
+        progressWheel = (ProgressWheel)findViewById(R.id.action_progress);
 
 
 
@@ -286,6 +305,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             @Override
             public void onClick(View v) {
 
+                if (progressWheel.getVisibility() == View.GONE){
+                    progressWheel.setVisibility(View.VISIBLE);
+                }
                 mSimpleFacebook.login(onLoginListener);
 
             }
@@ -428,6 +450,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             mSimpleFacebook.getProfile(new OnProfileListener() {
 
                 public void onFail(String reason) {
+                    if (progressWheel.getVisibility() == View.VISIBLE){
+                        progressWheel.setVisibility(View.GONE);
+                    }
 
                     Toast.makeText(IntroPageActivity.this, "Some error occurred in connection with Facebook",
                             Toast.LENGTH_LONG).show();
@@ -561,6 +586,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     public void parseJsonData(JsonObject jsonObject) {
+        if (progressWheel.getVisibility() == View.VISIBLE){
+            progressWheel.setVisibility(View.GONE);
+        }
         if (jsonObject == null) {
             return;
         }
@@ -671,7 +699,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
         gplusBtn.setEnabled(false);
 
-
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
             personName = currentPerson.getDisplayName();
@@ -685,8 +712,8 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
 
-        if(Plus.AccountApi.getAccountName(mGoogleApiClient) != null){
-        gplusEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);}
+//        if(Plus.AccountApi.getAccountName(mGoogleApiClient) != null){
+//        gplusEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);}
 
         String scopes = "audience:server:client_id:" + CLIENT_ID;
 //        try {
@@ -703,7 +730,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         //L.m(token1+""+"gplusToken");
 
         mSignInProgress = STATE_DEFAULT;
-        sendGplusJsonRequest();
+        //sendGplusJsonRequest();
     }
 
     @Override
@@ -739,95 +766,101 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         }
     }
 
+
+
+
+
     public void sendGplusJsonRequest() {
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject gpLogin = new JSONObject();
-        final JSONObject jsonObject1 = new JSONObject();
+         JsonObject jsonObject = new JsonObject();
+         JsonObject gpLogin = new JsonObject();
+         JsonObject jsonObject1 = new JsonObject();
         try {
-            jsonObject.put("id", personId);
-            jsonObject.put("email",gplusEmail);
-            jsonObject.put("first_name", firstName);
-            jsonObject.put("verified_email",personVerifiedEmail);
-            jsonObject.put("given_name", personGivenName);
-            jsonObject.put("family_name", personFamilyName);
-            jsonObject.put("link",personGooglePlusProfile);
-            jsonObject.put("picture",personPhoto);
-            jsonObject.put("gender",personGender);
-            gpLogin.put("gpResponse", jsonObject);
+            jsonObject.addProperty("id", personId);
+            jsonObject.addProperty("email", "");
+            jsonObject.addProperty("first_name", firstName);
+            jsonObject.addProperty("verified_email", personVerifiedEmail);
+            jsonObject.addProperty("given_name", personGivenName);
+            jsonObject.addProperty("family_name", personFamilyName);
+            jsonObject.addProperty("link", personGooglePlusProfile);
+            jsonObject.addProperty("picture", personPhoto);
+            jsonObject.addProperty("gender", personGender);
+            gpLogin.add("gpResponse", jsonObject);
 
 
-        } catch (JSONException e) {
+        } catch (JsonIOException e) {
             e.printStackTrace();
         }
 
+        Ion.with(getApplicationContext())
+                .load(getRequestUrlFb())
+                .setJsonObjectBody(gpLogin)
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
+                        Log.e("response", result.getHeaders().getHeaders().toString());
+                        Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
 
-        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrlGplus(), gpLogin, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
 
-                parseGplusJSONResponse(jsonObject);
-                L.m(gpLogin.toString());
 
-                //Calling the Snackbar
-                Log.e("response",jsonObject.toString());
+                        parseGplusJSONResponse(result.getResult());
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    new SnackBar.Builder(IntroPageActivity.this)
-                            .withMessage("No Internet Connection!")
-                            .withTextColorId(R.color.white)
-                            .withDuration((short) 6000)
-                            .show();
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
+                        size = xxx.size();
+                        splitCookie = xxx.get(size - 1).split(";");
+                        splitSessionId = splitCookie[0].split("=");
+                        fuck = splitSessionId[1];
 
-                } else if (volleyError instanceof AuthFailureError) {
+                        for (int i=size;i>0;i--){
+                            String[] splitCookie = xxx.get(i-1).split(";");
+                            String[] splitSessionId = splitCookie[0].split("=");
+                            fuck = splitSessionId[1];
+                            if (!fuck.contentEquals("deleted")){
+                                finalCookie = fuck;
+                                preferenceClass.saveCookie("frontend="+finalCookie);
+                                Log.e("fucku", finalCookie);
+                                break;
+                            }
+                        }
+                        Log.e("andy",fuck);
 
-                    //TODO
-                } else if (volleyError instanceof ServerError) {
 
-                    //TODO
-                } else if (volleyError instanceof NetworkError) {
+                    }
 
-                    //TODO
-                } else if (volleyError instanceof ParseError) {
 
-                    //TODO
-                }
+                });
 
-            }
-        });
-        requestQueue.add(jsonObjectRequest);
+
     }
 
-    public void parseGplusJSONResponse(JSONObject jsonObject) {
-        if (jsonObject == null || jsonObject.length() == 0) {
+    public void parseGplusJSONResponse(JsonObject jsonObject) {
+        if (jsonObject == null) {
             return;
         }
         try {
-            JSONObject dataObject = jsonObject.getJSONObject(Keys.UserCredentials.KEY_DATA);
-            JSONObject signInObject = dataObject.getJSONObject(KEY_SIGN_IN);
-            JSONObject accessTokenObject = signInObject.getJSONObject(KEY_ACCESS_TOKEN);
-            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+            JsonObject dataObject = jsonObject.getAsJsonObject(Keys.UserCredentials.KEY_DATA);
+            JsonObject signInObject = dataObject.getAsJsonObject(KEY_SIGN_IN);
+            JsonObject accessTokenObject = signInObject.getAsJsonObject(KEY_ACCESS_TOKEN);
+            JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
             if(dataObject.has(KEY_VENDOR)){
-                if (dataObject.isNull(KEY_VENDOR)){
+                if (dataObject.isJsonNull()){
                     return;
                 }
-                else {JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
+                else {JsonObject vendorObject = dataObject.getAsJsonObject(KEY_VENDOR);
                     if(vendorObject != null){
-                        String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
+                        String vendor_login = vendorObject.get(KEY_HAS_SHOP).getAsString();
                         if(vendor_login != null && vendor_login.contains("true")){
                             preferenceClass.saveVendorLoginSuccess(vendor_login);
                         }}}
             }
 
-            emailId = signInObject.getString(KEY_EMAIL);
-            firstName = signInObject.getString(KEY_FIRST_NAME);
-            lastName = signInObject.getString(KEY_LAST_NAME);
-            login_success = signInObject.getBoolean(KEY_USER_LOGIN_SUCCESS);
-            userId = signInObject.getString(KEY_USER_ID);
+            emailId = signInObject.get(KEY_EMAIL).getAsString();
+            firstName = signInObject.get(KEY_FIRST_NAME).getAsString();
+            lastName = signInObject.get(KEY_LAST_NAME).getAsString();
+            login_success = signInObject.get(KEY_USER_LOGIN_SUCCESS).getAsBoolean();
+            userId = signInObject.get(KEY_USER_ID).getAsString();
 
             preferenceClass.saveCustomerId(userId);
             preferenceClass.saveFirstName(firstName);
@@ -837,12 +870,11 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             Log.e("bla bla bla",preferenceClass.getCustomerId());
 
             if(accessTokenObject.has(KEY_TOKEN)){
-                token = accessTokenObject.getString(KEY_TOKEN);}
+                token = accessTokenObject.get(KEY_TOKEN).getAsString();}
 
 
-
-            String errorCode = errorNodeObject.getString(Keys.UserCredentials.KEY_ERROR_CODE);
-            String message = errorNodeObject.getString(KEY_MESSAGE);
+            String errorCode = errorNodeObject.get(Keys.UserCredentials.KEY_ERROR_CODE).getAsString();
+            String message = errorNodeObject.get(KEY_MESSAGE).getAsString();
             if (login_success){
                 Log.e("TAG",login_success.toString());
                 if (token!= null && token.length()!=0){
@@ -863,7 +895,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
                         .withDuration((short) 6000)
                         .show();
             }
-        } catch (JSONException e) {
+        } catch (JsonIOException e) {
             e.printStackTrace();
         }
     }

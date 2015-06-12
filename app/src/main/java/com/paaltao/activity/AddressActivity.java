@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -37,6 +38,7 @@ import com.paaltao.network.VolleySingleton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -70,7 +72,9 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     private AddressAdapter mAdapter;
     SharedPreferenceClass preferenceClass;
     private AddressActivity activity;
+    TextView editAddress,removeAddress;
     ProgressWheel progressWheel;
+    private  Address address;
     private JSONArray addressListArray;
     private ArrayList<Address> addressArrayList = new ArrayList<>();
     private String accessToken,userId,firstName,lastName,company,city,state,country,country_id,region_id,contact,street,pincode;
@@ -80,6 +84,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
         initialize();
+        onClick();
         sendJsonRequest();
         mRecyclerView = (RecyclerView)findViewById(R.id.address_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -87,6 +92,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         mAdapter = new AddressAdapter(getApplicationContext(),this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setClickListener(this);
 
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
@@ -206,7 +212,7 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                                 defaultShipping = addressListObject.getInt(KEY_DEFAULT_SHIPPING);}
 
 
-                                Address address = new Address();
+                                address = new Address();
                                 address.setFirstName(firstName);
                                 address.setLastName(lastName);
                                 address.setCompany(company);
@@ -238,8 +244,15 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
     public void initialize(){
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
+        removeAddress = (TextView)findViewById(R.id.remove_address);
+        editAddress = (TextView)findViewById(R.id.edit_address);
+
     }
 
+
+    public void onClick() {
+
+    }
 
 
 
@@ -264,9 +277,11 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
 
 
 
-
     @Override
     public void itemClicked(View view, int position) {
+        Address address = addressArrayList.get(position);
+        //mAdapter.remove(address);
+
 
     }
 }

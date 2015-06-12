@@ -55,7 +55,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
     @Override
     public void onBindViewHolder(AddressHolder holder, int position) {
 
-        Address current = addressArrayList.get(position);
+        final Address current = addressArrayList.get(position);
         holder.firstName.setText(current.getFirstName());
         holder.lastName.setText(current.getLastName());
         holder.street_name.setText(current.getStreetName());
@@ -81,6 +81,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
 
     }
 
+    public void remove(Address item) {
+        int position = addressArrayList.indexOf(item);
+        addressArrayList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
     @Override
     public int getItemCount() {
         return addressArrayList.size();
@@ -91,11 +98,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
 
     }
 
-//    public void remove(Address item) {
-//        int position = data.indexOf(item);
-//        addressArrayList.remove(position);
-//        notifyItemRemoved(position);
-//    }
+
 
     class AddressHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView firstName,lastName,company,street_name,city,state,country,remove_address,edit_address,pincode,contact;
@@ -113,6 +116,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
             pincode = (TextView)itemView.findViewById(R.id.pincode);
             contact = (TextView)itemView.findViewById(R.id.contact);
             remove_address = (TextView)itemView.findViewById(R.id.remove_address);
+            itemView.setOnClickListener(this);
         }
 
         @Override
