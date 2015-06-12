@@ -145,7 +145,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         sellerId = preferenceClass.getSellerId();
         successMessage = (RelativeLayout)findViewById(R.id.in_review);
-        viewProducts = (TextView)findViewById(R.id.success_message);
+        viewProducts = (TextView)findViewById(R.id.viewProducts);
     }
 
     public boolean validationCheck(){
@@ -234,7 +234,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        9000,
+                        10000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 requestQueue.add(jsonObjectRequest);
@@ -250,6 +250,14 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                     errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
                     if (errorCode.contains("200")){
                         successMessage.setVisibility(View.VISIBLE);
+                        viewProducts.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AddProductActivity.this,ProductStatus.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                         viewProducts.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -319,14 +327,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             }
         });
 
-        viewProducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddProductActivity.this,ProductStatus.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
     }
     public void chooseImage(){
         imageChooserManager = new ImageChooserManager(this,

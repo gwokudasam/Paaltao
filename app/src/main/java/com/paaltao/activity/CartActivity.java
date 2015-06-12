@@ -72,7 +72,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
     String accessToken,imageURL,productName,productPrice;
     private CartAdapter cartAdapter;
     ProgressWheel progressWheel;
-    RelativeLayout cartEmpty,noInternet;
+    RelativeLayout cartEmpty,noInternet,checkout;
     Long id;
     CartActivity activity;
     private JSONArray cartListArray;
@@ -175,11 +175,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                     headers = new HashMap<String, String>();
                 }
 
-                String sessionId = preferenceClass.getCookie();
-                Log.e("cOOOKIE","frontend="+sessionId);
-                Log.e("sessionid",sessionId);
-
-                // headers.put(COOKIE_KEY,"frontend="+sessionId);
                 headers.put("Cookie",preferenceClass.getCookie());
                 return headers;
             }};
@@ -261,6 +256,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
         cartEmpty = (RelativeLayout)findViewById(R.id.cart_empty);
         continueShop = (TextView)findViewById(R.id.continue_shopping);
         noInternet = (RelativeLayout)findViewById(R.id.no_internet);
+        checkout = (RelativeLayout)findViewById(R.id.checkout);
 
 
     }
@@ -270,6 +266,15 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CartActivity.this,HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this,AddressActivity.class);
+                intent.putExtra("Checkout",true);
                 startActivity(intent);
             }
         });

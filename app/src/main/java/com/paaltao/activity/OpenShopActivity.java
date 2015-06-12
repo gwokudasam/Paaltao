@@ -285,10 +285,17 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             String message = errorNodeObject.getString(KEY_MESSAGE);
 
             if (errorCode.contains("200")){
-                Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
-                startActivity(intent);
-                finish();
-            }
+                if(shopOpened.getVisibility() == View.GONE){
+                    shopOpened.setVisibility(View.VISIBLE);
+                    manageShop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+            }}
 
             if (message.contains("Already Registered")){
                 new SnackBar.Builder(OpenShopActivity.this)

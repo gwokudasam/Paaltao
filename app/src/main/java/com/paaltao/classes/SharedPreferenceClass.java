@@ -19,6 +19,19 @@ public class SharedPreferenceClass {
         this.prefsEditor = sharedprefs.edit();
     }
 
+    public void saveCartItem(Integer cartItem){
+        prefsEditor.putInt("cartItem", cartItem);
+        prefsEditor.commit();
+    }
+
+    public Integer getCartItem(){
+        return sharedprefs.getInt("cartItem",0);
+    }
+    public void clearCartItem(){
+        prefsEditor.remove("cartItem");
+        prefsEditor.commit();
+    }
+
     public void saveSellerId(String sellerId){
         prefsEditor.putString("sellerId",sellerId);
         prefsEditor.commit();

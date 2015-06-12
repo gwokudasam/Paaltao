@@ -31,6 +31,7 @@ import com.paaltao.classes.Address;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -179,18 +180,30 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
                         addressListArray = dataObject.getJSONArray(KEY_ADDRESSES);
                         if (addressListArray != null)
                             for (int i = 0; i < addressListArray.length(); i++) {
+                                L.m(String.valueOf(addressListArray.length()));
                                 JSONObject addressListObject = addressListArray.getJSONObject(i);
-                                firstName = addressListObject.getString(KEY_USER_FIRST_NAME);
-                                lastName = addressListObject.getString(KEY_USER_LAST_NAME);
-                                company = addressListObject.getString(KEY_COMPANY);
-                                city = addressListObject.getString(KEY_CITY);
-                                country_id = addressListObject.getString(KEY_COUNTRY_ID);
-                                region_id = addressListObject.getString(KEY_REGION_ID);
-                                pincode = addressListObject.getString(KEY_PINCODE);
-                                contact = addressListObject.getString(KEY_CONTACT);
-                                street = addressListObject.getString(KEY_STREET);
-                                defaultBilling = addressListObject.getInt(KEY_DEFAULT_BILLING);
-                                defaultShipping = addressListObject.getInt(KEY_DEFAULT_SHIPPING);
+                                if (!addressListObject.isNull(KEY_USER_FIRST_NAME)){
+                                firstName = addressListObject.getString(KEY_USER_FIRST_NAME);}
+                                if (!addressListObject.isNull(KEY_USER_LAST_NAME)){
+                                lastName = addressListObject.getString(KEY_USER_LAST_NAME);}
+                                if (!addressListObject.isNull(KEY_COMPANY)){
+                                company = addressListObject.getString(KEY_COMPANY);}
+                                if (addressListObject.isNull(KEY_CITY)){
+                                city = addressListObject.getString(KEY_CITY);}
+                                if (!addressListObject.isNull(KEY_COUNTRY_ID)){
+                                country_id = addressListObject.getString(KEY_COUNTRY_ID);}
+                                if (!addressListObject.isNull(KEY_REGION_ID)){
+                                region_id = addressListObject.getString(KEY_REGION_ID);}
+                                if (!addressListObject.isNull(KEY_PINCODE)){
+                                pincode = addressListObject.getString(KEY_PINCODE);}
+                                if (!addressListObject.isNull(KEY_CONTACT)){
+                                contact = addressListObject.getString(KEY_CONTACT);}
+                                if (!addressListObject.isNull(KEY_STREET)){
+                                street = addressListObject.getString(KEY_STREET);}
+                                if (!addressListObject.isNull(KEY_DEFAULT_BILLING)){
+                                defaultBilling = addressListObject.getInt(KEY_DEFAULT_BILLING);}
+                                if (!addressListObject.isNull(KEY_DEFAULT_SHIPPING)){
+                                defaultShipping = addressListObject.getInt(KEY_DEFAULT_SHIPPING);}
 
 
                                 Address address = new Address();

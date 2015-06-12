@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     tools:context="com.paaltao.activity.AddAddressActivity">
 
     <include
@@ -172,8 +174,10 @@
             android:id="@+id/default_billing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
         <CheckBox
+            android:id="@+id/defaultBilling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"/>
@@ -190,8 +194,10 @@
             android:id="@+id/default_shipping"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
             <CheckBox
+                android:id="@+id/shippingAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"/>
@@ -207,5 +213,25 @@
 
 
     </ScrollView>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/loadingScreen"
+    android:visibility="gone"
+    android:layout_below="@+id/app_bar"
+    android:background="@color/white90">
+
+    <com.paaltao.classes.ProgressWheel
+        android:id="@+id/action_progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility = "visible"
+        wheel:matProg_barColor="@color/primaryColor"
+        wheel:matProg_progressIndeterminate="true" />
+
+</RelativeLayout>
 
 </RelativeLayout>

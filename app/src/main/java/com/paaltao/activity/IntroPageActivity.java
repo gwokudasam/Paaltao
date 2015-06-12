@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -43,10 +44,12 @@ import com.google.android.gms.plus.Account;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.search.SearchAuthApi;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.paaltao.Adapters.IntroPageAdapter;
 import com.paaltao.R;
-import com.paaltao.classes.PersistentCookieStore;
-import com.paaltao.classes.Product;
 import com.paaltao.classes.SharedPreferenceClass;
 import com.paaltao.extras.Keys;
 import com.paaltao.logging.L;
@@ -67,6 +70,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import de.cketti.library.changelog.ChangeLog;
@@ -95,6 +100,7 @@ import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_ID;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_LOGIN_SUCCESS;
 import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
+import static com.paaltao.extras.urlEndPoints.APP_LAUNCH;
 import static com.paaltao.extras.urlEndPoints.FB_CONNECT;
 import static com.paaltao.extras.urlEndPoints.GP_CONNECT;
 import static com.paaltao.extras.urlEndPoints.LOGIN;
@@ -111,9 +117,11 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     public static String CLIENT_ID = "172987161234-54pat9geppejshsfu59oaqpt4argvsvb.apps.googleusercontent.com";
 
     ViewPager pagercontainer;
-    String email = "", firstName = "",lastName = "", gender = "",profileid,birthday,link,locale,updatedTime,emailId,userId;
+    List<String> xxx;
+    String[] splitCookie,splitSessionId;
+    String email = "", firstName = "",fuck,finalCookie="",fuck_harder,lastName = "", gender = "",profileid,birthday,link,locale,updatedTime,emailId,userId;
     Boolean verified,login_success;
-    int timeZone;
+    int timeZone,size;
     Long expiryTime,currentTime,difference;
     LayoutInflater _layoutInflater;
     CircleIndicator indicator;
@@ -146,6 +154,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
         GcmHelper.init(this);
         onClick();
+        appLaunchSendJson();
 
         gplusBtn.setOnClickListener(this);
         if (savedInstanceState != null)
@@ -187,9 +196,68 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
     //App launch service
     public void appLaunchSendJson(){
-        
+
+        final JSONObject jsonObject = new JSONObject();
+        final JSONObject appLaunch = new JSONObject();
+        try {
+            jsonObject.put("id", personId);
+            appLaunch.put("appLaunch", jsonObject);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getAppLaunchUrl(), appLaunch, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+
+                L.m(appLaunch.toString());
+
+                //Calling the Snackbar
+                Log.e("response",jsonObject.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
+                    new SnackBar.Builder(IntroPageActivity.this)
+                            .withMessage("No Internet Connection!")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                } else if (volleyError instanceof AuthFailureError) {
+
+                    //TODO
+                } else if (volleyError instanceof ServerError) {
+
+                    //TODO
+                } else if (volleyError instanceof NetworkError) {
+
+                    //TODO
+                } else if (volleyError instanceof ParseError) {
+
+                    //TODO
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                9000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(jsonObjectRequest);
     }
 
+    private String getAppLaunchUrl() {
+        return UAT_BASE_URL +APP_LAUNCH;
+    }
 
 
 
@@ -206,19 +274,13 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         mSimpleFacebook = SimpleFacebook.getInstance(this);
         preferenceClass = new SharedPreferenceClass(this);
         token = preferenceClass.getAccessToken();
-        sessionCheck = (TextView)findViewById(R.id.login_text);
+
 
 
     }
 
     public void onClick() {
 
-        sessionCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendJsonRequest();
-            }
-        });
 
         fbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,63 +320,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-    //session Check service
-    public void sendJsonRequest() {
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject checkSession = new JSONObject();
-        try {
-            jsonObject.put("accessToken", "67drd56g");
-            checkSession.put("checkSession", jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
-        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(), checkSession, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
 
-
-                //Calling the Snackbar
-                Log.e("response",jsonObject.toString());
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    new SnackBar.Builder(IntroPageActivity.this)
-                            .withMessage("No Internet Connection!")
-                            .withTextColorId(R.color.white)
-                            .withDuration((short) 6000)
-                            .show();
-
-                } else if (volleyError instanceof AuthFailureError) {
-
-                    //TODO
-                } else if (volleyError instanceof ServerError) {
-
-                    //TODO
-                } else if (volleyError instanceof NetworkError) {
-
-                    //TODO
-                } else if (volleyError instanceof ParseError) {
-
-                    //TODO
-                }
-
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-    }
-
-    public static String getRequestUrl() {
-
-       return "http://dev.paaltao.com/index.php/mobileApp/index/checkSession";
-
-    }
 
 
     private GoogleApiClient buildGoogleApiClient()
@@ -467,8 +475,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
                 }
             });
         }
-
-
     };
 
 
@@ -488,98 +494,103 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
 
     public void sendJsonRequestFacebook() {
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject fbLogin = new JSONObject();
-        final JSONObject jsonObject1 = new JSONObject();
+        JsonObject jsonObject = new JsonObject();
+        final JsonObject fbLogin = new JsonObject();
+        final JsonObject jsonObject1 = new JsonObject();
         try {
-            jsonObject.put("id", profileid);
-            jsonObject.put("birthday", birthday);
-            jsonObject.put("email", email);
-            jsonObject.put("first_name", firstName);
-            jsonObject.put("last_name", lastName);
-            jsonObject.put("gender", gender);
-            jsonObject.put("locale", locale);
-            jsonObject.put("timezone", timeZone);
-            jsonObject.put("updated_time", updatedTime);
-            jsonObject.put("verified", verified);
-            fbLogin.put("fbResponse", jsonObject);
-            jsonObject1.put("accessToken", session.getAccessToken());
-            jsonObject1.put("expires",String.valueOf(difference.intValue()));
-            fbLogin.put("fbAccessToken",jsonObject1);
+            jsonObject.addProperty("id", profileid);
+            jsonObject.addProperty("birthday", birthday);
+            jsonObject.addProperty("email", email);
+            jsonObject.addProperty("first_name", firstName);
+            jsonObject.addProperty("last_name", lastName);
+            jsonObject.addProperty("gender", gender);
+            jsonObject.addProperty("locale", locale);
+            jsonObject.addProperty("timezone", timeZone);
+            jsonObject.addProperty("updated_time", updatedTime);
+            jsonObject.addProperty("verified", verified);
+            fbLogin.add("fbResponse", jsonObject);
+            jsonObject1.addProperty("accessToken", session.getAccessToken());
+            jsonObject1.addProperty("expires", String.valueOf(difference.intValue()));
+            fbLogin.add("fbAccessToken", jsonObject1);
 
-
-        } catch (JSONException e) {
+        } catch (JsonIOException e) {
             e.printStackTrace();
         }
 
+        Ion.with(getApplicationContext())
+                .load(getRequestUrlFb())
+                .setJsonObjectBody(fbLogin)
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
+                        Log.e("response", result.getHeaders().getHeaders().toString());
+                        Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
 
-        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrlFb(), fbLogin, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
 
-                parseJSONResponse(jsonObject);
-                L.m(fbLogin.toString());
+                        Log.i("bitch",result.getResult().toString());
 
-                //Calling the Snackbar
-                Log.e("response",jsonObject.toString());
+                        parseJsonData(result.getResult());
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    new SnackBar.Builder(IntroPageActivity.this)
-                            .withMessage("No Internet Connection!")
-                            .withTextColorId(R.color.white)
-                            .withDuration((short) 6000)
-                            .show();
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
+                        size = xxx.size();
+                        splitCookie = xxx.get(size - 1).split(";");
+                        splitSessionId = splitCookie[0].split("=");
+                        fuck = splitSessionId[1];
 
-                } else if (volleyError instanceof AuthFailureError) {
+                        for (int i=size;i>0;i--){
+                            String[] splitCookie = xxx.get(i-1).split(";");
+                            String[] splitSessionId = splitCookie[0].split("=");
+                            fuck = splitSessionId[1];
+                            if (!fuck.contentEquals("deleted")){
+                                finalCookie = fuck;
+                                preferenceClass.saveCookie("frontend="+finalCookie);
+                                Log.e("fucku", finalCookie);
+                                break;
+                            }
+                        }
+                        Log.e("andy",fuck);
 
-                    //TODO
-                } else if (volleyError instanceof ServerError) {
 
-                    //TODO
-                } else if (volleyError instanceof NetworkError) {
+                    }
 
-                    //TODO
-                } else if (volleyError instanceof ParseError) {
 
-                    //TODO
-                }
-
-            }
-        });
-        requestQueue.add(jsonObjectRequest);
+                });
     }
 
-    public void parseJSONResponse(JSONObject jsonObject) {
-        if (jsonObject == null || jsonObject.length() == 0) {
+    public void parseJsonData(JsonObject jsonObject) {
+        if (jsonObject == null) {
             return;
         }
         try {
-            JSONObject dataObject = jsonObject.getJSONObject(Keys.UserCredentials.KEY_DATA);
-            JSONObject signInObject = dataObject.getJSONObject(KEY_SIGN_IN);
-            JSONObject accessTokenObject = signInObject.getJSONObject(KEY_ACCESS_TOKEN);
-            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
+            JsonObject dataObject = jsonObject.getAsJsonObject(Keys.UserCredentials.KEY_DATA);
+            JsonObject signInObject = dataObject.getAsJsonObject(KEY_SIGN_IN);
+            if (signInObject.has(KEY_ACCESS_TOKEN)){
+            JsonObject accessTokenObject = signInObject.getAsJsonObject(KEY_ACCESS_TOKEN);
+                if(accessTokenObject.has(KEY_TOKEN)){
+                    token = accessTokenObject.get(KEY_TOKEN).getAsString();}
+
+            }
+            JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
             if(dataObject.has(KEY_VENDOR)){
-                if (dataObject.isNull(KEY_VENDOR)){
+                if (dataObject.isJsonNull()){
                     return;
                 }
-                else {JSONObject vendorObject = dataObject.getJSONObject(KEY_VENDOR);
+                else {JsonObject vendorObject = dataObject.getAsJsonObject(KEY_VENDOR);
                     if(vendorObject != null){
-                        String vendor_login = vendorObject.getString(KEY_HAS_SHOP);
+                        String vendor_login = vendorObject.get(KEY_HAS_SHOP).getAsString();
                         if(vendor_login != null && vendor_login.contains("true")){
                             preferenceClass.saveVendorLoginSuccess(vendor_login);
                         }}}
             }
 
-            emailId = signInObject.getString(KEY_EMAIL);
-            firstName = signInObject.getString(KEY_FIRST_NAME);
-            lastName = signInObject.getString(KEY_LAST_NAME);
-            login_success = signInObject.getBoolean(KEY_USER_LOGIN_SUCCESS);
-            userId = signInObject.getString(KEY_USER_ID);
+            emailId = signInObject.get(KEY_EMAIL).getAsString();
+            firstName = signInObject.get(KEY_FIRST_NAME).getAsString();
+            lastName = signInObject.get(KEY_LAST_NAME).getAsString();
+            login_success = signInObject.get(KEY_USER_LOGIN_SUCCESS).getAsBoolean();
+            userId = signInObject.get(KEY_USER_ID).getAsString();
 
             preferenceClass.saveCustomerId(userId);
             preferenceClass.saveFirstName(firstName);
@@ -588,13 +599,11 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
 
             Log.e("bla bla bla",preferenceClass.getCustomerId());
 
-            if(accessTokenObject.has(KEY_TOKEN)){
-                token = accessTokenObject.getString(KEY_TOKEN);}
 
 
 
-            String errorCode = errorNodeObject.getString(Keys.UserCredentials.KEY_ERROR_CODE);
-            String message = errorNodeObject.getString(KEY_MESSAGE);
+            String errorCode = errorNodeObject.get(Keys.UserCredentials.KEY_ERROR_CODE).getAsString();
+            String message = errorNodeObject.get(KEY_MESSAGE).getAsString();
             if (login_success){
                 Log.e("TAG",login_success.toString());
                 if (token!= null && token.length()!=0){
@@ -609,13 +618,9 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             }
             else{
                 Log.e("TAG",login_success.toString());
-                new SnackBar.Builder(IntroPageActivity.this)
-                        .withMessage("Username or Password is Incorrect!")
-                        .withTextColorId(R.color.white)
-                        .withDuration((short) 6000)
-                        .show();
+
             }
-        } catch (JSONException e) {
+        } catch (JsonIOException e) {
             e.printStackTrace();
         }
     }
@@ -680,21 +685,22 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
 
-        gplusEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        if(Plus.AccountApi.getAccountName(mGoogleApiClient) != null){
+        gplusEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);}
 
         String scopes = "audience:server:client_id:" + CLIENT_ID;
-        try {
-           token1 =  GoogleAuthUtil.getToken(
-                    getApplicationContext(),
-                    gplusEmail, "oauth2:"
-                            + Scopes.PLUS_LOGIN + " "
-                            + Scopes.PROFILE + " https://www.googleapis.com/auth/plus.profile.emails.read");
-        } catch (IOException | GoogleAuthException e) {
-            e.printStackTrace();
-        }
+//        try {
+//           token1 =  GoogleAuthUtil.getToken(
+//                    getApplicationContext(),
+//                    gplusEmail, "oauth2:"
+//                            + Scopes.PLUS_LOGIN + " "
+//                            + Scopes.PROFILE + " https://www.googleapis.com/auth/plus.profile.emails.read");
+//        } catch (IOException | GoogleAuthException e) {
+//            e.printStackTrace();
+//        }
 
 
-        L.m(token1+""+"gplusToken");
+        //L.m(token1+""+"gplusToken");
 
         mSignInProgress = STATE_DEFAULT;
         sendGplusJsonRequest();
@@ -748,8 +754,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             jsonObject.put("picture",personPhoto);
             jsonObject.put("gender",personGender);
             gpLogin.put("gpResponse", jsonObject);
-            jsonObject1.put("accessToken", token1);
-            gpLogin.put("gpAccessToken",jsonObject1);
 
 
         } catch (JSONException e) {
@@ -854,7 +858,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
             else{
                 Log.e("TAG",login_success.toString());
                 new SnackBar.Builder(IntroPageActivity.this)
-                        .withMessage("Username or Password is Incorrect!")
+                        .withMessage("Cannot provide access!")
                         .withTextColorId(R.color.white)
                         .withDuration((short) 6000)
                         .show();
@@ -865,42 +869,6 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-
-//    public class GplusAsyncTask extends AsyncTask<Void, Void, String> {
-//        @Override
-//        protected String doInBackground(Void... params) {
-//            String token = null;
-//
-//            try {
-//                token = GoogleAuthUtil.getToken(
-//                        IntroPageActivity.this,
-//                        accountName,
-//                        "oauth2:" + SCOPES);
-//            } catch (IOException transientEx) {
-//                // Network or server error, try later
-//                Log.e(TAG, transientEx.toString());
-//
-//            } catch (UserRecoverableAuthException e) {
-//                // Recover (with e.getIntent())
-//                Log.e(TAG, e.toString());
-//
-//            } catch (GoogleAuthException authEx) {
-//                // The call is not ever expected to succeed
-//                // assuming you have already verified that
-//                // Google Play services is installed.
-//                Log.e(TAG, authEx.toString());
-//            }
-//
-//            return token;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String token) {
-//            /* here you have your token */
-//            Log.i(TAG, "Access token retrieved:" + token);
-//        }
-//
-//    }
 
 
 }

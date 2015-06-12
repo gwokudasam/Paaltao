@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.cookie.CookieMiddleware;
 import com.paaltao.R;
 import com.paaltao.classes.Paaltao;
 import com.paaltao.classes.PersistentCookieStore;
@@ -39,7 +41,11 @@ import com.paaltao.network.VolleySingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -56,11 +62,14 @@ public class SignInActivity extends AppCompatActivity {
     private static final String SESSION_COOKIE = "sessionid";
     Button SignUpBtn;
     Integer size;
+    Ion ion;
+    List<String> xxx;
+    String[] splitCookie,splitSessionId;
     Button SignInBtn;
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId,abcd,fuck;
+    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId,abcd,fuck,fuck_harder;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -88,6 +97,7 @@ public class SignInActivity extends AppCompatActivity {
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
         progressBar = (ProgressWheel)findViewById(R.id.action_progress);
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
+        ion  = Ion.getDefault(getApplicationContext());
 
     }
 
@@ -135,7 +145,9 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    public void request1(){
+
+
+       public void request1(){
 
         if (progressBar.getVisibility() == View.GONE){
             progressBar.setVisibility(View.VISIBLE);
@@ -154,23 +166,32 @@ public class SignInActivity extends AppCompatActivity {
                 .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
                     @Override
                     public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
-                        Log.e("response", result.getHeaders().getHeaders().toString());
-                        Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
-                        abcd = result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", "");
-                        Log.e("jhghjgdf", abcd);
+                        //Log.e("response", result.getHeaders().getHeaders().toString());
+                        //Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+                        //abcd = result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", "");
+                        //Log.e("jhghjgdf", abcd);
 
 
-
-                        List<String> xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
-                        xxx.get(0);
-
-                        size = xxx.size();
-                        Log.e("size",size.toString());
-                        String[] splitCookie = xxx.get(size-1).split(";");
-                        String[] splitSessionId = splitCookie[0].split("=");
-                        fuck = splitSessionId[1];
                         parseJsonData(result.getResult());
-                        preferenceClass.saveCookie("frontend="+fuck);
+
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
+                        size = xxx.size();
+                        splitCookie = xxx.get(size - 1).split(";");
+                        splitSessionId = splitCookie[0].split("=");
+                        fuck = splitSessionId[1];
+
+                        if (fuck.contentEquals("deleted")){
+                            splitCookie = xxx.get(size-2).split(";");
+                            splitSessionId = splitCookie[0].split("=");
+                            fuck_harder = splitSessionId[1];
+                            preferenceClass.saveCookie("frontend="+fuck_harder);
+                        }
+                        else{
+                            preferenceClass.saveCookie("frontend="+fuck);
+                        }
+                        Log.e("andy",fuck);
+                        L.m(fuck_harder);
+
 
                     }
 

@@ -308,6 +308,7 @@
             android:padding="20sp"/>
 
         <TextView
+            android:id="@+id/viewProducts"
             android:layout_below="@+id/success_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

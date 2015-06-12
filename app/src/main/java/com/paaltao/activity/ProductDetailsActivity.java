@@ -214,13 +214,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
                 .load(getRequestURLAddCart())
                 .setJsonObjectBody(addToCart)
                 .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+               .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         // do stuff with the result or error
                         Log.e("response",result.toString());
                         parseCartJsonResponse(result);
                     }
+
                 });
 
 

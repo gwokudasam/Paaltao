@@ -30,6 +30,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.cookie.CookieMiddleware;
 import com.paaltao.R;
 import com.paaltao.activity.AddressActivity;
 import com.paaltao.activity.IntroPageActivity;
@@ -55,6 +60,7 @@ import java.net.CookiePolicy;
 import java.net.CookieStore;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -76,6 +82,7 @@ public class AccountFragment extends Fragment {
     private static final String SESSION_COOKIE = "sessionid";
     RelativeLayout accountLink,my_address,signOut,my_orders;
     View view;
+    Ion ion;
     String accessToken;
     TextView firstName,lastName,about,terms,privacy,notificationSettings;
     SharedPreferenceClass preferenceClass;
@@ -98,6 +105,83 @@ public class AccountFragment extends Fragment {
                 + SIGN_OUT;
 
     }
+
+    public void signOutJsonRequest(){
+        JsonObject jsonObject = new JsonObject();
+        final JsonObject signOut = new JsonObject();
+        jsonObject.addProperty("accessToken", preferenceClass.getAccessToken());
+        signOut.add("signOut", jsonObject);
+
+        Ion.with(getActivity().getApplicationContext())
+                .load(getRequestUrl())
+                .setJsonObjectBody(signOut)
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
+                        Log.e("response", result.getHeaders().getHeaders().toString());
+                        Log.e("headers", result.getHeaders().getHeaders().getAll("Set-Cookie").toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+                        result.getHeaders().getHeaders().removeAll("Set-Cookie");
+                        new CookieMiddleware(ion).clear();
+                        parseSignOutJsonResponse(result.getResult());
+                    }
+
+
+                });
+
+    }
+
+        public void parseSignOutJsonResponse(JsonObject object){
+
+            if (object == null ) {
+                return;
+            }
+            try {
+                JsonObject dataObject = object.getAsJsonObject(KEY_DATA);
+                JsonObject signOutObject = object.getAsJsonObject(KEY_SIGN_OUT);
+                JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
+
+                accessToken = signOutObject.get(KEY_ACCESS_TOKEN).getAsString();
+
+                String errorCode = errorNodeObject.get(KEY_ERROR_CODE).getAsString();
+                String message = errorNodeObject.get(KEY_MESSAGE).getAsString();
+
+                if (errorCode.equals("200")){
+                    preferenceClass.clearAccessToken();
+                    preferenceClass.clearFirstName();
+                    preferenceClass.clearLastName();
+                    preferenceClass.clearUserEmail();
+                    preferenceClass.clearVendorLoginSuccess();
+                    preferenceClass.clearCookie();
+                    Log.e("accessToken",accessToken);
+                    Intent intent = new Intent(getActivity(),IntroPageActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    dialog.dismiss();
+
+                }
+                else{
+                    new SnackBar.Builder(getActivity())
+                            .withMessage("Error in signing out")
+                            .withTextColorId(R.color.white)
+                            .withDuration((short) 6000)
+                            .show();
+
+                }
+
+            } catch (JsonIOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+
+
+
 
     public void sendJsonRequest(){
         final JSONObject jsonObject = new JSONObject();
@@ -164,10 +248,7 @@ public class AccountFragment extends Fragment {
             JSONObject signOutObject = jsonObject.getJSONObject(KEY_SIGN_OUT);
             JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
 
-
             accessToken = signOutObject.getString(KEY_ACCESS_TOKEN);
-
-
 
             String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
             String message = errorNodeObject.getString(KEY_MESSAGE);
@@ -203,83 +284,6 @@ public class AccountFragment extends Fragment {
 
 
 
-    public void sendJsonRequest1(){
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject sessionCheck = new JSONObject();
-        try{
-            jsonObject.put("accessToken","67drd56g");
-            sessionCheck.put("checkSession", jsonObject);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl1(),sessionCheck,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-
-                Log.e("error", jsonObject.toString());
-                Log.e("json", sessionCheck.toString());
-                Log.e("url",getRequestUrl1());
-                L.m(jsonObject.toString());
-
-                            }
-        },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-
-                } else if (volleyError instanceof AuthFailureError) {
-
-                    //TODO
-                } else if (volleyError instanceof ServerError) {
-
-                    //TODO
-                } else if (volleyError instanceof NetworkError) {
-
-                    //TODO
-                } else if (volleyError instanceof ParseError) {
-
-                    //TODO
-                }
-
-            }
-
-        })
-        {
-            @Override
-            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                return super.parseNetworkResponse(response);
-            }
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = super.getHeaders();
-
-                if (headers == null
-                        || headers.equals(Collections.emptyMap())) {
-                    headers = new HashMap<String, String>();
-                }
-
-                String sessionId = preferenceClass.getCookie();
-                Log.e("cOOOKIE","frontend="+sessionId);
-                Log.e("sessionid",sessionId);
-
-                   // headers.put(COOKIE_KEY,"frontend="+sessionId);
-                headers.put(COOKIE_KEY,preferenceClass.getCookie());
-                return headers;
-            }};
-        requestQueue.add(jsonObjectRequest);
-
-    }
-
-
-    private String getRequestUrl1() {
-        return UAT_BASE_URL+"checkSession";
-    }
-
-
     public void initialize(){
         accountLink = (RelativeLayout)view.findViewById(R.id.account_link);
         my_address = (RelativeLayout)view.findViewById(R.id.my_address);
@@ -294,18 +298,19 @@ public class AccountFragment extends Fragment {
         firstName.setText(preferenceClass.getFirstName());
         if(preferenceClass.getLastName() != null)
         lastName.setText(preferenceClass.getLastName());
-        notificationSettings = (TextView)view.findViewById(R.id.notification_settings);
+        //notificationSettings = (TextView)view.findViewById(R.id.notification_settings);
         my_orders = (RelativeLayout)view.findViewById(R.id.my_orders);
+        ion  = Ion.getDefault(getActivity().getApplicationContext());
     }
 
     public void onItemClick(){
 
-        notificationSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendJsonRequest1();
-            }
-        });
+//        notificationSettings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sendJsonRequest1();
+//            }
+//        });
 
         accountLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -371,7 +376,7 @@ public class AccountFragment extends Fragment {
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        sendJsonRequest();
+                        signOutJsonRequest();
                     }
                 })
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
