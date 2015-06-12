@@ -84,6 +84,13 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     private ArrayList<Address> addressArrayList = new ArrayList<>();
     private String accessToken,userId,checkoutValue,firstName,lastName,company,city,state,country,country_id,region_id,contact,street,pincode;
     private int defaultShipping,defaultBilling;
+
+    @Override
+    protected void onPostResume() {
+        sendJsonRequest();
+        super.onPostResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

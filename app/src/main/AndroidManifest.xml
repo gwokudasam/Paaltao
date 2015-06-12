@@ -92,7 +92,8 @@
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".activity.EditProfileActivity"
-            android:label="@string/title_activity_profile" />
+            android:label="@string/title_activity_profile"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".activity.AddressActivity"
             android:label="@string/title_activity_address"
@@ -110,7 +111,8 @@
 
         <activity
             android:name=".activity.SignUpActivity"
-            android:label="@string/title_activity_sign_up" />
+            android:label="@string/title_activity_sign_up"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name=".activity.SignInActivity"
             android:label="@string/title_activity_sign_in" />
@@ -154,7 +156,8 @@
         <activity
             android:name=".activity.EditShop"
             android:label="@string/title_activity_edit_shop"
-            android:parentActivityName=".activity.ManageShopActivity" >
+            android:parentActivityName=".activity.ManageShopActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.paaltao.activity.ManageShopActivity" />
@@ -169,7 +172,8 @@
         </activity>
         <activity
             android:name=".activity.EditProductActivity"
-            android:label="@string/title_activity_edit_product" >
+            android:label="@string/title_activity_edit_product"
+            android:windowSoftInputMode="stateVisible|adjustPan">
         </activity>
         <activity
             android:name=".activity.ReviewsActivity"

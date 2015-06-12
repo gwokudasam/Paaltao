@@ -116,8 +116,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         Name = intent.getStringExtra("productName");
         description = intent.getStringExtra("description");
         price = intent.getStringExtra("productPrice");
-        shop = intent.getStringExtra("shopName");
-        vendorId = intent.getStringExtra("vendorId");
+        if (intent.getStringExtra("shopName") == null){
+            shop = "Not Available";
+        }else{
+        shop = intent.getStringExtra("shopName");}
+        if (intent.getStringExtra("vendorId") != null ){
+        vendorId = intent.getStringExtra("vendorId");}
 
 
 
@@ -388,7 +392,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             productName.setText(Name);
             productDescription.setText(description);
             productPrice.setText(price);
-            shopName.setText(shop);
+            if (shop == null){
+                shopName.setText("Not Available");
+            }else{
+            shopName.setText(shop);}
             if (description != null){
             Log.e("details",description);}
 
@@ -482,9 +489,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
             @Override
             public void onClick(View v) {
 
-                if (vendorId != null){
-                    Intent intent = new Intent(ProductDetailsActivity.this,ShopActivity.class);
-                    intent.putExtra("vendorId",vendorId);
+                if (!shop.contentEquals("Not Available")) {
+                    Intent intent = new Intent(ProductDetailsActivity.this, ShopActivity.class);
+                    intent.putExtra("vendorId", vendorId);
                     startActivity(intent);
                 }
 

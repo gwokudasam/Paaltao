@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -58,6 +59,7 @@ public class ProductStatus extends AppCompatActivity implements ProductStatusAda
     ProductStatusAdapter productStatusAdapter;
     SharedPreferenceClass preferenceClass;
     Long id;
+    RelativeLayout loadingScreen,noProducts;
     private JSONArray productStatusListArray;
     String accessToken,sellerId,productName,productPrice,uploadedDate,productStatus;
     private ArrayList<Product> productStatusArrayList = new ArrayList<>();
@@ -112,12 +114,17 @@ public class ProductStatus extends AppCompatActivity implements ProductStatusAda
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         accessToken = preferenceClass.getAccessToken();
         sellerId = preferenceClass.getSellerId();
+        loadingScreen = (RelativeLayout)findViewById(R.id.loadingScreen);
+        noProducts = (RelativeLayout)findViewById(R.id.no_products);
     }
     public void onClick(){
 
     }
 
     public void sendJsonRequest(){
+        if (loadingScreen.getVisibility() == View.GONE){
+            loadingScreen.setVisibility(View.VISIBLE) ;
+        }
         final JSONObject jsonObject = new JSONObject();
         final JSONObject sellerProducts = new JSONObject();
         try{
@@ -132,6 +139,9 @@ public class ProductStatus extends AppCompatActivity implements ProductStatusAda
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                if (loadingScreen.getVisibility() == View.VISIBLE){
+                    loadingScreen.setVisibility(View.GONE);
+                }
                 productStatusArrayList = parseJsonResponse(jsonObject);
                 productStatusAdapter.setProductStatusArrayList(productStatusArrayList);
 
@@ -189,12 +199,16 @@ public class ProductStatus extends AppCompatActivity implements ProductStatusAda
 
                 if (dataObject.has(KEY_SELLER_PRODUCTS)) {
                     if(dataObject.isNull(KEY_SELLER_PRODUCTS)){
-
+                        if (noProducts.getVisibility() == View.GONE){
+                        noProducts.setVisibility(View.VISIBLE);}
                     }
                     else {
                        productStatusListArray  = dataObject.getJSONArray(KEY_SELLER_PRODUCTS);
-                        if (productStatusListArray != null)
+
+                        if (productStatusListArray != null) {
+
                             for (int i = 0; i < productStatusListArray.length(); i++) {
+
                                 JSONObject productStatusObject = productStatusListArray.getJSONObject(i);
                                 id = productStatusObject.getLong(KEY_PRODUCT_ID);
                                 productName = productStatusObject.getString(KEY_CATEGORY_NAME);
@@ -216,6 +230,7 @@ public class ProductStatus extends AppCompatActivity implements ProductStatusAda
                                 Log.e("id", id.toString());
                                 Log.e("name", productName);
                             }
+                        }
 
 
                     }

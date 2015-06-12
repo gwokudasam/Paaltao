@@ -258,14 +258,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
                                 finish();
                             }
                         });
-                        viewProducts.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(AddProductActivity.this,ProductStatus.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
+
                     }
                 else {
                         new SnackBar.Builder(AddProductActivity.this)

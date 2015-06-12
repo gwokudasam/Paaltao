@@ -176,6 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:visibility="gone"
                 android:layout_marginRight="20dp">
 
                 <EditText
@@ -236,23 +237,6 @@
                     android:fontFamily="sans-serif-light"
                     android:textColorHint="@color/black99"/>
             </com.paaltao.classes.FloatLabeledEditText>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:layout_margin="20dp"
-                android:visibility="gone"
-                android:id="@+id/passbook_image"
-                tools:src="@drawable/paaltao_background"
-                android:contentDescription="@string/shop_cover_image" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:id="@+id/upload_passbook_image"
-                android:text="Upload passbook image"
-                android:background="@color/teal"
-                android:textColor="@color/white"/>
 
             <ImageView
                 android:layout_width="match_parent"

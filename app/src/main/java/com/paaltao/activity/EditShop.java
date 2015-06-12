@@ -63,7 +63,7 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
     ImageView coverImageArea,passbookPhoto;
     private SweetAlertDialog dialog;
     private Bitmap myBitmap;
-    EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,shopURL;
+    EditText shopName,aboutShop,contactNo,shopAddress,city,state,postalCode,bankAccountNo,bankName,chequeName,bankAddress,bankIFSC;
     SharedPreferenceClass preferenceClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +111,13 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
         city = (EditText)findViewById(R.id.shop_city_name);
         state = (EditText)findViewById(R.id.shop_state);
         postalCode = (EditText)findViewById(R.id.shop_pincode);
-        passbookPhoto = (ImageView)findViewById(R.id.passbook_image);
-        uploadPassbookPhoto = (Button)findViewById(R.id.upload_passbook_image);
         preferenceClass = new SharedPreferenceClass(this);
         sellerID = preferenceClass.getSellerId();
+        bankAccountNo = (EditText)findViewById(R.id.bank_account_no);
+        bankName = (EditText)findViewById(R.id.bank_name);
+        bankAddress = (EditText)findViewById(R.id.bank_address);
+        bankIFSC = (EditText)findViewById(R.id.bank_IFSC);
+        chequeName = (EditText)findViewById(R.id.bank_cheque_name);
     }
 
     public void onItemClick(){
@@ -126,12 +129,6 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
             }
         });
 
-        uploadPassbookPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
     }
 
@@ -150,9 +147,14 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
             jsonObject.put("vendorId",sellerID);
             jsonObject.put("state",city.getText().toString());
             jsonObject.put("country","India");
+            jsonObject.put("bank_account_no",bankAccountNo.getText());
+            jsonObject.put("bank_name",bankName.getText());
+            jsonObject.put("bank_address",bankAddress.getText());
+            jsonObject.put("bank_ifsc",bankIFSC.getText());
+            jsonObject.put("cheque_name",chequeName.getText());
             jsonObject.put("pincode",postalCode.getText().toString());
             if (encodedImage != null){
-                jsonObject.put("shopImage",encodedImage);}
+                jsonObject.put("newShopImage",encodedImage);}
             else
                 jsonObject.put("shopImage","");
             openShop.put("editShop", jsonObject);
@@ -229,9 +231,34 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
         if (jsonObject == null || jsonObject.length() == 0) {
             return;
         }
+        try {
+            JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
+            JSONObject errorNodeObject = dataObject.getJSONObject(KEY_ERROR_NODE);
 
-    }
 
+            String errorCode = errorNodeObject.getString(KEY_ERROR_CODE);
+            String message = errorNodeObject.getString(KEY_MESSAGE);
+
+            if (errorCode.contains("200")) {
+                new SnackBar.Builder(EditShop.this)
+                        .withMessage("Your shop details have been updated successfully")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+
+
+            else{
+                new SnackBar.Builder(EditShop.this)
+                        .withMessage("Your shop could not be updated")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
+            }
+
+    } catch (JSONException e) {
+            e.printStackTrace();
+        }}
 
 
     public boolean validationCheck(){
@@ -268,6 +295,8 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
         }
     }
 
+
+
     public void chooseImageDialog(){
         dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE);
         dialog.setTitleText("Choose your Cover Image")
@@ -298,27 +327,47 @@ public class EditShop extends AppCompatActivity implements ImageChooserListener 
     }
 
     @Override
-    public void onImageChosen(ChosenImage image) {
-        imagePath = image.getFileThumbnail();
-        Bitmap myBitmap = BitmapFactory.decodeFile(image.getFileThumbnail());
-        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
-        byte[] byteArr = byteArray.toByteArray();
-        encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
-        Log.d("Data", encodedImage);
+    public void onImageChosen(final ChosenImage image) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // Use the image
+                imagePath = image.getFileThumbnail();
+                imagePath1 = image.getFilePathOriginal();
+                imagePath2 = image.getFileThumbnailSmall();
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(image.getFileThumbnail());
+                ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArray);
+                byte[] byteArr = byteArray.toByteArray();
+                encodedImage = Base64.encodeToString(byteArr, Base64.DEFAULT);
+                Log.d("Data", encodedImage);
 
 
-        ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
+                ImageView myImage = (ImageView) findViewById(R.id.shop_cover_image);
 
-        myImage.setImageBitmap(myBitmap);
+                myImage.setImageBitmap(myBitmap);
 
-        dialog.hide();
-        dialog.dismiss();
+                coverImageArea.setVisibility(View.VISIBLE);
+                dialog.hide();
+                dialog.dismiss();
 
+
+            }
+        });
     }
 
-    @Override
-    public void onError(String s) {
 
+    @Override
+    public void onError(final String reason) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                // Show error message
+            }
+        });
     }
 }

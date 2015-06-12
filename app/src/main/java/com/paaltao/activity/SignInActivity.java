@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity {
     ProgressWheel progressBar;
     EditText email, password;
     TextView forgotPassword;
-    String emailId,accessToken,api_ver,token,firstName,lastName,cookie,newCookie,userId,sellerId,abcd,fuck,fuck_harder;
+    String emailId,accessToken,api_ver,token,firstName,finalCookie = "",lastName,cookie,newCookie,userId,sellerId,abcd,fuck,fuck_harder;
     Boolean login_success;
     SharedPreferenceClass preferenceClass;
 
@@ -171,17 +171,18 @@ public class SignInActivity extends AppCompatActivity {
                         splitSessionId = splitCookie[0].split("=");
                         fuck = splitSessionId[1];
 
-                        if (fuck.contentEquals("deleted")){
-                            splitCookie = xxx.get(size-2).split(";");
-                            splitSessionId = splitCookie[0].split("=");
-                            fuck_harder = splitSessionId[1];
-                            preferenceClass.saveCookie("frontend="+fuck_harder);
+                        for (int i=size;i>0;i--){
+                            String[] splitCookie = xxx.get(i-1).split(";");
+                            String[] splitSessionId = splitCookie[0].split("=");
+                            fuck = splitSessionId[1];
+                            if (!fuck.contentEquals("deleted")){
+                                finalCookie = fuck;
+                                preferenceClass.saveCookie("frontend="+finalCookie);
+                                Log.e("fucku", finalCookie);
+                                break;
+                            }
                         }
-                        else{
-                            preferenceClass.saveCookie("frontend="+fuck);
-                        }
-                        Log.e("andy",fuck);
-                        L.m(fuck_harder);
+                        Log.e("andy", fuck);
 
 
                     }

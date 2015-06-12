@@ -186,11 +186,7 @@ public class AddAddressActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                9000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(jsonObjectRequest);
+
     }
 
     private String getRequestUrl() {
@@ -215,8 +211,7 @@ public class AddAddressActivity extends AppCompatActivity {
                         .withTextColorId(R.color.white)
                         .withDuration((short) 6000)
                         .show();
-                Intent intent = new Intent(AddAddressActivity.this,AddressActivity.class);
-                startActivity(intent);
+
                 finish();
             }
 

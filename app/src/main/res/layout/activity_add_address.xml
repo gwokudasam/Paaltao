@@ -227,7 +227,7 @@
         android:layout_height="80dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility = "visible"
         wheel:matProg_barColor="@color/primaryColor"
         wheel:matProg_progressIndeterminate="true" />

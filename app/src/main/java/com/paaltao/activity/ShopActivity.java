@@ -60,6 +60,7 @@ public class ShopActivity extends AppCompatActivity {
     SharedPreferenceClass preferenceClass;
     private RelativeLayout viewProducts;
     Long cat_id;
+    Boolean myShop = true;
     ImageView shopCoverImage;
     TextView shop_name,shop_details;
     String name = "",sellerId,shopCategoryId,shopName,shopImageURL,accessToken,shopStory,vendorId;
@@ -73,12 +74,14 @@ public class ShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop);
         initialize();
         Intent intent = getIntent();
+
         if (intent.getStringExtra("vendorId") != null){
             vendorId = intent.getStringExtra("vendorId");
+            myShop = false;
+        }else{
+            myShop = true;
         }
-        else {
-            vendorId = preferenceClass.getSellerId();
-        }
+
 
         sendJsonRequest();
         onClick();
@@ -97,7 +100,11 @@ public class ShopActivity extends AppCompatActivity {
         final JSONObject shopDetails = new JSONObject();
         try{
             jsonObject.put("accessToken",accessToken);
-            jsonObject.put("id",sellerId);
+            if (myShop){
+            jsonObject.put("id",sellerId);}
+            else{
+            jsonObject.put("id",vendorId);
+            }
             shopDetails.put("getShopDetails",jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -213,7 +220,7 @@ public class ShopActivity extends AppCompatActivity {
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         accessToken = preferenceClass.getAccessToken();
         viewProducts = (RelativeLayout)findViewById(R.id.view_products);
-//        sellerId = preferenceClass.getSellerId();
+        sellerId = preferenceClass.getSellerId();
         shop_name = (TextView)findViewById(R.id.shop_name);
         shop_details = (TextView)findViewById(R.id.shopDetails);
         singleton = VolleySingleton.getsInstance();

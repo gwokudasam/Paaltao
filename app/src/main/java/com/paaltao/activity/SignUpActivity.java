@@ -25,21 +25,52 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mrengineer13.snackbar.SnackBar;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.paaltao.R;
+import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ACCESS_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_DATA;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_EMAIL;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_CODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_ERROR_NODE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_FIRST_NAME;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_HAS_SHOP;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_LAST_NAME;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_MESSAGE;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SELLER_ID;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_IN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_SIGN_UP;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_TOKEN;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_ID;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_USER_LOGIN_SUCCESS;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR;
 import static com.paaltao.extras.urlEndPoints.BASE_URL;
 import static com.paaltao.extras.urlEndPoints.SIGN_UP;
+import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class SignUpActivity extends AppCompatActivity {
 
     Button SignInBtn;
     Button SignUpBtn;
+    Integer size;
+    List<String> xxx;
+    String[] splitCookie,splitSessionId;
     Context mContext;
+    String fuck,fuck_harder,userEmail,accessToken,userId,userFirstName,userLastName,finalCookie="";
     ProgressBar progressBar;
+    Boolean login_success;
+    SharedPreferenceClass preferenceClass;
     EditText firstName,lastName,email,contact,password,confirm_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
         password = (EditText)findViewById(R.id.password_field);
         confirm_password = (EditText)findViewById(R.id.confirm_password_field);
         progressBar = (ProgressBar)findViewById(R.id.action_progress);
+        preferenceClass = new SharedPreferenceClass(getApplicationContext());
 
     }
     public boolean validationCheck(){
@@ -107,70 +139,135 @@ public class SignUpActivity extends AppCompatActivity {
     }
     public static String getRequestUrl() {
 
-        return BASE_URL
+        return UAT_BASE_URL
                 + SIGN_UP;
 
     }
 
     public void sendJsonRequest(){
-        progressBar.setVisibility(View.VISIBLE);
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject signUp = new JSONObject();
-        try {
-            jsonObject.put("firstName",firstName.getText().toString());
-            jsonObject.put("lastName",lastName.getText().toString());
-            jsonObject.put("contactNo",contact.getText().toString());
-            jsonObject.put("email",email.getText().toString());
-            jsonObject.put("password",password.getText().toString());
-            signUp.put("emailSignUp",jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if (progressBar.getVisibility() == View.GONE){
+            progressBar.setVisibility(View.VISIBLE);
         }
+        final JsonObject jsonObject = new JsonObject();
+        final JsonObject signUpObject = new JsonObject();
+        jsonObject.addProperty("firstName", firstName.getText().toString());
+        jsonObject.addProperty("lastName", password.getText().toString());
+        jsonObject.addProperty("email",email.getText().toString());
+        jsonObject.addProperty("contactNo",contact.getText().toString());
+        jsonObject.addProperty("password",password.getText().toString());
+        signUpObject.add("emailSignUp", jsonObject);
 
+        Ion.with(getApplicationContext())
+                .load(getRequestUrl())
+                .setJsonObjectBody(signUpObject)
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<JsonObject> result) {
 
-        RequestQueue requestQueue = VolleySingleton.getsInstance().getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,getRequestUrl(),signUp,new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonObject) {
-                if(progressBar.getVisibility() == View.VISIBLE){
-                    progressBar.setVisibility(View.GONE);
+                        Log.e("input_params",signUpObject.toString());
+                        Log.e("response",result.getResult().toString());
+                        parseJsonData(result.getResult());
+
+                        xxx = result.getHeaders().getHeaders().getAll("Set-Cookie");
+                        size = xxx.size();
+                        splitCookie = xxx.get(size - 1).split(";");
+                        splitSessionId = splitCookie[0].split("=");
+                        fuck = splitSessionId[1];
+
+                        for (int i=size;i>0;i--){
+                            String[] splitCookie = xxx.get(i-1).split(";");
+                            String[] splitSessionId = splitCookie[0].split("=");
+                            fuck = splitSessionId[1];
+                            if (!fuck.contentEquals("deleted")){
+                                finalCookie = fuck;
+                                preferenceClass.saveCookie("frontend="+finalCookie);
+                                Log.e("fucku", finalCookie);
+                                break;
+                            }
+                        }
+                        Log.e("andy", fuck);
+                    }
+                });
+    }
+
+    public void parseJsonData(JsonObject object){
+        if (progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+        }
+        if (object == null ) {
+            return;
+        }
+        try {
+            JsonObject dataObject = object.getAsJsonObject(KEY_DATA);
+            JsonObject signUpobject = dataObject.getAsJsonObject(KEY_SIGN_UP);
+            JsonObject errorNodeObject = dataObject.getAsJsonObject(KEY_ERROR_NODE);
+            if (signUpobject.has(KEY_ACCESS_TOKEN)){
+                if (signUpobject.getAsJsonObject(KEY_ACCESS_TOKEN) != null){
+                JsonObject accessTokenObject = signUpobject.getAsJsonObject(KEY_ACCESS_TOKEN);
+                    if(accessTokenObject.has(KEY_TOKEN)){
+                        if (accessTokenObject.get(KEY_TOKEN) != null)
+                        accessToken = (accessTokenObject.get(KEY_TOKEN).getAsString());
+
+                    }
                 }
 
-                //Implementing Snackbar
+            }
+
+            if (signUpobject.has(KEY_EMAIL)){
+                if (signUpobject.get(KEY_EMAIL) != null){
+            userEmail = (signUpobject.get(KEY_EMAIL)).getAsString();}}
+
+            if (signUpobject.has(KEY_FIRST_NAME)){
+                userFirstName = signUpobject.get(KEY_FIRST_NAME).getAsString();
+            }
+
+            if (signUpobject.has(KEY_LAST_NAME)){
+                userLastName = signUpobject.get(KEY_LAST_NAME).getAsString();
+            }
+           // login_success = (signUpobject.get(KEY_USER_LOGIN_SUCCESS).getAsBoolean());
+            if (signUpobject.has(KEY_USER_ID)){
+                if (signUpobject.get(KEY_USER_ID) != null){
+                userId = (signUpobject.get(KEY_USER_ID).getAsString());
+                preferenceClass.saveCustomerId(userId);}}
+
+
+            String errorCode = (errorNodeObject.get(KEY_ERROR_CODE).getAsString());
+            if (errorNodeObject.has(KEY_MESSAGE)){
+                if (errorNodeObject.get(KEY_MESSAGE) != null){
+            String message = (errorNodeObject.get(KEY_MESSAGE).getAsString());}}
+            if ((errorCode.contains("402"))){
                 new SnackBar.Builder(SignUpActivity.this)
-                        .withMessage(jsonObject.toString())
+                        .withMessage("There is already an account with this email address")
                         .withTextColorId(R.color.white)
                         .withDuration((short) 6000)
                         .show();
-                Log.e("error",jsonObject.toString());
-                Log.e("json",signUp.toString());
+            }else if (errorCode.contains("200")){
+                preferenceClass.saveAccessToken(accessToken);
+                preferenceClass.saveUserEmail(userEmail);
+                preferenceClass.saveFirstName(userLastName);
+
+                Intent intent = new Intent(SignUpActivity.this,HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
-        },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                    new SnackBar.Builder(SignUpActivity.this)
-                            .withMessage("No Internet Connection!")
-                            .withTextColorId(R.color.white)
-                            .withDuration((short) 6000)
-                            .show();
 
-                } else if (volleyError instanceof AuthFailureError) {
 
-                    //TODO
-                } else if (volleyError instanceof ServerError) {
-
-                    //TODO
-                } else if (volleyError instanceof NetworkError) {
-
-                    //TODO
-                } else if (volleyError instanceof ParseError) {
-
-                    //TODO
-                }
-
+            else{
+                Log.e("TAG",login_success.toString());
+                new SnackBar.Builder(SignUpActivity.this)
+                        .withMessage("An error occured!")
+                        .withTextColorId(R.color.white)
+                        .withDuration((short) 6000)
+                        .show();
             }
-        });
-        requestQueue.add(jsonObjectRequest);
+        } catch (JsonIOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
