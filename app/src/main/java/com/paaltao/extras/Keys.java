@@ -26,6 +26,7 @@ public interface Keys {
         public static final String KEY_ERROR_CODE = "errorCode";
         public static final String KEY_MESSAGE = "message";
         public static final String KEY_VENDOR = "vendor";
+        public static final String KEY_VENDOR_ID = "vendor_id";
         public static final String KEY_HAS_SHOP = "login_success";
         public static final String KEY_SELLER_ID = "seller_id";
         public static final String KEY_COMPANY = "company";

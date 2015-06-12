@@ -10,6 +10,13 @@ public class Product {
     String uploadedDate;
     String Status;
 
+    String vendorId;
+    public void setVendorId(String vendor_id){
+        this.vendorId = vendor_id;
+    }
+    public String getVendorId(){
+        return vendorId;
+    }
     public String getUploadedDate() {
         return uploadedDate;
     }

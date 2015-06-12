@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.paaltao.R;
@@ -102,6 +103,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
 
     class AddressHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView firstName,lastName,company,street_name,city,state,country,remove_address,edit_address,pincode,contact;
+        CheckBox selectAddress;
 
         public AddressHolder(View itemView) {
             super(itemView);
@@ -116,6 +118,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressH
             pincode = (TextView)itemView.findViewById(R.id.pincode);
             contact = (TextView)itemView.findViewById(R.id.contact);
             remove_address = (TextView)itemView.findViewById(R.id.remove_address);
+            selectAddress = (CheckBox)itemView.findViewById(R.id.selectAddress);
             itemView.setOnClickListener(this);
         }
 

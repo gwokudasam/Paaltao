@@ -62,7 +62,7 @@ public class ShopActivity extends AppCompatActivity {
     Long cat_id;
     ImageView shopCoverImage;
     TextView shop_name,shop_details;
-    String name = "",sellerId,shopCategoryId,shopName,shopImageURL,accessToken,shopStory;
+    String name = "",sellerId,shopCategoryId,shopName,shopImageURL,accessToken,shopStory,vendorId;
     private VolleySingleton singleton;
     private ImageLoader imageLoader;
 
@@ -72,6 +72,14 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
         initialize();
+        Intent intent = getIntent();
+        if (intent.getStringExtra("vendorId") != null){
+            vendorId = intent.getStringExtra("vendorId");
+        }
+        else {
+            vendorId = preferenceClass.getSellerId();
+        }
+
         sendJsonRequest();
         onClick();
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
@@ -205,7 +213,7 @@ public class ShopActivity extends AppCompatActivity {
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         accessToken = preferenceClass.getAccessToken();
         viewProducts = (RelativeLayout)findViewById(R.id.view_products);
-        sellerId = preferenceClass.getSellerId();
+//        sellerId = preferenceClass.getSellerId();
         shop_name = (TextView)findViewById(R.id.shop_name);
         shop_details = (TextView)findViewById(R.id.shopDetails);
         singleton = VolleySingleton.getsInstance();

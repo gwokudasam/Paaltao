@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -84,6 +86,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     Menu badge_menu;
     Intent intent;
     Button addToCart;
+    LinearLayout visitShop;
     int value = 1,rating;
     ProgressWheel progress;
     SharedPreferenceClass preferenceClass;
@@ -94,7 +97,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     SliderLayout mDemoSlider;
     RatingBar productRating;
     Float ratingValue;
-    String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop,errorCode;
+    JSONArray reviewsArray;
+    JSONObject reviewsObject;
+    String accessToken,productId,quantity,shippingDetails,productImageURL,Name,description,price,shop,errorCode,vendorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +117,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         description = intent.getStringExtra("description");
         price = intent.getStringExtra("productPrice");
         shop = intent.getStringExtra("shopName");
+        vendorId = intent.getStringExtra("vendorId");
 
 
 
@@ -331,7 +337,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         try {
             JSONObject dataObject = jsonObject.getJSONObject(KEY_DATA);
             JSONObject productDetailsObject = dataObject.getJSONObject(KEY_PRODUCT_DETAILS);
-            JSONObject reviewsObject = productDetailsObject.getJSONObject(KEY_REVIEWS);
+            if (productDetailsObject.has(KEY_REVIEWS)){
+                if (!productDetailsObject.isNull(KEY_REVIEWS)){
+            reviewsObject = productDetailsObject.getJSONObject(KEY_REVIEWS);
+                if (reviewsObject.has(KEY_REVIEWS)){
+                    if (!reviewsObject.isNull(KEY_REVIEWS)){
+                        reviewsArray = reviewsObject.getJSONArray(KEY_REVIEWS);
+                    }
+                }
+                }}
             JSONArray productImagesArray = productDetailsObject.getJSONArray(KEY_PRODUCT_IMAGES);
             for (int i = 0;i<productImagesArray.length();i++)
             {
@@ -409,6 +423,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         addItem = (ImageView)findViewById(R.id.add_quantity);
         removeitem = (ImageView)findViewById(R.id.remove_quantity);
         progress = (ProgressWheel)findViewById(R.id.action_progress);
+        visitShop = (LinearLayout)findViewById(R.id.visitShop);
        //productRating = (RatingBar)findViewById(R.id.ratingBar);
 
     }
@@ -463,10 +478,26 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         });
 
 
+        visitShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (vendorId != null){
+                    Intent intent = new Intent(ProductDetailsActivity.this,ShopActivity.class);
+                    intent.putExtra("vendorId",vendorId);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+
         reviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (ProductDetailsActivity.this,ReviewsActivity.class);
+                if (reviewsArray != null){
+                    intent.putExtra("reviewsArray", reviewsArray.toString());}
                 startActivity(intent);
             }
         });

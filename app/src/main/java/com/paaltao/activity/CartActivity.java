@@ -274,7 +274,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CartActivity.this,AddressActivity.class);
-                intent.putExtra("Checkout",true);
+                intent.putExtra("Checkout","checkout");
                 startActivity(intent);
             }
         });

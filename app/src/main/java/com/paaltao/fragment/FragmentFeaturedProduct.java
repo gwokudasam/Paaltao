@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import static com.paaltao.extras.Keys.ProductList.KEY_DATA;
 import static com.paaltao.extras.Keys.ProductList.KEY_ERROR_CODE;
 import static com.paaltao.extras.Keys.ProductList.*;
+import static com.paaltao.extras.Keys.UserCredentials.KEY_VENDOR_ID;
 import static com.paaltao.extras.urlEndPoints.FEATURED_LIST;
 import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
@@ -58,7 +59,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
     private ImageView favorite;
     SharedPreferenceClass preferenceClass;
     private ArrayList<Product> productArrayList = new ArrayList<>();
-    String accessToken,productName,imageURL,price,isLiked,shopName,description;
+    String accessToken,productName,imageURL,price,isLiked,shopName,description,vendorId;
     Long id;
     ProgressWheel progressWheel;
     View layout;
@@ -157,6 +158,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
                         productName = featuredProductObject.getString(KEY_PRODUCT_NAME);
                         shopName = featuredProductObject.getString(KEY_SHOP_NAME);
                         description = featuredProductObject.getString(KEY_PRODUCT_DESCRIPTION);
+                        vendorId = featuredProductObject.getString(KEY_VENDOR_ID);
 
                         imageURL = featuredProductObject.getString(KEY_PRODUCT_IMAGE);
                         isLiked = featuredProductObject.getString(KEY_IS_LIKED);
@@ -171,6 +173,7 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
                         product.setIs_liked(isLiked);
                         product.setDescription(description);
                         product.setImageURL(imageURL);
+                        product.setVendorId(vendorId);
 
                         productArrayList.add(product);
 
@@ -196,12 +199,14 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
         String name = productArrayList.get(position).getProduct_name();
         String productPrice = productArrayList.get(position).getPrice();
         String shop = productArrayList.get(position).getShop_name();
+        String vendorId = productArrayList.get(position).getVendorId();
         Intent intent = new Intent(getActivity(),ProductDetailsActivity.class);
         intent.putExtra("productId", product_id.toString());
         intent.putExtra("description",productDetails);
         intent.putExtra("productName",name);
         intent.putExtra("productPrice",productPrice);
         intent.putExtra("shopName",shop);
+        intent.putExtra("vendorId",vendorId);
         startActivity(intent);
     }
 }

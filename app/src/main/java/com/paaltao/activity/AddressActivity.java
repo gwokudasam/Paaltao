@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -75,15 +77,26 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
     TextView editAddress,removeAddress;
     ProgressWheel progressWheel;
     private  Address address;
+    Intent intent;
+    CheckBox selectAddress;
+    RelativeLayout proceedPayment;
     private JSONArray addressListArray;
     private ArrayList<Address> addressArrayList = new ArrayList<>();
-    private String accessToken,userId,firstName,lastName,company,city,state,country,country_id,region_id,contact,street,pincode;
+    private String accessToken,userId,checkoutValue,firstName,lastName,company,city,state,country,country_id,region_id,contact,street,pincode;
     private int defaultShipping,defaultBilling;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
         initialize();
+        intent = getIntent();
+        if (intent.getStringExtra("Checkout") != null){
+            checkoutValue = "Select Address";
+            proceedPayment.setVisibility(View.VISIBLE);
+
+        }
+        else {checkoutValue = "My Address";}
+
         onClick();
         sendJsonRequest();
         mRecyclerView = (RecyclerView)findViewById(R.id.address_recycler_view);
@@ -98,10 +111,14 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(Color.WHITE);
         this.setSupportActionBar(toolbar);
+
         this.setTitle("My Address");
     }
 
     public void sendJsonRequest(){
+        if (progressWheel.getVisibility() == View.GONE){
+            progressWheel.setVisibility(View.VISIBLE);
+        }
         final JSONObject jsonObject = new JSONObject();
         final JSONObject addressList = new JSONObject();
         userId = preferenceClass.getCustomerId();
@@ -117,6 +134,9 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getRequestUrl(),addressList, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
+                if (progressWheel.getVisibility() == View.VISIBLE){
+                    progressWheel.setVisibility(View.GONE);
+                }
 
                 addressArrayList = parseJsonResponse(jsonObject);
                 mAdapter.setAddressArrayList(addressArrayList);
@@ -246,6 +266,9 @@ public class AddressActivity extends AppCompatActivity implements AddressAdapter
         preferenceClass = new SharedPreferenceClass(getApplicationContext());
         removeAddress = (TextView)findViewById(R.id.remove_address);
         editAddress = (TextView)findViewById(R.id.edit_address);
+        progressWheel = (ProgressWheel)findViewById(R.id.action_progress);
+        selectAddress = (CheckBox)findViewById(R.id.selectAddress);
+        proceedPayment = (RelativeLayout)findViewById(R.id.proceedPayment);
 
     }
 
