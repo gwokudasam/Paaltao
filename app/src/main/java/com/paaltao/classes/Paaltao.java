@@ -36,6 +36,8 @@ public class Paaltao extends LitePalApplication implements GcmListener{
     private static String APP_NAMESPACE = "com.paaltao";
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
+    String deviceToken;
+    SharedPreferenceClass preferenceClass;
     public static final int NOTIFICATION_ID = 1;
 
 
@@ -44,6 +46,8 @@ public class Paaltao extends LitePalApplication implements GcmListener{
         super.onCreate();
         sInstance = this;
         Logger.DEBUG_WITH_STACKTRACE = true;
+
+        preferenceClass = new SharedPreferenceClass(getAppContext());
 
         Permission[] permissions = new Permission[] { Permission.EMAIL,
                 Permission.PUBLIC_PROFILE };
@@ -76,23 +80,25 @@ public class Paaltao extends LitePalApplication implements GcmListener{
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, HomeActivity.class), 0);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Paaltao")
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(s)
-                                .setSummaryText(s))
-                        .setContentText(s);
+//        NotificationCompat.Builder mBuilder =
+//                new NotificationCompat.Builder(this)
+//                        .setSmallIcon(R.drawable.ic_launcher)
+//                        .setContentTitle("Paaltao")
+//                        .setStyle(new NotificationCompat.BigTextStyle()
+//                                .bigText(s)
+//                                .setSummaryText(s))
+//                        .setContentText(s);
 
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-        wakeLockRelease.release();
+       // mBuilder.setContentIntent(contentIntent);
+        //mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+       // wakeLockRelease.release();
     }
 
     @Override
     public void sendRegistrationIdToBackend(String registrationId) {
         Log.e("tokengcm",registrationId);
+        preferenceClass.saveDeviceToken(registrationId);
+
     }
 
 

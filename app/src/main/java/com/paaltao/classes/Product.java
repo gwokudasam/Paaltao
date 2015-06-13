@@ -10,6 +10,16 @@ public class Product {
     String uploadedDate;
     String Status;
 
+    String productQty;
+
+    public String getProductQty() {
+        return productQty;
+    }
+
+    public void setProductQty(String productQty) {
+        this.productQty = productQty;
+    }
+
     String vendorId;
     public void setVendorId(String vendor_id){
         this.vendorId = vendor_id;

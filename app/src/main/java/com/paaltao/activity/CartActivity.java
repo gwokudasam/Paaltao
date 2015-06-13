@@ -52,6 +52,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.paaltao.extras.Keys.ProductList.KEY_CART_LIST;
 import static com.paaltao.extras.Keys.ProductList.KEY_CART_PRODUCT_PRICE;
+import static com.paaltao.extras.Keys.ProductList.KEY_CART_QUANTITY;
+import static com.paaltao.extras.Keys.ProductList.KEY_CART_VALUE;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_ID;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_IMAGE;
 import static com.paaltao.extras.Keys.ProductList.KEY_CATEGORY_LIST;
@@ -69,7 +71,7 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 public class CartActivity extends AppCompatActivity implements CartAdapter.ClickListener{
     private RecyclerView mRecyclerView;
     SharedPreferenceClass preferenceClass;
-    String accessToken,imageURL,productName,productPrice;
+    String accessToken,imageURL,productName,productPrice,cartQty;
     private CartAdapter cartAdapter;
     ProgressWheel progressWheel;
     RelativeLayout cartEmpty,noInternet,checkout;
@@ -214,6 +216,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                                 productName = cartListObject.getString(KEY_PRODUCT_NAME);
                                 productPrice = cartListObject.getString(KEY_CART_PRODUCT_PRICE);
                                 imageURL = cartListObject.getString(KEY_PRODUCT_IMAGE);
+                                cartQty = cartListObject.getString(KEY_CART_VALUE);
 
 
                                 Product product = new Product();
@@ -221,6 +224,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Click
                                 product.setProduct_name(productName);
                                 product.setImageURL(imageURL);
                                 product.setPrice(productPrice);
+                                product.setProductQty(cartQty);
 
                                 cartArrayList.add(product);
 

@@ -19,6 +19,15 @@ public class SharedPreferenceClass {
         this.prefsEditor = sharedprefs.edit();
     }
 
+    public void saveDeviceToken(String deviceToken){
+        prefsEditor.putString("deviceToken",deviceToken);
+        prefsEditor.commit();
+    }
+
+    public String getDeviceToken(){
+        return sharedprefs.getString("deviceToken","");
+    }
+
     public void saveCartItem(Integer cartItem){
         prefsEditor.putInt("cartItem", cartItem);
         prefsEditor.commit();

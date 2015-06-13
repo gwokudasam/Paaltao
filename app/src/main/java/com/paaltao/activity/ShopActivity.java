@@ -234,7 +234,7 @@ public class ShopActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShopActivity.this, ProductListActivity.class);
                 intent.putExtra("catId", shopCategoryId);
-                intent.putExtra("shopName",shopName);
+                intent.putExtra("catName",shopName);
                 if (shopName != null){L.m(shopName);}
                 startActivity(intent);
             }

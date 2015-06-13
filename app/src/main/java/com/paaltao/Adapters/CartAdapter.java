@@ -17,6 +17,8 @@ import com.paaltao.classes.Category;
 import com.paaltao.classes.Product;
 import com.paaltao.network.VolleySingleton;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -72,6 +74,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
         final Product current = cartArrayList.get(position);
         holder.productName.setText(current.getProduct_name());
         holder.productPrice.setText(current.getPrice());
+        holder.productQty.setText(current.getProductQty());
 
         final String imageURL = current.getImageURL();
 
@@ -115,7 +118,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
 
 
     class CartHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView productName,productPrice;
+        TextView productName,productPrice,productQty;
         ImageView productImage;
         TextView removeItem;
 
@@ -126,6 +129,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartHolder> {
             productName = (TextView) itemView.findViewById(R.id.product_name);
             removeItem = (TextView) itemView.findViewById(R.id.remove_item);
             productPrice = (TextView)itemView.findViewById(R.id.item_price);
+            productQty = (TextView)itemView.findViewById(R.id.item_quantity);
             itemView.setOnClickListener(this);
         }
 

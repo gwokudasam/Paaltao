@@ -50,6 +50,7 @@ import com.paaltao.network.VolleySingleton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +86,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     ImageView addItem,removeitem;
     Menu badge_menu;
     Intent intent;
-    Button addToCart;
+    TextView addToCart,productReviews;
     LinearLayout visitShop;
     int value = 1,rating;
     ProgressWheel progress;
@@ -420,17 +421,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
     public void initialize() // Method to initialize all variables
     {
         shipping = (TextView)findViewById(R.id.shipping);
-        reviews = (TextView)findViewById(R.id.share_product);
         productName = (TextView)findViewById(R.id.product_name);
         productPrice = (TextView)findViewById(R.id.product_price);
         productDescription = (TextView)findViewById(R.id.product_description);
-        addToCart = (Button)findViewById(R.id.add_cart);
+        addToCart = (TextView)findViewById(R.id.add_cart);
         shopName = (TextView)findViewById(R.id.shop_name);
         item_quantity = (TextView)findViewById(R.id.quantity);
         addItem = (ImageView)findViewById(R.id.add_quantity);
         removeitem = (ImageView)findViewById(R.id.remove_quantity);
         progress = (ProgressWheel)findViewById(R.id.action_progress);
         visitShop = (LinearLayout)findViewById(R.id.visitShop);
+        productReviews = (TextView)findViewById(R.id.productReviews);
        //productRating = (RatingBar)findViewById(R.id.ratingBar);
 
     }
@@ -499,15 +500,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements BaseSli
         });
 
 
-        reviews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (ProductDetailsActivity.this,ReviewsActivity.class);
-                if (reviewsArray != null){
-                    intent.putExtra("reviewsArray", reviewsArray.toString());}
-                startActivity(intent);
-            }
-        });
+      productReviews.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(ProductDetailsActivity.this, ReviewsActivity.class);
+              startActivity(intent);
+          }
+      });
     }
 
 }

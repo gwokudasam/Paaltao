@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context="com.paaltao.activity.OpenShopActivity">
@@ -261,6 +262,25 @@
 
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:background="@color/white90"
+        android:visibility="gone"
+        android:id="@+id/loadingScreen">
+
+        <com.paaltao.classes.ProgressWheel
+            android:id="@+id/action_progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+            android:visibility="visible"
+            tools:visibility="visible"
+            wheel:matProg_barColor="@color/primaryColor"
+            wheel:matProg_progressIndeterminate="true" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/shopOpened"
@@ -269,7 +289,7 @@
         android:background="@color/teal"
         android:visibility="gone"
         android:paddingTop="50dp"
-        tools:visibility = "visible">
+        tools:visibility = "gone">
 
         <ImageView
             android:id="@+id/success_tick"

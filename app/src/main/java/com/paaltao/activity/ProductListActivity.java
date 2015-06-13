@@ -31,6 +31,7 @@ import com.paaltao.R;
 import com.paaltao.classes.Product;
 import com.paaltao.classes.ProgressWheel;
 import com.paaltao.classes.SharedPreferenceClass;
+import com.paaltao.logging.L;
 import com.paaltao.network.VolleySingleton;
 
 import org.json.JSONArray;
@@ -81,7 +82,7 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         Intent intent = getIntent();
         catId = intent.getStringExtra("catId");
         catName = intent.getStringExtra("catName");
-        shop_name = intent.getStringExtra("shopName");
+        L.m(shop_name);
 
         initialize();
         sendJsonRequest();
@@ -92,7 +93,6 @@ public class ProductListActivity extends AppCompatActivity implements FeaturedPr
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         featuredProductAdapter.setClickListener(this);
         mRecyclerView.setAdapter(featuredProductAdapter);
-
 
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.app_bar);

@@ -210,7 +210,7 @@ public class IntroPageActivity extends AppCompatActivity implements GoogleApiCli
         final JSONObject jsonObject = new JSONObject();
         final JSONObject appLaunch = new JSONObject();
         try {
-            jsonObject.put("device_token", personId);
+            jsonObject.put("device_token", preferenceClass.getDeviceToken());
             jsonObject.put("device_name", deviceInfo.getDeviceName());
             jsonObject.put("device_type", personId);
             jsonObject.put("device_osver", personId);

@@ -81,13 +81,12 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginRight="15dp">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:id="@+id/remove_quantity"
-                            android:layout_marginRight="14dp"
-                            android:layout_marginTop="3dp"
-                            android:src="@drawable/ic_remove_circle_outline_grey" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:textSize="20sp"
+                            android:text="Qty" />
 
 
                         <TextView
@@ -98,12 +97,7 @@
                             android:textSize="20sp"
                             android:text="1" />
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:id="@+id/add_quantity"
-                            android:layout_marginTop="3dp"
-                            android:src="@drawable/ic_add_circle_outline_grey" />
+
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -117,6 +111,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="@android:color/darker_gray" />
 
         <RelativeLayout
@@ -129,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:visibility="gone"
                 android:layout_margin="12dp"
                 android:text="@string/remove_item" />
 

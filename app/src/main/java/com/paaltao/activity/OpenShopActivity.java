@@ -71,7 +71,7 @@ import static com.paaltao.extras.urlEndPoints.UAT_BASE_URL;
 
 public class OpenShopActivity extends AppCompatActivity implements ImageChooserListener {
     Button selectCoverButton;
-    RelativeLayout shopOpened;
+    RelativeLayout shopOpened,loadingScreen;
     TextView manageShop;
     private  ImageChooserManager imageChooserManager;
     String imagePath,imagePath1,imagePath2,sellerID,accessToken,encodedImage;
@@ -139,6 +139,7 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
         chequeName = (EditText)findViewById(R.id.bank_cheque_name);
         bankAddress = (EditText)findViewById(R.id.bank_address);
         bankIFSC = (EditText)findViewById(R.id.bank_IFSC);
+        loadingScreen = (RelativeLayout)findViewById(R.id.loadingScreen);
 
 
         preferenceClass = new SharedPreferenceClass(this);
@@ -161,6 +162,9 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
     }
 
     public void sendJsonRequest(){
+        if (loadingScreen.getVisibility() == View.GONE){
+            loadingScreen.setVisibility(View.VISIBLE);
+        }
         final JSONObject jsonObject = new JSONObject();
         final JSONObject openShop = new JSONObject();
         try{
@@ -199,6 +203,9 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                if (loadingScreen.getVisibility() == View.VISIBLE){
+                    loadingScreen.setVisibility(View.GONE);
+                }
                 Log.e("error",jsonObject.toString());
                 Log.e("json", openShop.toString());
                 if (encodedImage != null){
@@ -265,6 +272,12 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     public void parseJSONResponse(JSONObject jsonObject) {
         if (jsonObject == null || jsonObject.length() == 0) {
             return;
@@ -311,15 +324,13 @@ public class OpenShopActivity extends AppCompatActivity implements ImageChooserL
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
                     });
                 }
                 preferenceClass.saveVendorLoginSuccess("true");
-                Intent intent = new Intent(OpenShopActivity.this,ManageShopActivity.class);
-                startActivity(intent);
-                finish();
             }
 
         } catch (JSONException e) {

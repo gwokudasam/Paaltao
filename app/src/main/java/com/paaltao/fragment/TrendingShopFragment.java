@@ -58,8 +58,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     ShopActivity activity;
     private ImageView favorite;
     private ArrayList<Product> trendingShopList = new ArrayList<>();
-    String accessToken = "67drd56g",shopName,shopImageUrl;
-    Long id;
+    String accessToken,shopName,shopImageUrl,id;
     ProgressWheel progressWheel;
     private JSONArray trendingShopListArray;
     View layout;
@@ -68,6 +67,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_trending_shop, container, false);
+        preferenceClass = new SharedPreferenceClass(getActivity());
         progressWheel = (ProgressWheel)layout.findViewById(R.id.action_progress_trending);
         sendJsonRequest();
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.trendingShop_recycler_view);
@@ -90,7 +90,7 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
         final JSONObject jsonObject = new JSONObject();
         final JSONObject getTrendingShopList = new JSONObject();
         try{
-            jsonObject.put("accessToken",accessToken);
+            jsonObject.put("accessToken",preferenceClass.getAccessToken());
             getTrendingShopList.put("getTrendingShopList",jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -152,14 +152,14 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
                         if (trendingShopObject.isNull(KEY_PRODUCT_ID)){
                             shopName = "NA";
                         }else{
-                        id = trendingShopObject.getLong(KEY_PRODUCT_ID);
+                        id = trendingShopObject.getString(KEY_PRODUCT_ID);
                         shopName = trendingShopObject.getString(KEY_SHOP_NAME);
 
                         shopImageUrl = trendingShopObject.getString(KEY_SHOP_IMAGE);
 
 
                         Product product = new Product();
-                        product.setProduct_id(id);
+                        product.setVendorId(id);
                         product.setShop_name(shopName);
                         product.setShop_image_url(shopImageUrl);
 
@@ -183,8 +183,10 @@ public class TrendingShopFragment extends Fragment implements TrendingShopAdapte
     @Override
     public void itemClicked(View view, int position) {
 
+        Intent intent = new Intent(getActivity(),ShopActivity.class);
+        intent.putExtra("vendorId", id);
+        startActivity(intent);
 
-        startActivity(new Intent(getActivity(), ShopActivity.class));
     }
 
 

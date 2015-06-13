@@ -79,6 +79,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
     RelativeLayout successMessage;
     private ArrayList<String> productImages = new ArrayList<>();
     private JSONArray jsonArray;
+    RelativeLayout loadingScreen;
     private EditText productName,productPrice,shippingPrice,productDescription,productWeight,productQuantity,shippingDetails;
     private Spinner category;
 
@@ -146,6 +147,7 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         sellerId = preferenceClass.getSellerId();
         successMessage = (RelativeLayout)findViewById(R.id.in_review);
         viewProducts = (TextView)findViewById(R.id.viewProducts);
+        loadingScreen = (RelativeLayout)findViewById(R.id.loadingScreen);
     }
 
     public boolean validationCheck(){
@@ -167,6 +169,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
         return false;
     }
     public void sendJsonRequest(){
+        if (loadingScreen.getVisibility() == View.GONE){
+            loadingScreen.setVisibility(View.VISIBLE);
+        }
         final JSONObject jsonObject = new JSONObject();
         final JSONObject addProduct = new JSONObject();
         final JSONArray images = new JSONArray();
@@ -196,6 +201,9 @@ public class AddProductActivity extends AppCompatActivity implements ImageChoose
             @Override
             public void onResponse(JSONObject jsonObject) {
 
+                if (loadingScreen.getVisibility() == View.VISIBLE){
+                    loadingScreen.setVisibility(View.GONE);
+                }
                 parseJsonResponse(jsonObject);
                 Log.e("count",String.valueOf(productImages.size()));
                 Log.e("error",jsonObject.toString());

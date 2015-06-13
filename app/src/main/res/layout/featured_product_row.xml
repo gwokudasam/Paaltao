@@ -40,7 +40,7 @@
                 android:paddingLeft="8dp"
                 android:paddingBottom="8dp"
                 android:fontFamily="sans-serif-light"
-                tools:text="@string/Rs"
+                android:text="@string/Rs"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -80,7 +80,7 @@
                     tools:text="Handmade Jewel"
                     android:paddingBottom="2dp"
                     android:textColor="@color/white"
-                    android:textSize="22sp" />
+                    android:textSize="18sp" />
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_width="match_parent"
