@@ -2,151 +2,99 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.paaltao.activity.EditProfileActivity">
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    tools:context="com.paaltao.activity.EditProfileActivity"
+    android:clickable="true">
 
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
-        <RelativeLayout
+        <com.paaltao.classes.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="sans-serif-light"
-                android:text="Arindam Dawn"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/right_arrow" />
-
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:padding="16dp"
-                android:text="arindamdawn3@gmail.com"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/right_arrow"
-                android:layout_margin="10dp" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:padding="16dp"
-                android:text="+91 9804816460"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/right_arrow"
-                android:layout_margin="10dp"/>
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:padding="16dp"
-                android:text="Male"
-                android:textColor="@color/black" />
-
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-
-
-            <TextView
-                android:id="@+id/my_address"
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="My Address"
-                android:textColor="@color/black99" />
+                android:hint="First Name"
+                android:editable="false"
+                android:textColor="@color/black"
+                android:id="@+id/firstName_field"
+                android:inputType="text"
+                android:padding="14dp"
+                android:textColorHint="@color/black80" />
+        </com.paaltao.classes.FloatLabeledEditText>
 
+        <com.paaltao.classes.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:editable="false"
+                android:textColor="@color/black"
+                android:id="@+id/lastName_field"
+                android:inputType="text"
+                android:padding="14dp"
+                android:textColorHint="@color/black80" />
+        </com.paaltao.classes.FloatLabeledEditText>
+
+        <TextView
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:textSize="18sp"
+            tools:text="arindamdawn3@gmail.com"
+            android:textColor="@color/black99"/>
 
 
             <TextView
                 android:id="@+id/change_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:padding="24dp"
+                android:textSize="18sp"
                 android:text="Change Password"
-                android:textColor="@color/black99" />
+                android:textColor="@color/black99"/>
+
 
 
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:background="@color/white90"
+        android:visibility="gone"
+        android:id="@+id/loadingScreen">
+
+        <com.paaltao.classes.ProgressWheel
+            android:id="@+id/action_progress"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            tools:visibility = "visible"
+            wheel:matProg_barColor="@color/primaryColor"
+            wheel:matProg_progressIndeterminate="true" />
+    </RelativeLayout>
 
 </RelativeLayout>

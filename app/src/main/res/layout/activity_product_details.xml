@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:scaleType="centerCrop"
-                android:background="@color/blue500"/>
+                android:background="@color/flat_grey"/>
 
 
             <LinearLayout

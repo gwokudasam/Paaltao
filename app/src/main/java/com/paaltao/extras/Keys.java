@@ -79,6 +79,7 @@ public interface Keys {
         public static final String KEY_DATE = "date";
         public static final String KEY_ADD_CART = "addToCart";
         public static final String KEY_ADDRESSES = "addresses";
+        public static final String KEY_EDIT_PROFILE = "editContactInfo";
 
 
 

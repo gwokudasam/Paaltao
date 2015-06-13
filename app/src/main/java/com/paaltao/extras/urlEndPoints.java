@@ -28,5 +28,6 @@ public class urlEndPoints {
     public static final String GET_ADDRESS = "getAddress";
     public static final String ADD_ADDRESS = "addAddress";
     public static final String ADD_CART = "addToCart";
+    public static final String EDIT_PROFILE = "editContactInfo";
 
 }
