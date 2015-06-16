@@ -193,6 +193,12 @@ public class FragmentFeaturedProduct extends Fragment implements FeaturedProduct
 
 
     @Override
+    public void onResume() {
+        sendJsonRequest();
+        super.onResume();
+    }
+
+    @Override
     public void itemClicked(View view, int position) {
         Long product_id = productArrayList.get(position).getProduct_id();
         String productDetails = productArrayList.get(position).getDescription();

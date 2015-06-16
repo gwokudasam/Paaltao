@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     Toolbar toolbar;
     FloatingActionButton openShop,actionB;
     RelativeLayout overlay;
-    String vendor_login,accessToken;
+    String vendor_login,accessToken,badgeValue;
     SharedPreferenceClass preferenceClass;
 
     @Override
@@ -295,6 +295,28 @@ public class HomeActivity extends AppCompatActivity implements MaterialTabListen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_home, menu);
+
+        badge_item_cart = menu.findItem(R.id.cart_icon);
+        badge_item_id_cart = badge_item_cart.getItemId();
+
+
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+
+                target_cart = findViewById(badge_item_id_cart);
+                badge_cart = new BadgeView(HomeActivity.this,
+                        target_cart);
+                badge_cart.setText(preferenceClass.getCartItem().toString());
+                badge_cart.setTextColor(Color.parseColor("#ffffff"));
+                badge_cart.setBadgeBackgroundColor(getResources().getColor(R.color.teal));
+
+
+            }
+        }, 1000);
 
 
 
